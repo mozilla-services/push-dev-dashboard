@@ -39,9 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'dashboard.socialaccount.providers.fxa',
     'landing'
 ]
 
@@ -90,7 +96,20 @@ DATABASES = {
 
 DATABASES['default']['CONN_MAX_AGE'] = 500
 
-# Password validation
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'fxa': {
+        'OAUTH_ENDPOINT': config('FXA_OAUTH_ENDPOINT',
+                                 'https://oauth-stable.dev.lcip.org/v1/'),
+        'PROFILE_ENDPOINT': config('FXA_PROFILE_ENDPOINT',
+                                   'https://stable.dev.lcip.org/profile/v1/profile')
+   }
+}
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -137,3 +156,5 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+SITE_ID = 1

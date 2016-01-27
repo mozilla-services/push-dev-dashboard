@@ -1,6 +1,7 @@
-dj-database-url==0.3.0
 Django==1.9.1
+dj-database-url==0.3.0
+django-allauth==0.24.1
 gunicorn==19.4.5
-python-decouple==3.0
 psycopg2==2.6.1
+python-decouple==3.0
 whitenoise==2.0.6
