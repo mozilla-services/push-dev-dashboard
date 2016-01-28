@@ -12,15 +12,6 @@ Deploy your own
 
     heroku apps:create moz-dev-dash-username
 
-#. Set a ``DJANGO_SECRET_KEY`` on heroku that's unique to you.::
-
-    heroku config:set DJANGO_SECRET_KEY="username-birthdate"
-
-#. Set other environment variables for heroku::
-
-    heroku config:set DJANGO_DEBUG=True
-    heroku config:set ACCOUNT_EMAIL_VERIFICATION=none
-
 #. Push code to the heroku remote::
 
     git push heroku master
@@ -33,16 +24,29 @@ Deploy your own
 
     heroku run python manage.py createsuperuser
 
-#. To enable Firefox Account sign-ins on your heroku app, you will need to
-   `register your own Firefox Accounts OAuth Client`_:
+#. Open the new heroku app::
+
+    heroku open
+
+Enable Firefox Accounts Auth on Heroku
+--------------------------------------
+
+To enable Firefox Account sign-ins on your heroku app, you will need to create
+your own Firefox Accounts OAuth Client for your app domain.
+
+#. Go to `register your own Firefox Accounts OAuth Client`_:
 
     * Client name: moz-dev-dash-username
     * Redirect URI: https://moz-dev-dash-username.herokuapp.com/accounts/fxa/login/callback/
+    * Trusted Mozilla Client: **CHECKED**
 
-#. Now go to https://moz-dev-dash-username.herokuapp.com/admin/socialaccount/socialapp/add/
-   to `enable Firefox Accounts Auth`_ on *your heroku domain*, using *your* new Firefox Accounts OAuth Client ID and Secret
+   Be sure to copy the client secret - you can't see it again.
 
-#. That's it. https://moz-dev-dash-username.herokuapp.com/ should work.
+#. Go to https://moz-dev-dash-username.herokuapp.com/admin/socialaccount/socialapp/add/
+   to `enable Firefox Accounts Auth`_ like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
+
+#. Sign in at https://moz-dev-dash-username.herokuapp.com/ with a Firefox
+   Account.
 
 
 .. _12-factor app philosophy: http://12factor.net/
