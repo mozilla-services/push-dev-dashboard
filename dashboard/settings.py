@@ -127,6 +127,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ACCOUNT_EMAIL_VERIFICATION = config('ACCOUNT_EMAIL_VERIFICATION',
+                                    default='none')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
