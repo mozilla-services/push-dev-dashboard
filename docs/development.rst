@@ -26,11 +26,15 @@ Install Locally
 
 #. `Migrate`_ DB tables ::
 
-    ./manage.py migrate
+    python manage.py migrate
 
 #. `Create a superuser`_::
 
-   ./manage.py createsuperuser
+    python manage.py createsuperuser
+
+#. Run it::
+
+    python manage.py runserver
 
 
 .. _python: https://www.python.org/
@@ -48,7 +52,8 @@ Enable Firefox Accounts Auth
 To enable Firefox Accounts authentication, you can use our local development
 OAuth client app.
 
-`Add a django-allauth social app`_ for Firefox Accounts:
+#. `Add a django-allauth social app`_ for Firefox Accounts (Log in as the
+   superuser account you created):
 
 * Provider: Firefox Accounts
 * Name: fxa
@@ -56,10 +61,12 @@ OAuth client app.
 * Secret key: c10059ba24e6715a1b6f2c80f1cc398fb6a39ca18bc7554e894b36ea85b88eeb
 * Sites: example.com -> Chosen sites
 
-Now you can sign in with a Firefox Account at https://127.0.0.1:8000.
+#. `Log out of the admin account`_
 
-.. _Add a django-allauth social app: https://127.0.0.1:8000/admin/socialaccount/socialapp/add/
+#. Sign in with a Firefox Account at http://127.0.0.1:8000.
 
+.. _Add a django-allauth social app: http://127.0.0.1:8000/admin/socialaccount/socialapp/add/
+.. _Log out of the admin account: http://127.0.0.1:8000/admin/logout/
 
 Run the Tests
 -------------
@@ -70,7 +77,7 @@ Running the test suite is easy::
 
 Working on Docs
 ---------------
-Install dev requirements::
+Install doc requirements::
 
     pip install -r docs/requirements.txt
 
