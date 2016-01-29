@@ -43,7 +43,7 @@ your own Firefox Accounts OAuth Client for your app domain.
    Be sure to copy the client secret - you can't see it again.
 
 #. Go to https://moz-dev-dash-username.herokuapp.com/admin/socialaccount/socialapp/add/
-   to `enable Firefox Accounts Auth`_ like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
+   to :ref:`enable Firefox Accounts Auth` like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
 
 #. Sign in at https://moz-dev-dash-username.herokuapp.com/ with a Firefox
    Account.

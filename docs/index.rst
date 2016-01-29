@@ -29,8 +29,7 @@ Resources
    :alt: Requirements Status
 
 :Code:          https://github.com/groovecoder/push-dev-dashboard
-:License:       AGPLv3; see `LICENSE file
-                <https://github.com/groovecoder/push-dev-dashboard/blob/master/LICENSE>`_
+:License:       MPL2
 :Documentation: http://push-dev-dashboard.readthedocs.org/
 :Issues:        https://github.com/groovecoder/push-dev-dashboard/issues
 :IRC:           irc://irc.mozilla.org/mds

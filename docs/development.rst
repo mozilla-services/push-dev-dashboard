@@ -5,8 +5,10 @@ Requirements
 ------------
 
 * `python`_
+* `virtualenv`_
 
 .. _python: https://www.python.org/
+.. _virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 
 Install Locally
@@ -88,7 +90,7 @@ Run the Tests
 -------------
 Running the test suite is easy::
 
-    ./manage.py test -s --noinput --logging-clear-handlers
+    python manage.py test -s --noinput --logging-clear-handlers
 
 
 Working on Docs
