@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView
 
-# Create your views here.
 class Home(TemplateView):
-    template_name = 'home.html'
+    template_name = 'landing/home.html'
+
+class Profile(TemplateView):
+    template_name = 'landing/profile.html'
