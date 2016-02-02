@@ -31,5 +31,8 @@ class DomainAuthorization(models.Model):
     type = models.CharField(max_length=255,
                             default='dns',
                             choices=AUTHORIZATION_TYPE_CHOICES)
-    validated = models.DateTimeField(blank=True)
-    expires = models.DateTimeField(blank=True)
+    validated = models.DateTimeField(blank=True, null=True)
+    expires = models.DateTimeField(blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s: %s" % (self.user.username, self.domain)
