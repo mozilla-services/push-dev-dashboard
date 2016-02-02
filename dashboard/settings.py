@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'dashboard.socialaccount.providers.fxa',
-    'landing'
+    'landing',
 ]
 
 MIDDLEWARE_CLASSES = [

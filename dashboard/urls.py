@@ -16,11 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from landing.views import Home
+from landing.views import Home, Profile
 
 urlpatterns = [
     # our app urls
     url(r'^$', Home.as_view(), name='home'),
+    url(r'^accounts/profile/$', Profile.as_view(), name='profile'),
 
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),

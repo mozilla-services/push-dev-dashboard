@@ -1,0 +1,19 @@
+{% extends "landing/base.html" %}
+
+{% load socialaccount %}
+
+{% block content %}
+    <p>
+      Hello
+      {% if request.user.is_authenticated %}
+        {% get_social_accounts request.user as accounts %}
+        {% if accounts.fxa %}
+          FxA user: {{ request.user.username }}
+        {% else %}
+          You're signed in, but not with FxA - maybe you're admin?
+        {% endif %}
+      {% else %}
+        You can <a href="{% provider_login_url "fxa" %}">sign in with your Firefox Account</a>.
+      {% endif %}
+    </p>
+{% endblock %}

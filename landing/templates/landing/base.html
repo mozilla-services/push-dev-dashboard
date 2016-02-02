@@ -1,0 +1,6 @@
+{% block content %}{% endblock %}
+{% if request.user.is_authenticated and request.path != '/accounts/logout/' %}
+    <p>
+      <a href="{% url 'account_logout' %}">Sign out</a>
+    </p>
+{% endif %}
