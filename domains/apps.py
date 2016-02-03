@@ -3,5 +3,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class DnsConfig(AppConfig):
-    name = 'dns'
+class DomainsConfig(AppConfig):
+    name = 'domains'
