@@ -3,3 +3,4 @@
 staticfiles
 env
 htmlcov
+dashboard/static/lib

@@ -4,8 +4,6 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <p>Your profile</p>
-    {% else %}
-        <a href="{% provider_login_url "fxa" %}">Sign in with your Firefox Account</a>
+        <h2>{{ request.user.username }}</h2>
     {% endif %}
 {% endblock %}
