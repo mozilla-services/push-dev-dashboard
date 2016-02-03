@@ -23,7 +23,8 @@ class Command(BaseCommand):
                 q = DNSRecord(q=DNSQuestion(txt_record, getattr(QTYPE, 'TXT')))
                 record_pkt = q.send(DNS_SERVER, 53)
                 record = DNSRecord.parse(record_pkt)
-                if record.a.rdata == auth.token:
+                if str(record.a.rdata).strip('"') == auth.token:
                     auth.status = 'valid'
                     auth.validated = datetime.now()
+                    # TODO: determine a good value for auth.expires
                     auth.save()
