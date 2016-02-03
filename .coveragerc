@@ -1,0 +1,11 @@
+[run]
+branch = True
+include = ./*
+omit = */migrations/*
+
+[report]
+omit =
+    .env/*
+    */migrations/*
+    */site-packages/*
+    manage.py
