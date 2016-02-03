@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from decouple import config
 from dnslib.dns import DNSRecord, DNSQuestion, QTYPE
 
 from django.core.management.base import BaseCommand
@@ -7,7 +8,8 @@ from django.core.management.base import BaseCommand
 from ...models import DomainAuthorization
 
 
-DNS_SERVER = '208.67.222.222'  # OpenDNS
+# Default: OpenDNS
+DNS_VALIDATION_SERVER = config('DNS_VALIDATION_SERVER', '208.67.222.222')
 
 
 class Command(BaseCommand):
@@ -21,7 +23,7 @@ class Command(BaseCommand):
             if auth.type == 'dns':
                 txt_record = auth.token + '.' + auth.domain
                 q = DNSRecord(q=DNSQuestion(txt_record, getattr(QTYPE, 'TXT')))
-                record_pkt = q.send(DNS_SERVER, 53)
+                record_pkt = q.send(DNS_VALIDATION_SERVER, 53)
                 record = DNSRecord.parse(record_pkt)
                 if str(record.a.rdata).strip('"') == auth.token:
                     auth.status = 'valid'
