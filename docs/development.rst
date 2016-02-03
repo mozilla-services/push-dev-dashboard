@@ -88,9 +88,13 @@ OAuth client app.
 
 Run the Tests
 -------------
-Running the test suite is easy::
+#. Install test requirements::
 
-    python manage.py test -s --noinput --logging-clear-handlers
+    pip install requirements-test.txt
+
+#. Running the test suite::
+
+    python manage.py test
 
 
 Working on Docs
