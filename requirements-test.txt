@@ -1,1 +1,2 @@
 model-mommy==1.2.6
+fudge==1.1.0

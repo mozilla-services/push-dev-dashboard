@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
-
 from uuid import UUID
+
+import fudge
 
 from django.test import TestCase
 from django.utils import timezone
@@ -11,20 +12,42 @@ from .models import DomainAuthorization
 
 
 class DomainAuthorizationTests(TestCase):
+    def setUp(self):
+        self.user = mommy.make('auth.User')
+        self.da = DomainAuthorization(
+            user=self.user,
+            domain='test.com',
+            type='dns'
+        )
+        self.tz_aware_now = timezone.make_aware(
+            datetime.now(), timezone.get_current_timezone()
+        )
+
     def test_default_values(self):
-        user = mommy.make('auth.User')
-        da = DomainAuthorization(user=user, domain='test.com')
-        self.assertEqual('pending', da.status)
-        self.assertEqual('dns', da.type)
-        self.assertEqual(None, da.validated)
-        self.assertEqual(None, da.expires)
+        self.assertEqual('pending', self.da.status)
+        self.assertEqual('dns', self.da.type)
+        self.assertEqual(None, self.da.validated)
+        self.assertEqual(None, self.da.expires)
 
     def test_save_generates_valid_uuid5_for_token(self):
-        user = mommy.make('auth.User')
-        da = DomainAuthorization(user=user, domain='test.com')
-        da.save()
-        self.assertIsInstance(da.token, UUID)
-        self.assertEqual(5, da.token.version)
+        self.da.save()
+        self.assertIsInstance(self.da.token, UUID)
+        self.assertEqual(5, self.da.token.version)
+
+    # patch out the actual DNS request
+    @fudge.patch('domains.models.DomainAuthorization.get_dns_txt_record')
+    def test_validate_dns_type(self, get_dns_txt_record):
+        fake_record = fudge.Fake().has_attr(
+            a=fudge.Fake().has_attr(
+                rdata='"%s"' % self.da.token
+            )
+        )
+        get_dns_txt_record.expects_call().returns(fake_record)
+        self.da.validate()
+        self.assertEqual('valid', self.da.status)
+        self.assertIsNotNone(self.da.validated)
+        self.assertTrue(self.da.expires > self.tz_aware_now)
+
 
 
 class DomainAuthorizationManagerTests(TestCase):
