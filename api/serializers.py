@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DomainAuthorization
+from domains.models import DomainAuthorization
 
 
 class DomainAuthorizationSerializer(serializers.ModelSerializer):

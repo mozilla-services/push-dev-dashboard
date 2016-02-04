@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .models import DomainAuthorization
+from domains.models import DomainAuthorization
 from .serializers import DomainAuthorizationSerializer
 
 
