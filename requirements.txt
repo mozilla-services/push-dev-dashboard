@@ -1,6 +1,7 @@
 Django==1.9.2
 dj-database-url==0.3.0
 django-allauth==0.24.1
+djangorestframework==3.3.2
 dnslib==0.9.6
 gunicorn==19.4.5
 newrelic==2.60.0.46
