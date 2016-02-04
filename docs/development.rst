@@ -101,7 +101,7 @@ Working on Docs
 ---------------
 Install doc requirements::
 
-    pip install -r docs/requirements.txt
+    pip install -r requirements-docs.txt
 
 Building the docs is easy::
 
