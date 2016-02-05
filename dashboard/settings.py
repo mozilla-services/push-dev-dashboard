@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'rest_framework_swagger',
 
     'dashboard.socialaccount.providers.fxa',
     'landing',
