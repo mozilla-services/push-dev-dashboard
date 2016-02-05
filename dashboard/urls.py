@@ -22,7 +22,8 @@ urlpatterns = [
     # our app urls
     url(r'^$', Home.as_view(), name='home'),
     url(r'^accounts/profile/$', Profile.as_view(), name='profile'),
-    url(r'^api/', include('api.urls')),
+    url(r'^api/docs/', include('rest_framework_swagger.urls')),
+    url(r'^api/v1/', include('api.urls')),
 
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),
