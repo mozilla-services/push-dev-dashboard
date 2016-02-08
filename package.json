@@ -1,5 +1,6 @@
 {
     "dependencies": {
-        "bower": "^1.7.7"
+        "bower": "^1.7.7",
+        "yuglify": "^0.1.4"
     }
 }

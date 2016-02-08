@@ -123,7 +123,7 @@ STATICFILES_DIRS = (
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -136,10 +136,9 @@ PIPELINE = {
     'STYLESHEETS': {
         'main': {
             'source_filenames': (
-                'css/main.css',
-
                 'lib/skeleton/css/normalize.css',
                 'lib/skeleton/css/skeleton.css',
+                'css/main.css',
             ),
             'output_filename': 'css/main.css',
         },
