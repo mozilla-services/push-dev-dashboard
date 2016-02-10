@@ -18,7 +18,7 @@ Install Locally
 
 #. `Clone`_ and change to the directory::
 
-    git clone git@github.com:groovecoder/push-dev-dashboard.git
+    git clone git@github.com:mozilla-services/push-dev-dashboard.git
     cd push-dev-dashboard
 
 #. Create and activate a `virtual environment`_ (Can also use `virtualenvwrapper`_)::
@@ -121,7 +121,7 @@ What to work on
 
 We have `Issues`_.
 
-.. _Issues: https://github.com/groovecoder/push-dev-dashboard/issues
+.. _Issues: https://github.com/mozilla-services/push-dev-dashboard/issues
 
 .. _virtual environment: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 .. _virtualenvwrapper: https://pypi.python.org/pypi/virtualenvwrapper
