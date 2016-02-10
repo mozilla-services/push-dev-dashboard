@@ -19,19 +19,19 @@ moz-dev-dash is the code for Mozilla Developer Services dashboard. It combines:
 
 Resources
 ---------
-.. image:: https://travis-ci.org/groovecoder/push-dev-dashboard.png?branch=master
-   :target: https://travis-ci.org/groovecoder/push-dev-dashboard
+.. image:: https://travis-ci.org/mozilla-services/push-dev-dashboard.png?branch=master
+   :target: https://travis-ci.org/mozilla-services/push-dev-dashboard
    :alt: Travis-CI Build Status
-.. image:: https://coveralls.io/repos/groovecoder/push-dev-dashboard/badge.png
-    :target: https://coveralls.io/r/groovecoder/push-dev-dashboard 
-.. image:: https://requires.io/github/groovecoder/push-dev-dashboard/requirements.png?branch=master
-   :target: https://requires.io/github/groovecoder/push-dev-dashboard/requirements/?branch=master
+.. image:: https://coveralls.io/repos/mozilla-services/push-dev-dashboard/badge.png
+    :target: https://coveralls.io/r/mozilla-services/push-dev-dashboard
+.. image:: https://requires.io/github/mozilla-services/push-dev-dashboard/requirements.png?branch=master
+   :target: https://requires.io/github/mozilla-services/push-dev-dashboard/requirements/?branch=master
    :alt: Requirements Status
 
-:Code:          https://github.com/groovecoder/push-dev-dashboard
+:Code:          https://github.com/mozilla-services/push-dev-dashboard
 :License:       MPL2
 :Documentation: http://push-dev-dashboard.readthedocs.org/
-:Issues:        https://github.com/groovecoder/push-dev-dashboard/issues
+:Issues:        https://github.com/mozilla-services/push-dev-dashboard/issues
 :IRC:           irc://irc.mozilla.org/mds
 :Mailing list:  https://lists.mozilla.org/listinfo/mds-public
 :Servers:       https://moz-push-dash.herokuapp.com (stage)
