@@ -5,8 +5,6 @@
     "Luke Crouch <luke.crouch@gmail.com>"
   ],
   "description": "Developer dashboard for the Mozilla web push service",
-  "main": "",
-  "moduleType": [],
   "license": "MPL2",
   "homepage": "https://github.com/groovecoder/push-dev-dashboard",
   "private": true,
