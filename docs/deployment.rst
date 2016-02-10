@@ -12,6 +12,10 @@ Deploy your own
 
     heroku apps:create moz-dev-dash-username
 
+#. Set the heroku app to use the "multi" buildpack::
+
+    heroku buildpacks:set https://github.com/ddollar/heroku-buildpack-multi.git
+
 #. Push code to the heroku remote::
 
     git push heroku master

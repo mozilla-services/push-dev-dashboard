@@ -1,0 +1,22 @@
+{
+  "name": "push-dev-dashboard",
+  "authors": [
+    "John Karahalis <john.karahalis@gmail.com>",
+    "Luke Crouch <luke.crouch@gmail.com>"
+  ],
+  "description": "Developer dashboard for the Mozilla web push service",
+  "license": "MPL2",
+  "homepage": "https://github.com/groovecoder/push-dev-dashboard",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "dashboard/static/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "skeleton": "^2.0.4"
+  }
+}

@@ -18,10 +18,6 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='secret-key-for-dev-only')
 
@@ -46,6 +42,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'pipeline',
     'rest_framework',
     'rest_framework_swagger',
 
@@ -116,19 +113,37 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
+        os.path.join(PROJECT_DIR, 'static'),
 )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
-SITE_ID = 1
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+# django-pipeline
+PIPELINE = {
+    'STYLESHEETS': {
+        'main': {
+            'source_filenames': (
+                'lib/skeleton/css/normalize.css',
+                'lib/skeleton/css/skeleton.css',
+                'css/main.css',
+            ),
+            'output_filename': 'css/main.css',
+        },
+    },
+}
 
 # django-allauth
 AUTHENTICATION_BACKENDS = (
@@ -171,3 +186,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated'
     ]
 }
+
+SITE_ID = 1

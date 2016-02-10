@@ -6,9 +6,11 @@ Requirements
 
 * `python`_
 * `virtualenv`_
+* `bower`_
 
 .. _python: https://www.python.org/
 .. _virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
+.. _bower: http://bower.io/
 
 
 Install Locally
@@ -27,6 +29,7 @@ Install Locally
 #. `Install requirements`_::
 
     pip install -r requirements.txt
+    bower install
 
 #. Source the ``.env`` file to set environment config vars (Can also use `autoenv`_)::
 

@@ -1,0 +1,31 @@
+h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Vertically center the .auth box */
+#push-dashboard header {
+    display: flex;
+    align-items: center;
+}
+#push-dashboard header * {
+    margin-bottom: 0;
+}
+header {
+    margin-bottom: 2rem;
+}
+
+.auth ul {
+    float: right;
+    list-style: none;
+}
+
+.auth li {
+    float: left;
+}
+
+.auth li + li {
+    border-left: 1px solid #000;
+    margin-left: 5px;
+    padding-left: 5px;
+}

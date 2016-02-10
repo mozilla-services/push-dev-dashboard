@@ -1,15 +1,33 @@
+{% load pipeline %}
+{% load socialaccount %}
 <!doctype html>
-<html lang="en-US" dir="ltr">
+<html id="push-dashboard" lang="en-US" dir="ltr">
     <head>
         <meta charset="utf-8" />
         <title>Push Dashboard</title>
+        {% stylesheet 'main' %}
     </head>
-    <body>
-        {% block content %}{% endblock %}
-        {% if request.user.is_authenticated and request.path != '/accounts/logout/' %}
-            <p>
-                <a href="{% url 'account_logout' %}">Sign out</a>
-            </p>
-        {% endif %}
+    <body class="container">
+        <header class="row">
+            <h1 class="column one-half"><a href="/">Push Dashboard</a></h1>
+            <nav class="column one-half auth">
+                <ul>
+                    {% if request.user.is_authenticated %}
+                        {% get_social_accounts request.user as accounts %}
+                        <li>
+                            <a href="/accounts/profile/">{{ request.user.username }}</a>
+                        </li>
+                        <li><a href="{% url 'account_logout' %}">Sign out</a>
+                    {% else %}
+                        <li>
+                            <a class="button" href="{% provider_login_url "fxa" %}">Sign in</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <main class="row">
+            {% block content %}{% endblock %}
+        </main>
     </body>
 </html>
