@@ -6,3 +6,4 @@ htmlcov
 dashboard/static/lib
 node_modules
 MANIFEST
+.coveralls.yml
