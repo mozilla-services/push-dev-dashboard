@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from landing.views import Home, Profile
+from .views import Home, Profile
 
 urlpatterns = [
     # our app urls
