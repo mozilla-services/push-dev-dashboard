@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     'dashboard',
     'dashboard.socialaccount.providers.fxa',
-    'domains'
+    'domains',
+    'push'
 ]
 
 MIDDLEWARE_CLASSES = [
