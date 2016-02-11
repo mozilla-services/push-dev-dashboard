@@ -4,6 +4,70 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <h2>{{ request.user.username }}</h2>
+        <h3>Domain Authorizations</h3>
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="newdomain.com">
+                <div class="input-group-button">
+                    <a class="button" href="/admin/domains/domainauthorization/add/">Add</a>
+                </div>
+            </div>
+        </form>
+
+        {% if domains %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Domain</th>
+                    <th>Status</th>
+                    <th>Token</th>
+                    <th>Validated</th>
+                    <th>Expires</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for domain in domains %}
+                <tr>
+                    <td>{{ domain.domain }}</td>
+                    <td>{{ domain.status }}</td>
+                    <td>{{ domain.token }}</td>
+                    <td>{{ domain.validated }}</td>
+                    <td>{{ domain.expires }}</td>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            No domains found.
+        {% endif %}
+
+        <h3>Push Applications</h3>
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="New Push Application">
+                <div class="input-group-button">
+                    <a class="button" href="/admin/push/pushapplication/add/">Add</a>
+                </div>
+            </div>
+        </form>
+        {% if push_apps %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>JWS Key</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for app in push_apps %}
+                <tr>
+                    <td>{{ app.name }}</td>
+                    <td>{{ app.jws_key }}</td>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            No push apps found.
+        {% endif %}
+
     {% endif %}
 {% endblock %}

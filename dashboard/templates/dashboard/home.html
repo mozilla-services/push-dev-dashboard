@@ -1,1 +1,15 @@
 {% extends "dashboard/base.html" %}
+{% load socialaccount %}
+{% block content %}
+<div class="center">
+    <h3>Firefox Push Service Dashboard</h3>
+    {% if not request.user.is_authenticated %}
+        <div data-alert="" class="alert-box secondary secondary-notification">
+            To sign in to this dashboard you must create and verify a Firefox Account on the <a href="https://stable.dev.lcip.org/" target="_blank">Firefox Accounts stable development server</a>.<br>
+        </div>
+        <a class="large button expand" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
+    {% else %}
+        <a class="large button expand" href="{% url "profile" %}">Go to your profile</a>
+    {% endif %}
+</div>
+{% endblock %}
