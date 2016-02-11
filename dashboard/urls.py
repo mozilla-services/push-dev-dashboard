@@ -28,6 +28,6 @@ urlpatterns = [
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),
 
-    #django urls
+    # django urls
     url(r'^admin/', admin.site.urls),
 ]

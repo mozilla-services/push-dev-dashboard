@@ -1,10 +1,19 @@
 language: python
 python:
     - "2.7"
+env:
+    matrix:
+        - TOXENV=py27
+        - TOXENV=style
+        - TOXENV=docs
 install:
-    - pip install requirements-test.txt
-    - pip install coveralls
+    - pip install tox
 script:
-    coverage run ./manage.py test
-after_success:
-    coveralls
+    tox
+notifications:
+    irc:
+        channels:
+            - "irc.mozilla.org#mds"
+        on_success: always
+        on_failure: always
+        use_notice: true
