@@ -166,6 +166,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ACCOUNT_EMAIL_VERIFICATION = config('ACCOUNT_EMAIL_VERIFICATION',
                                     default='none')
+ACCOUNT_LOGOUT_ON_GET = True
 LOGIN_REDIRECT_URL = 'home'
 
 # djangorestframework
