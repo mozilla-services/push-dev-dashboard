@@ -137,8 +137,6 @@ PIPELINE = {
     'STYLESHEETS': {
         'main': {
             'source_filenames': (
-                'lib/skeleton/css/normalize.css',
-                'lib/skeleton/css/skeleton.css',
                 'css/main.css',
             ),
             'output_filename': 'css/main.css',

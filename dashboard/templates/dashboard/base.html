@@ -4,30 +4,47 @@
 <html id="push-dashboard" lang="en-US" dir="ltr">
     <head>
         <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Push Dashboard</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.css">
+        <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         {% stylesheet 'main' %}
     </head>
-    <body class="container">
-        <header class="row">
-            <h1 class="column one-half"><a href="/">Push Dashboard</a></h1>
-            <nav class="column one-half auth">
-                <ul>
-                    {% if request.user.is_authenticated %}
-                        {% get_social_accounts request.user as accounts %}
-                        <li>
-                            <a href="/accounts/profile/">{{ request.user.username }}</a>
-                        </li>
-                        <li><a href="{% url 'account_logout' %}">Sign out</a>
-                    {% else %}
-                        <li>
-                            <a class="button" href="{% provider_login_url "fxa" %}">Sign in</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </header>
+    <body>
+        <div class="top-bar">
+            <div class="row">
+                <div class="top-bar-title">
+                    <a href="/"><img src="https://www.mozilla.org/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png" height="38" width="38"> <strong>Firefox Push Dashboard</strong></a>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        {% if request.user.is_authenticated %}
+                            {% get_social_accounts request.user as accounts %}
+                            <li>
+                                <a href="/accounts/profile/">{{ request.user.username }}</a>
+                            </li>
+                            <li><a href="{% url 'account_logout' %}">Sign out</a>
+                        {% else %}
+                            <li>
+                            <a class="button" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
         <main class="row">
             {% block content %}{% endblock %}
         </main>
+        <footer class="top-bar">
+            <div class="row">
+                <div class="top-bar-right">
+                    <a href="https://github.com/mozilla-services/push-dev-dashboard" target="_blank">Source on GitHub</a> | <a href="https://github.com/mozilla-services/push-dev-dashboard/issues" target="_blank">Issues</a>
+                </div>
+            </div>
+        </footer>
     </body>
+    <script src="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.js"></script>
 </html>
