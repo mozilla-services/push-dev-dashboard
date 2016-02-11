@@ -1,15 +1,80 @@
 {% extends "dashboard/base.html" %}
 {% load socialaccount %}
 {% block content %}
-<div class="center">
-    <h3>Firefox Push Service Dashboard</h3>
     {% if not request.user.is_authenticated %}
-        <div data-alert="" class="alert-box secondary secondary-notification">
+    <div class="center">
+        <div class="alert callout">
             To sign in to this dashboard you must create and verify a Firefox Account on the <a href="https://stable.dev.lcip.org/" target="_blank">Firefox Accounts stable development server</a>.<br>
         </div>
         <a class="large button expand" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
+    </div>
     {% else %}
-        <a class="large button expand" href="{% url "profile" %}">Go to your profile</a>
+        <h3>Domain Authorizations</h3>
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="newdomain.com">
+                <div class="input-group-button">
+                    <a class="button" href="/admin/domains/domainauthorization/add/">Add</a>
+                </div>
+            </div>
+        </form>
+
+        {% if domains %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Domain</th>
+                    <th>Status</th>
+                    <th>Token</th>
+                    <th>Validated</th>
+                    <th>Expires</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for domain in domains %}
+                <tr>
+                    <td>{{ domain.domain }}</td>
+                    <td>{{ domain.status }}</td>
+                    <td>{{ domain.token }}</td>
+                    <td>{{ domain.validated }}</td>
+                    <td>{{ domain.expires }}</td>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            No domains found.
+        {% endif %}
+
+        <h3>Push Service Applications</h3>
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="Push Application Name">
+                <div class="input-group-button">
+                    <a class="button" href="/admin/push/pushapplication/add/">Add</a>
+                </div>
+            </div>
+        </form>
+        {% if push_apps %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>JWS Key</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for app in push_apps %}
+                <tr>
+                    <td>{{ app.name }}</td>
+                    <td>{{ app.jws_key }}</td>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            No push apps found.
+        {% endif %}
+
+
     {% endif %}
 </div>
 {% endblock %}

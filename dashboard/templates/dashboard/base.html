@@ -16,7 +16,7 @@
         <div class="top-bar">
             <div class="row">
                 <div class="top-bar-title">
-                    <a href="/"><img src="https://www.mozilla.org/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png" height="38" width="38"> <strong>Firefox Push Dashboard</strong></a>
+                    <a href="/"><img src="https://www.mozilla.org/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png" height="38" width="38"> <strong>Firefox Developer Services Dashboard</strong></a>
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu">
@@ -36,6 +36,12 @@
             </div>
         </div>
         <main class="row">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="callout {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
             {% block content %}{% endblock %}
         </main>
         <footer class="top-bar">
