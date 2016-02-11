@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
 
+    'dashboard',
     'dashboard.socialaccount.providers.fxa',
-    'landing',
     'domains'
 ]
 
