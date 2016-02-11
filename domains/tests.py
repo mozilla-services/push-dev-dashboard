@@ -49,7 +49,6 @@ class DomainAuthorizationTests(TestCase):
         self.assertTrue(self.da.expires > self.tz_aware_now)
 
 
-
 class DomainAuthorizationManagerTests(TestCase):
     def setUp(self):
         self.tz_aware_now = timezone.make_aware(

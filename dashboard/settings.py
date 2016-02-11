@@ -154,28 +154,16 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIALACCOUNT_PROVIDERS = {
     'fxa': {
-        'OAUTH_ENDPOINT': config('FXA_OAUTH_ENDPOINT',
-                                 'https://oauth-stable.dev.lcip.org/v1/'),
-        'PROFILE_ENDPOINT': config('FXA_PROFILE_ENDPOINT',
-                                   'https://stable.dev.lcip.org/profile/v1/profile')
-   }
+        'OAUTH_ENDPOINT': config(
+            'FXA_OAUTH_ENDPOINT',
+            'https://oauth-stable.dev.lcip.org/v1/'
+        ),
+        'PROFILE_ENDPOINT': config(
+            'FXA_PROFILE_ENDPOINT',
+            'https://stable.dev.lcip.org/profile/v1/profile'
+        )
+    }
 }
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 ACCOUNT_EMAIL_VERIFICATION = config('ACCOUNT_EMAIL_VERIFICATION',
                                     default='none')
