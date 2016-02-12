@@ -10,21 +10,22 @@ from .serializers import (DomainAuthorizationSerializer,
                           PushApplicationSerializer)
 
 
-# Create your views here.
-class DomainAuthorizationViewSet(ModelViewSet):
+class HomeAfterCreateModelViewSet(ModelViewSet):
+    def create(self, request):
+        super(HomeAfterCreateModelViewSet, self).create(request)
+        # redirect home after creating DomainAuthorization
+        return HttpResponseRedirect(reverse('home'))
+
+
+class DomainAuthorizationViewSet(HomeAfterCreateModelViewSet):
     queryset = DomainAuthorization.objects.all()
     serializer_class = DomainAuthorizationSerializer
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
 
-    def create(self, request):
-        super(DomainAuthorizationViewSet, self).create(request)
-        # redirect home after creating DomainAuthorization
-        return HttpResponseRedirect(reverse('home'))
 
-
-class PushApplicationViewSet(ModelViewSet):
+class PushApplicationViewSet(HomeAfterCreateModelViewSet):
     queryset = PushApplication.objects.all()
     serializer_class = PushApplicationSerializer
 
