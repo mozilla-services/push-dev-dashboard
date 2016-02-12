@@ -1,3 +1,6 @@
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+
 from rest_framework.viewsets import ModelViewSet
 
 from domains.models import DomainAuthorization
@@ -14,6 +17,11 @@ class DomainAuthorizationViewSet(ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+    def create(self, request):
+        super(DomainAuthorizationViewSet, self).create(request)
+        # redirect home after creating DomainAuthorization
+        return HttpResponseRedirect(reverse('home'))
 
 
 class PushApplicationViewSet(ModelViewSet):

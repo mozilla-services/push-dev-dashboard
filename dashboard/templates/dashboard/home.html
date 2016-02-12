@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% load rest_framework %}
 {% load socialaccount %}
 {% block content %}
     {% if not request.user.is_authenticated %}
@@ -10,13 +11,10 @@
     </div>
     {% else %}
         <h3>Domain Authorizations</h3>
-        <form>
-            <div class="input-group">
-                <input class="input-group-field" type="text" placeholder="newdomain.com">
-                <div class="input-group-button">
-                    <a class="button" href="/admin/domains/domainauthorization/add/">Add</a>
-                </div>
-            </div>
+        <form action="{% url 'domainauthorization-list' %}" method="POST">
+            {% csrf_token %}
+            {% render_form domainauth_serializer %}
+            <input type="submit" class="button" value="Add Domain">
         </form>
 
         {% if domains %}
