@@ -1,5 +1,6 @@
 {% load pipeline %}
 {% load socialaccount %}
+{% load staticfiles %}
 <!doctype html>
 <html id="push-dashboard" lang="en-US" dir="ltr">
     <head>
@@ -16,7 +17,7 @@
         <div class="top-bar">
             <div class="row">
                 <div class="top-bar-title">
-                    <a href="/"><img src="https://www.mozilla.org/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png" height="38" width="38"> <strong>Firefox Developer Services Dashboard</strong></a>
+                    <a href="/"><img src="{% static "img/firefox-logo.png" %}" height="38" width="38"> <strong>Firefox Developer Services Dashboard</strong></a>
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu">
