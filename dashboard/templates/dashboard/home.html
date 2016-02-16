@@ -26,8 +26,18 @@
             {% for domain in domains %}
                 <tr>
                     <td>{{ domain.domain }}</td>
-                    <td>{{ domain.status }}</td>
-                    <td>{{ domain.token }}</td>
+                    <td>{{ domain.status }}
+                        {% if domain.status == "valid" %}
+                            <i class="fa fa-check"></i>
+                        {% elif domain.status == "pending" %}
+                            <i data-tooltip aria-haspopup="true" class="fa fa-clock-o has-tip" data-disable-hover="false"
+                                title="It may take up to 10 minutes to validate your domain."></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ domain.token }}
+                        <i data-tooltip aria-haspopup="true" class="fa fa-info-circle has-tip" data-disable-hover="false"
+                            title="Add this value to a 'mozilla-services' TXT host record on your DNS"></i>
+                    </td>
                     <td>{{ domain.validated }}</td>
                     <td>{{ domain.expires }}</td>
             {% endfor %}
