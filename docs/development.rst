@@ -6,14 +6,11 @@ Requirements
 
 * `postgres`_ for database
 * `python`_ 2.7, `virtualenv`_, & `pip`_ for app server
-* `node`_ 4 with npm, `bower`_ for compiling front-end assets
 
 .. _postgres: https://wiki.postgresql.org/wiki/Detailed_installation_guides
 .. _python: https://www.python.org/
 .. _virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 .. _pip: https://pip.readthedocs.org/en/latest/
-.. _node: https://nodejs.org/en/download/
-.. _bower: http://bower.io/
 
 
 Install Locally
@@ -32,8 +29,6 @@ Install Locally
 #. `Install requirements`_::
 
     pip install -r requirements.txt
-    npm install
-    ./node_modules/.bin/bower install
 
 #. Source the ``.env`` file to set environment config vars (Can also use `autoenv`_)::
 
