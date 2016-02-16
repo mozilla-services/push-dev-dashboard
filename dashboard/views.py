@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView
 
+from api.serializers import (DomainAuthorizationSerializer,
+                             PushApplicationSerializer)
 from domains.models import DomainAuthorization
 from push.models import PushApplication
 
@@ -9,6 +11,8 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
+        context['domainauth_serializer'] = DomainAuthorizationSerializer()
+        context['pushapp_serializer'] = PushApplicationSerializer()
         domains = None
         push_apps = None
         if (self.request.user.is_authenticated()):
