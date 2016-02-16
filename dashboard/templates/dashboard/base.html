@@ -1,5 +1,6 @@
 {% load pipeline %}
 {% load socialaccount %}
+{% load staticfiles %}
 <!doctype html>
 <html id="push-dashboard" lang="en-US" dir="ltr">
     <head>
@@ -13,19 +14,20 @@
         {% stylesheet 'main' %}
     </head>
     <body>
-        <div class="top-bar">
+      <div data-sticky-container>
+        <div class="top-bar" data-sticky>
             <div class="row">
                 <div class="top-bar-title">
-                    <a href="/"><img src="https://www.mozilla.org/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png" height="38" width="38"> <strong>Firefox Developer Services Dashboard</strong></a>
+                    <a href="/"><img src="{% static "img/firefox-logo.png" %}" height="38" width="38"> <strong>Firefox Developer Services Dashboard</strong></a>
                 </div>
                 <div class="top-bar-right">
                     <ul class="menu">
                         {% if request.user.is_authenticated %}
                             {% get_social_accounts request.user as accounts %}
                             <li>
-                                <a href="/accounts/profile/">{{ request.user.username }}</a>
+                                <a href="/">{{ request.user.username }}</a>
                             </li>
-                            <li><a href="{% url 'account_logout' %}">Sign out</a>
+                            <li><a href="{% url 'account_logout' %}">Sign out</a></li>
                         {% else %}
                             <li>
                             <a class="button" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
@@ -38,18 +40,26 @@
         <main class="row">
             {% if messages %}
                 {% for message in messages %}
-                <div class="callout {{ message.tags }}">{{ message }}</div>
+                <div class="callout {{ message.tags }}" data-closable>
+                    {{ message }}
+                    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 {% endfor %}
             {% endif %}
 
             {% block content %}{% endblock %}
         </main>
-        <footer class="top-bar">
+        <footer>
             <div class="row">
                 <div class="top-bar-right">
                     <a href="https://github.com/mozilla-services/push-dev-dashboard" target="_blank">Source on GitHub</a> | <a href="https://github.com/mozilla-services/push-dev-dashboard/issues" target="_blank">Issues</a>
                 </div>
             </div>
         </footer>
+      </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.js"></script>
 </html>
