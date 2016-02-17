@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'pipeline',
     'rest_framework',
     'rest_framework_swagger',
+    'waffle',
 
     'dashboard',
     'dashboard.socialaccount.providers.fxa',
@@ -61,6 +62,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'waffle.middleware.WaffleMiddleware',
 ]
 
 ROOT_URLCONF = 'dashboard.urls'
