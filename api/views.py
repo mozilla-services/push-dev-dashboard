@@ -1,6 +1,4 @@
 from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 
 from rest_framework.viewsets import ModelViewSet
 
@@ -11,15 +9,7 @@ from .serializers import (DomainAuthorizationSerializer,
                           PushApplicationSerializer)
 
 
-class HomeAfterCreateModelViewSet(ModelViewSet):
-    def create(self, request):
-        super(HomeAfterCreateModelViewSet, self).create(request)
-        self.add_message()
-        # redirect home after creating object
-        return HttpResponseRedirect(reverse('home'))
-
-
-class DomainAuthorizationViewSet(HomeAfterCreateModelViewSet):
+class DomainAuthorizationViewSet(ModelViewSet):
     queryset = DomainAuthorization.objects.all()
     serializer_class = DomainAuthorizationSerializer
 
@@ -32,7 +22,7 @@ class DomainAuthorizationViewSet(HomeAfterCreateModelViewSet):
                          "value as a TXT record of your DNS.")
 
 
-class PushApplicationViewSet(HomeAfterCreateModelViewSet):
+class PushApplicationViewSet(ModelViewSet):
     queryset = PushApplication.objects.all()
     serializer_class = PushApplicationSerializer
 
