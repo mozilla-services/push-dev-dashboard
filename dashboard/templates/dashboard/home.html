@@ -1,6 +1,7 @@
 {% extends "dashboard/base.html" %}
-{% load rest_framework %}
 {% load socialaccount %}
+{% load waffle_tags %}
+
 {% block content %}
     {% if not request.user.is_authenticated %}
     <div class="center">
@@ -10,6 +11,7 @@
         <a class="large button expand" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
     </div>
     {% else %}
+        {% switch "domains_enabled" %}
         <h3>Domain Authorizations</h3>
         {% if domains %}
         <table>
@@ -51,6 +53,7 @@
             {{ domain_auth_form }}
             <input type="submit" class="button" value="Add Domain">
         </form>
+        {% endswitch %}
 
 
         <h3>Push Service Applications</h3>
