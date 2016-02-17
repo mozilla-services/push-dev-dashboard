@@ -48,7 +48,7 @@
         {% endif %}
         <form action="{% url 'domainauthorization-list' %}" method="POST">
             {% csrf_token %}
-            {% render_form domainauth_serializer %}
+            {{ domain_auth_form }}
             <input type="submit" class="button" value="Add Domain">
         </form>
 
@@ -75,7 +75,7 @@
         {% endif %}
         <form action="{% url 'pushapplication-list' %}" method="POST">
             {% csrf_token %}
-            {% render_form pushapp_serializer %}
+            {{ push_app_form }}
             <input type="submit" class="button" value="Add Push Application">
         </form>
 
