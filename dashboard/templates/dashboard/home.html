@@ -79,6 +79,7 @@
         <form action="{% url 'pushapplication-list' %}" method="POST">
             {% csrf_token %}
             {{ push_app_form }}
+            <br>
             <input type="submit" class="button" value="Add Push Application">
         </form>
 
