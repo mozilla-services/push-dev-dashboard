@@ -21,6 +21,31 @@ def generate_jws_key_token():
     return uuid.uuid4()
 
 
+def extract_public_key(key_data):
+    """
+    See https://github.com/mozilla-services/autopush/blob/
+    89208a7c96b8edf00dae41bc744ccd505a483c64/autopush/utils.py#L111-L133
+    A public key may come in several flavors. Attempt to extract the
+    valid key bits from keys doing minimal validation checks.
+    This is mostly a result of libs like WebCrypto prefixing data to "raw"
+    keys, and the ecdsa library not really providing helpful errors.
+    :param key_data: the raw-ish key we're going to try and process
+    :returns: the raw key data.
+    :raises: ValueError for unknown or poorly formatted keys.
+    """
+    # key data is actually a raw coordinate pair
+    key_len = len(key_data)
+    if key_len == 64:
+        return key_data
+    # Key format is "raw"
+    if key_len == 65 and key_data[0] == '\x04':
+        return key_data[-64:]
+    # key format is "spki"
+    if key_len == 88 and key_data[:3] == '0V0':
+        return key_data[-64:]
+    raise ValueError("Unknown public key format specified")
+
+
 class PushApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -41,8 +66,10 @@ class PushApplication(models.Model):
 
     def validate_vapid_key(self, encrypted_token):
         try:
+            key_data = urlsafe_b64decode(self.vapid_key)
+            key_string = extract_public_key(key_data)
             verifying_key = ecdsa.VerifyingKey.from_string(
-                urlsafe_b64decode(self.vapid_key),
+                key_string,
                 curve=ecdsa.NIST256p
             )
             if (verifying_key.verify(encrypted_token,
