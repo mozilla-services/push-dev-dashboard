@@ -10,7 +10,7 @@ from django.db import models
 from django.utils import timezone
 
 
-JWS_KEY_STATUS_CHOICES = (
+VAPID_KEY_STATUS_CHOICES = (
     ('pending', 'pending'),
     ('valid', 'valid'),
     ('invalid', 'invalid')
@@ -24,33 +24,35 @@ def generate_jws_key_token():
 class PushApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    jws_key = models.CharField(blank=True, max_length=255,
-        help_text="VAPID p256ecdsa value; url-safe base-64 encoded.")
-    jws_key_status = models.CharField(max_length=255,
-                                      default='pending',
-                                      choices=JWS_KEY_STATUS_CHOICES)
-    jws_key_token = models.CharField(max_length=255,
-                                     editable=False,
-                                     default=generate_jws_key_token)
+    vapid_key = models.CharField(
+        blank=True, max_length=255,
+        help_text="VAPID p256ecdsa value; url-safe base-64 encoded."
+    )
+    vapid_key_status = models.CharField(max_length=255,
+                                        default='pending',
+                                        choices=VAPID_KEY_STATUS_CHOICES)
+    vapid_key_token = models.CharField(max_length=255,
+                                       editable=False,
+                                       default=generate_jws_key_token)
     validated = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
         return "%s: %s" % (self.user.username, self.name)
 
-    def validate_jws_key(self, encrypted_token):
+    def validate_vapid_key(self, encrypted_token):
         try:
             verifying_key = ecdsa.VerifyingKey.from_string(
-                urlsafe_b64decode(self.jws_key),
+                urlsafe_b64decode(self.vapid_key),
                 curve=ecdsa.NIST256p
             )
             if (verifying_key.verify(encrypted_token,
-                                     str(self.jws_key_token))):
-                self.jws_key_status = 'valid'
+                                     str(self.vapid_key_token))):
+                self.vapid_key_status = 'valid'
                 self.validated = timezone.make_aware(
                     datetime.now(),
                     timezone.get_current_timezone()
                 )
                 self.save()
         except ecdsa.BadSignatureError:
-            self.jws_key_status = 'invalid'
+            self.vapid_key_status = 'invalid'
             self.save()

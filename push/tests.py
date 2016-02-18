@@ -22,35 +22,35 @@ class PushApplicationTests(TestCase):
         )
 
     def test_default_values(self):
-        self.assertEqual(u'pending', self.pa.jws_key_status)
+        self.assertEqual(u'pending', self.pa.vapid_key_status)
         self.assertEqual(None, self.pa.validated)
-        self.assertIsInstance(self.pa.jws_key_token, UUID)
-        self.assertEqual(4, self.pa.jws_key_token.version)
+        self.assertIsInstance(self.pa.vapid_key_token, UUID)
+        self.assertEqual(4, self.pa.vapid_key_token.version)
 
     def test_same_app_name_gets_unique_token_value(self):
         pa2 = PushApplication(user=self.user, name=u'test app')
-        self.assertNotEqual(self.pa.jws_key_token, pa2.jws_key_token)
+        self.assertNotEqual(self.pa.vapid_key_token, pa2.vapid_key_token)
 
-    def test_validate_jws_key_valid(self):
+    def test_validate_vapid_key_valid(self):
         sk256p = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        self.pa.jws_key = urlsafe_b64encode(
+        self.pa.vapid_key = urlsafe_b64encode(
             sk256p.get_verifying_key().to_string()
         )
         self.pa.save()
 
-        signature = sk256p.sign(str(self.pa.jws_key_token))
-        self.pa.validate_jws_key(signature)
-        self.assertEqual(u'valid', self.pa.jws_key_status)
+        signature = sk256p.sign(str(self.pa.vapid_key_token))
+        self.pa.validate_vapid_key(signature)
+        self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
 
-    def test_validate_jws_key_invalid(self):
+    def test_validate_vapid_key_invalid(self):
         sk256p = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        self.pa.jws_key = urlsafe_b64encode(
+        self.pa.vapid_key = urlsafe_b64encode(
             sk256p.get_verifying_key().to_string()
         )
         self.pa.save()
 
         other_sk256p = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        signature = other_sk256p.sign(str(self.pa.jws_key_token))
-        self.pa.validate_jws_key(signature)
-        self.assertEqual(u'invalid', self.pa.jws_key_status)
+        signature = other_sk256p.sign(str(self.pa.vapid_key_token))
+        self.pa.validate_vapid_key(signature)
+        self.assertEqual(u'invalid', self.pa.vapid_key_status)
