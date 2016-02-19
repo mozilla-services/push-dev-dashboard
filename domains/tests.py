@@ -29,10 +29,14 @@ class DomainAuthorizationTests(TestCase):
         self.assertEqual(None, self.da.validated)
         self.assertEqual(None, self.da.expires)
 
-    def test_save_generates_valid_uuid5_for_token(self):
+    def test_save_generates_valid_uuid4_for_token(self):
         self.da.save()
         self.assertIsInstance(self.da.token, UUID)
-        self.assertEqual(5, self.da.token.version)
+        self.assertEqual(4, self.da.token.version)
+
+    def test_same_domain_gets_unique_token_value(self):
+        da2 = DomainAuthorization(user=self.user, domain='test.com')
+        self.assertNotEqual(self.da.token, da2.token)
 
     # patch out the actual DNS request
     @fudge.patch('domains.models.DomainAuthorization.get_dns_txt_record')
