@@ -6,6 +6,7 @@ djangorestframework==3.3.2
 django-rest-swagger==0.3.5
 django-waffle==0.11
 dnslib==0.9.6
+ecdsa==0.13
 gunicorn==19.4.5
 newrelic==2.60.0.46
 psycopg2==2.6.1
