@@ -74,7 +74,7 @@
             </tbody>
         </table>
         {% else %}
-            No push apps found.
+            <p>No push apps found.</p>
         {% endif %}
         <form action="{% url 'pushapplication-list' %}" method="POST">
             {% csrf_token %}
