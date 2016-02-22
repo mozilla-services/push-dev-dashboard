@@ -137,11 +137,12 @@ STATICFILES_FINDERS = (
 # django-pipeline
 PIPELINE = {
     'STYLESHEETS': {
-        'main': {
+        'dashboard': {
             'source_filenames': (
                 'css/main.css',
+                'css/home.css',
             ),
-            'output_filename': 'css/main.css',
+            'output_filename': 'css/dashboard.css',
         },
     },
 }
