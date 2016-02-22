@@ -63,14 +63,14 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>JWS Key</th>
+                    <th>VAPID Key</th>
                 </tr>
             </thead>
             <tbody>
             {% for app in push_apps %}
                 <tr>
                     <td>{{ app.name }}</td>
-                    <td>{{ app.jws_key }}</td>
+                    <td>{{ app.vapid_key }}</td>
             {% endfor %}
             </tbody>
         </table>

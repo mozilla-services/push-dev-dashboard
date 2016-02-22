@@ -26,4 +26,4 @@ class PushApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PushApplication
-        fields = ('id', 'user', 'name', 'jws_key')
+        fields = ('id', 'user', 'name', 'vapid_key')
