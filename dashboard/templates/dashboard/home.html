@@ -1,19 +1,13 @@
 {% extends "dashboard/base.html" %}
-{% load socialaccount %}
 {% load waffle_tags %}
 {% load pipeline %}
 
 {% block content %}
-    <div class="center">
+    <div>
     <iframe src="https://p.datadoghq.com/sb/NsBIKn-0f8bfd3083" seamless="seamless" scrolling="no"></iframe>
     </div>
     {% if not request.user.is_authenticated %}
-    <div class="center">
-        <div class="alert callout">
-            To sign in to this dashboard you must create and verify a Firefox Account on the <a href="https://stable.dev.lcip.org/" target="_blank">Firefox Accounts stable development server</a>.
-        </div>
-        <a class="large button expand" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
-    </div>
+        {% include 'dashboard/includes/authenticate.html' %}
     {% else %}
         {% switch "domains_enabled" %}
         <h3>Domain Authorizations</h3>
@@ -72,7 +66,7 @@
             <tbody>
             {% for app in push_apps %}
                 <tr>
-                    <td>{{ app.name }}</td>
+                    <td><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></td>
                     <td>{{ app.vapid_key }}</td>
             {% endfor %}
             </tbody>
@@ -82,7 +76,14 @@
         {% endif %}
         <form id="add-push-application" action="{% url 'pushapplication-list' %}" method="POST">
             {% csrf_token %}
-            {{ push_app_form }}
+
+            <label for="{{ push_app_form.name.auto_id }}">Name:</label>
+            {{ push_app_form.name }}
+
+            <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID Key:</label>
+            <span class="question-mark-tip has-tip" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
+            {{ push_app_form.vapid_key }}
+
             <input type="submit" class="button" value="Add Push Application">
         </form>
 

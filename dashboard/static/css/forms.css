@@ -1,0 +1,32 @@
+label {
+    float: left;
+}
+
+label + .question-mark-tip {
+    float: left;
+    margin-left: 10px;
+}
+
+/* Never put form fields to the right of the corresponding label */
+textarea, input {
+    clear: left;
+}
+
+.question-mark-tip:before {
+    content: '?';
+    font-weight: bold;
+}
+
+.question-mark-tip {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+
+    background-color: #ccc;
+    border-bottom: 0;
+    border-radius: 50%;
+    cursor: default;
+    font-size: .7em;
+    margin-top: 2px;
+    text-align: center;
+}
