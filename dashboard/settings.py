@@ -180,3 +180,9 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = 1
+
+# TODO: Set real stage/prod AUTOPUSH_KEYS_ENDPOINT
+AUTOPUSH_KEYS_ENDPOINT = config(
+    'AUTOPUSH_KEYS_ENDPOINT',
+    'https://szdqmc7xl7.execute-api.us-east-1.amazonaws.com/test/keys'
+)

@@ -4,16 +4,20 @@ from datetime import datetime
 import uuid
 
 import ecdsa
+import requests
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from .managers import PushApplicationManager
 
 VAPID_KEY_STATUS_CHOICES = (
     ('pending', 'pending'),
     ('valid', 'valid'),
-    ('invalid', 'invalid')
+    ('invalid', 'invalid'),
+    ('recording', 'recording')
 )
 
 
@@ -61,6 +65,8 @@ class PushApplication(models.Model):
                                        default=generate_jws_key_token)
     validated = models.DateTimeField(blank=True, null=True)
 
+    objects = PushApplicationManager()
+
     def __unicode__(self):
         return "%s: %s" % (self.user.username, self.name)
 
@@ -80,6 +86,23 @@ class PushApplication(models.Model):
                     timezone.get_current_timezone()
                 )
                 self.save()
+                self.start_recording()
         except ecdsa.BadSignatureError:
             self.vapid_key_status = 'invalid'
             self.save()
+
+    def start_recording(self):
+        try:
+            post_resp = self.post_key_to_autopush()
+            if post_resp['status'] == 'success':
+                self.vapid_key_status = 'recording'
+                self.save()
+        except requests.ConnectionError:
+            # TODO: When post_key_to_autopush rasies ConnectionError ..
+            pass
+
+    def post_key_to_autopush(self):
+        resp = requests.post(
+            getattr(settings, 'AUTOPUSH_KEYS_ENDPOINT', '')
+        )
+        return resp.json()
