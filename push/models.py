@@ -122,5 +122,4 @@ class PushApplication(models.Model):
             resp = requests.get(messages_endpoint)
             return resp.json()
         except requests.ConnectionError:
-            # TODO: return empty set and/or error flag
-            pass
+            return False

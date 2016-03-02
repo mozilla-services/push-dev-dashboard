@@ -122,6 +122,14 @@ class PushApplicationTests(TestCase):
         )
         pa.get_messages()
 
+    @fudge.patch('requests.get')
+    def test_get_messages_returns_False_on_connection_error(self, get):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        get.expects_call().raises(
+            requests.ConnectionError("broken")
+        )
+        self.assertEqual(False, pa.get_messages())
+
 
 class GetAutopushEndpointTests(TestCase):
     def test_missing_value_raises_exception(self):
