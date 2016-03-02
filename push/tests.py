@@ -8,12 +8,14 @@ import ecdsa
 import fudge
 import requests
 
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.utils import timezone
 
 from model_mommy import mommy
 
-from .models import PushApplication, extract_public_key
+from .models import PushApplication, extract_public_key, get_autopush_endpoint
 
 
 def _gen_keys():
@@ -92,6 +94,15 @@ class PushApplicationTests(TestCase):
             )
         )
         pa.post_key_to_autopush()
+
+
+class GetAutopushEndpointTests(TestCase):
+    def test_missing_value_raises_exception(self):
+        prev_value = settings.AUTOPUSH_KEYS_ENDPOINT
+        settings.AUTOPUSH_KEYS_ENDPOINT = None
+        with self.assertRaises(ImproperlyConfigured):
+            get_autopush_endpoint()
+        settings.AUTOPUSH_KEYS_ENDPOINT = prev_value
 
 
 class ExtractPublicKeyTests(TestCase):

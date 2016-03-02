@@ -8,6 +8,7 @@ import requests
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils import timezone
 
@@ -48,6 +49,15 @@ def extract_public_key(key_data):
     if key_len == 88 and key_data[:3] == '0V0':
         return key_data[-64:]
     raise ValueError("Unknown public key format specified")
+
+
+def get_autopush_endpoint():
+    endpoint = getattr(settings, 'AUTOPUSH_KEYS_ENDPOINT', None)
+    if not endpoint:
+        raise ImproperlyConfigured(
+            "Must set AUTOPUSH_KEYS_ENDPOINT env var."
+        )
+    return endpoint
 
 
 class PushApplication(models.Model):
@@ -102,7 +112,6 @@ class PushApplication(models.Model):
             pass
 
     def post_key_to_autopush(self):
-        resp = requests.post(
-            getattr(settings, 'AUTOPUSH_KEYS_ENDPOINT', '')
-        )
+        # TODO: add self.vapid_key to POST
+        resp = requests.post(get_autopush_endpoint())
         return resp.json()
