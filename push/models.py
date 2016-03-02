@@ -108,12 +108,11 @@ class PushApplication(models.Model):
                 self.vapid_key_status = 'recording'
                 self.save()
         except requests.ConnectionError:
-            # TODO: When post_key_to_autopush rasies ConnectionError ..
-            pass
+            pass  # pass leaves status alone, which will retry POST later
 
     def post_key_to_autopush(self):
-        # TODO: add self.vapid_key to POST
-        resp = requests.post(get_autopush_endpoint())
+        resp = requests.post(get_autopush_endpoint() + '/keys',
+                             data={'key': self.vapid_key})
         return resp.json()
 
     def get_messages(self):
