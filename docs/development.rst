@@ -93,7 +93,7 @@ Run the Tests
 -------------
 #. Install test requirements::
 
-    pip install requirements-test.txt
+    pip install -r requirements-test.txt
 
 #. Running the test suite::
 
