@@ -115,3 +115,13 @@ class PushApplication(models.Model):
         # TODO: add self.vapid_key to POST
         resp = requests.post(get_autopush_endpoint())
         return resp.json()
+
+    def get_messages(self):
+        messages_endpoint = (get_autopush_endpoint() +
+                             '/messages/%s' % self.vapid_key)
+        try:
+            resp = requests.get(messages_endpoint)
+            return resp.json()
+        except requests.ConnectionError:
+            # TODO: return empty set and/or error flag
+            pass

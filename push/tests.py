@@ -39,6 +39,23 @@ class PushApplicationTests(TestCase):
             'public-key': self.pa.vapid_key,
             'status': 'success'
         }
+        self.fake_get_response_json = {
+            'public-key': self.pa.vapid_key,
+            'messages': [
+                {
+                    'id': 'ABCdef123456',
+                    'timestamp': '2016-02-24T17:24:45.737Z',
+                    'size': 321,
+                    'ttl': 86400
+                },
+                {
+                    'id': 'GHIjkl789101',
+                    'timestamp': '2016-02-24T17:24:45.314Z',
+                    'size': 0,
+                    'ttl': 0
+                }
+            ]
+        }
 
     def test_default_values(self):
         self.assertEqual(u'pending', self.pa.vapid_key_status)
@@ -94,6 +111,16 @@ class PushApplicationTests(TestCase):
             )
         )
         pa.post_key_to_autopush()
+
+    @fudge.patch('requests.get')
+    def test_get_messages_uses_requests_json(self, get):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        get.expects_call().returns(
+            fudge.Fake().expects('json').returns(
+                self.fake_get_response_json
+            )
+        )
+        pa.get_messages()
 
 
 class GetAutopushEndpointTests(TestCase):
