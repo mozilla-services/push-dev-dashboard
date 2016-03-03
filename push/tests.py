@@ -5,13 +5,17 @@ import random
 from uuid import UUID
 
 import ecdsa
+import fudge
+import requests
 
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.utils import timezone
 
 from model_mommy import mommy
 
-from .models import PushApplication, extract_public_key
+from .models import PushApplication, extract_public_key, get_autopush_endpoint
 
 
 def _gen_keys():
@@ -31,6 +35,27 @@ class PushApplicationTests(TestCase):
         self.tz_aware_now = timezone.make_aware(
             datetime.now(), timezone.get_current_timezone()
         )
+        self.fake_post_response_json = {
+            'public-key': self.pa.vapid_key,
+            'status': 'success'
+        }
+        self.fake_get_response_json = {
+            'public-key': self.pa.vapid_key,
+            'messages': [
+                {
+                    'id': 'ABCdef123456',
+                    'timestamp': '2016-02-24T17:24:45.737Z',
+                    'size': 321,
+                    'ttl': 86400
+                },
+                {
+                    'id': 'GHIjkl789101',
+                    'timestamp': '2016-02-24T17:24:45.314Z',
+                    'size': 0,
+                    'ttl': 0
+                }
+            ]
+        }
 
     def test_default_values(self):
         self.assertEqual(u'pending', self.pa.vapid_key_status)
@@ -42,17 +67,77 @@ class PushApplicationTests(TestCase):
         pa2 = PushApplication(user=self.user, name=u'test app')
         self.assertNotEqual(self.pa.vapid_key_token, pa2.vapid_key_token)
 
-    def test_validate_valid_vapid_key_is_valid(self):
+    @fudge.patch('push.models.PushApplication.start_recording')
+    def test_validate_valid_vapid_key_sets_status_starts_recording(
+        self, start_recording
+    ):
+        start_recording.expects_call()
         signature = self.signing_key.sign(str(self.pa.vapid_key_token))
         self.pa.validate_vapid_key(signature)
         self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
 
-    def test_validate_invalid_vapid_key_is_invalid(self):
+    def test_validate_invalid_vapid_key_sets_status(self):
         other_signing_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
         signature = other_signing_key.sign(str(self.pa.vapid_key_token))
         self.pa.validate_vapid_key(signature)
         self.assertEqual(u'invalid', self.pa.vapid_key_status)
+
+    @fudge.patch('push.models.PushApplication.post_key_to_autopush')
+    def test_start_recording_posts_and_sets_status(self,
+                                                   post_key_to_autopush):
+        post_key_to_autopush.expects_call().returns(
+            self.fake_post_response_json
+        )
+        self.pa.start_recording()
+        self.assertEqual('recording', self.pa.vapid_key_status)
+
+    @fudge.patch('push.models.PushApplication.post_key_to_autopush')
+    def test_start_recording_handles_connection_error(self,
+                                                      post_key_to_autopush):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        post_key_to_autopush.expects_call().raises(
+            requests.ConnectionError("broken")
+        )
+        pa.start_recording()
+        self.assertEqual('valid', pa.vapid_key_status)
+
+    @fudge.patch('requests.post')
+    def test_post_key_to_autopush_uses_requests_json(self, post):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        post.expects_call().returns(
+            fudge.Fake().expects('json').returns(
+                self.fake_post_response_json
+            )
+        )
+        pa.post_key_to_autopush()
+
+    @fudge.patch('requests.get')
+    def test_get_messages_uses_requests_json(self, get):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        get.expects_call().returns(
+            fudge.Fake().expects('json').returns(
+                self.fake_get_response_json
+            )
+        )
+        pa.get_messages()
+
+    @fudge.patch('requests.get')
+    def test_get_messages_returns_False_on_connection_error(self, get):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        get.expects_call().raises(
+            requests.ConnectionError("broken")
+        )
+        self.assertEqual(False, pa.get_messages())
+
+
+class GetAutopushEndpointTests(TestCase):
+    def test_missing_value_raises_exception(self):
+        prev_value = settings.AUTOPUSH_KEYS_ENDPOINT
+        settings.AUTOPUSH_KEYS_ENDPOINT = None
+        with self.assertRaises(ImproperlyConfigured):
+            get_autopush_endpoint()
+        settings.AUTOPUSH_KEYS_ENDPOINT = prev_value
 
 
 class ExtractPublicKeyTests(TestCase):

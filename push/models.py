@@ -4,16 +4,21 @@ from datetime import datetime
 import uuid
 
 import ecdsa
+import requests
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils import timezone
 
+from .managers import PushApplicationManager
 
 VAPID_KEY_STATUS_CHOICES = (
     ('pending', 'pending'),
     ('valid', 'valid'),
-    ('invalid', 'invalid')
+    ('invalid', 'invalid'),
+    ('recording', 'recording')
 )
 
 
@@ -46,6 +51,15 @@ def extract_public_key(key_data):
     raise ValueError("Unknown public key format specified")
 
 
+def get_autopush_endpoint():
+    endpoint = getattr(settings, 'AUTOPUSH_KEYS_ENDPOINT', None)
+    if not endpoint:
+        raise ImproperlyConfigured(
+            "Must set AUTOPUSH_KEYS_ENDPOINT env var."
+        )
+    return endpoint
+
+
 class PushApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -60,6 +74,8 @@ class PushApplication(models.Model):
                                        editable=False,
                                        default=generate_jws_key_token)
     validated = models.DateTimeField(blank=True, null=True)
+
+    objects = PushApplicationManager()
 
     def __unicode__(self):
         return "%s: %s" % (self.user.username, self.name)
@@ -80,6 +96,30 @@ class PushApplication(models.Model):
                     timezone.get_current_timezone()
                 )
                 self.save()
+                self.start_recording()
         except ecdsa.BadSignatureError:
             self.vapid_key_status = 'invalid'
             self.save()
+
+    def start_recording(self):
+        try:
+            post_resp = self.post_key_to_autopush()
+            if post_resp['status'] == 'success':
+                self.vapid_key_status = 'recording'
+                self.save()
+        except requests.ConnectionError:
+            pass  # pass leaves status alone, which will retry POST later
+
+    def post_key_to_autopush(self):
+        resp = requests.post(get_autopush_endpoint() + '/keys',
+                             data={'key': self.vapid_key})
+        return resp.json()
+
+    def get_messages(self):
+        messages_endpoint = (get_autopush_endpoint() +
+                             '/messages/%s' % self.vapid_key)
+        try:
+            resp = requests.get(messages_endpoint)
+            return resp.json()
+        except requests.ConnectionError:
+            return False
