@@ -1,13 +1,17 @@
 from django.conf.urls import url
 
-from push.views import PushApplicationDetails, ValidatePushApplication
+import push.views as push_views
 
 urlpatterns = [
+    url(r'^$',
+        push_views.PushApplicationLanding.as_view(),
+        name="push.landing"),
+
     url(r'^(?P<pk>[0-9]+)/$',
-        PushApplicationDetails.as_view(),
+        push_views.PushApplicationDetails.as_view(),
         name='push.details'),
 
     url(r'^(?P<pk>[0-9]+)/validate/$',
-        ValidatePushApplication.as_view(),
+        push_views.ValidatePushApplication.as_view(),
         name='push.validate'),
 ]

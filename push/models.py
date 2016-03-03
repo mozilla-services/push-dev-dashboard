@@ -123,3 +123,6 @@ class PushApplication(models.Model):
             return resp.json()
         except requests.ConnectionError:
             return False
+
+    def created_by(self, user):
+        return self.user == user

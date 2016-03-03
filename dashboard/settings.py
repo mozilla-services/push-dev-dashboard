@@ -148,10 +148,13 @@ PIPELINE = {
                 'css/layout.css',
                 'css/forms.css',
 
-                # Homepage
-                'css/home.css',
+                # Login page
+                'css/login.css',
 
-                # Validate page
+                # Push applicaton landing page
+                'css/landing.css',
+
+                # Push application validation page
                 'css/validate.css',
             ),
             'output_filename': 'css/dashboard.css',

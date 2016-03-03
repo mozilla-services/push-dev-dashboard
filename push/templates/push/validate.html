@@ -1,19 +1,15 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
-    {% if not request.user.is_authenticated %}
-        {% include 'dashboard/includes/authenticate.html' %}
-    {% else %}
-        <p>Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token:</p>
-        <span id="vapid-key-token">{{ vapid_key_token }}</span>
+    <p>Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token:</p>
+    <span id="vapid-key-token">{{ vapid_key_token }}</span>
 
-        <form id="vapid-validation" action="{% url 'push.validate' id %}" method="POST">
-            {% csrf_token %}
+    <form id="vapid-validation" action="{% url 'push.validate' id %}" method="POST">
+        {% csrf_token %}
 
-            <label for="{{ vapid_validation_form.signed_token.auto_id }}">Signed token:</label>
-            {{ vapid_validation_form.signed_token }}
+        <label for="{{ vapid_validation_form.signed_token.auto_id }}">Signed token:</label>
+        {{ vapid_validation_form.signed_token }}
 
-            <input type="submit" class="button" value="Validate">
-        </form>
-    {% endif %}
+        <input type="submit" class="button" value="Validate">
+    </form>
 {% endblock %}

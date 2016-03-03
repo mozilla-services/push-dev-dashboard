@@ -2,11 +2,7 @@ form#add-push-application input[type="submit"] {
     display: block;
 }
 
-#sign-in-notice {
-    text-align: center;
-}
-
-iframe {
+#datadog {
     width: 758px;
     height: 258px;
     border: 0;
