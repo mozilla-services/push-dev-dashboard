@@ -16,7 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from .views import Home
+from .views import PermissionDenied, Home, Login
+
+handler403 = PermissionDenied.as_view()
 
 urlpatterns = [
     # our app urls
@@ -24,6 +26,7 @@ urlpatterns = [
     url(r'^api/docs/', include('rest_framework_swagger.urls')),
     url(r'^api/v1/', include('api.urls')),
     url(r'^push/', include('push.urls')),
+    url(r'^accounts/login/$', Login.as_view(), name='login'),
 
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),

@@ -1,0 +1,112 @@
+{% extends "dashboard/base.html" %}
+{% load waffle_tags %}
+
+{% block content %}
+    <iframe id="datadog" src="https://p.datadoghq.com/sb/NsBIKn-0f8bfd3083" seamless="seamless" scrolling="no"></iframe>
+    {% switch "domains_enabled" %}
+    <h3>Domain Authorizations</h3>
+    {% if domains %}
+    <table>
+        <thead>
+            <tr>
+                <th>Domain</th>
+                <th>Status</th>
+                <th>Token</th>
+                <th>Validated</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for domain in domains %}
+            <tr>
+                <td>{{ domain.domain }}</td>
+                <td>{{ domain.status }}
+                    {% if domain.status == "valid" %}
+                        <i class="fa fa-check"></i>
+                    {% elif domain.status == "pending" %}
+                        <i data-tooltip aria-haspopup="true" class="fa fa-clock-o has-tip" data-disable-hover="false"
+                            title="It may take up to 10 minutes to validate your domain."></i>
+                    {% endif %}
+                </td>
+                <td>{{ domain.token }}
+                    <i data-tooltip aria-haspopup="true" class="fa fa-info-circle has-tip" data-disable-hover="false"
+                        title="Add this value to a 'mozilla-services' TXT host record on your DNS"></i>
+                </td>
+                <td>{{ domain.validated }}</td>
+                <td>{{ domain.expires }}</td>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        No domains found.
+    {% endif %}
+    <form action="{% url 'domainauthorization-list' %}" method="POST">
+        {% csrf_token %}
+        {{ domain_auth_form }}
+        <input type="submit" class="button" value="Add Domain">
+    </form>
+    {% endswitch %}
+
+
+    <h3>Push Service Applications</h3>
+    {% if push_apps %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>VAPID Key</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for app in push_apps %}
+            <tr>
+                <td><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></td>
+                <td>{{ app.vapid_key }}</td>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No push apps found.</p>
+    {% endif %}
+    <form id="add-push-application" action="{% url 'pushapplication-list' %}" method="POST">
+        {% csrf_token %}
+
+        <label for="{{ push_app_form.name.auto_id }}">Name:</label>
+        {{ push_app_form.name }}
+
+        <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID Key:</label>
+        <span class="question-mark-tip has-tip" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
+        {{ push_app_form.vapid_key }}
+
+        <input type="submit" class="button" value="Add Push Application">
+    </form>
+</div>
+{% endblock %}
+
+{% block post_script %}
+<script>
+function formSubmit(e) {
+    e.preventDefault();
+    var $form = $(this);
+    var csrf_token = $form.find('input[name=csrfmiddlewaretoken]').val();
+    var api_call = $.ajax({
+        url: $form.attr('action'),
+        method: $form.attr('method'),
+        data: $form.serialize(),
+        processData: false,
+        headers: {
+            'X-CSRFToken': csrf_token
+        },
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    });
+
+    api_call.always(function() {
+        window.location.reload();
+    });
+}
+
+$(document).ready(function() {
+    $('form').submit(formSubmit);
+});
+</script>
+{% endblock %}

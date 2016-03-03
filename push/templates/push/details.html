@@ -1,19 +1,15 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
-    {% if not request.user.is_authenticated %}
-        {% include 'dashboard/includes/authenticate.html' %}
-    {% else %}
-        <h2>{{ name }}</h2>
+    <h2>{{ name }}</h2>
 
-        {% if vapid_key_status == 'valid' %}
-            <dl>
-                <dt>VAPID Key</dt>
-                <dd>{{ vapid_key_token }}</dd>
-            </dl>
-        {% else %}
-            <p>This application has not been validated.</p>
-            <a id="validate" class="button" href="{% url 'push.validate' id %}">Validate application</a>
-        {% endif %}
+    {% if vapid_key_status == 'valid' %}
+        <dl>
+            <dt>VAPID Key</dt>
+            <dd>{{ vapid_key_token }}</dd>
+        </dl>
+    {% else %}
+        <p>This application has not been validated.</p>
+        <a id="validate" class="button" href="{% url 'push.validate' id %}">Validate application</a>
     {% endif %}
 {% endblock %}

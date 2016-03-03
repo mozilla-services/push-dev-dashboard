@@ -12,6 +12,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from model_mommy import mommy
 
@@ -129,6 +130,25 @@ class PushApplicationTests(TestCase):
             requests.ConnectionError("broken")
         )
         self.assertEqual(False, pa.get_messages())
+
+    @fudge.patch('requests.get')
+    def test_created_by_returns_true_for_match(self, get):
+        openjck = User.objects.create_user('openjck',
+                                           'example@example.com',
+                                           'password')
+        pa = mommy.make(PushApplication, user=openjck)
+        self.assertTrue(pa.created_by(openjck))
+
+    @fudge.patch('requests.get')
+    def test_created_by_returns_false_for_mismatch(self, get):
+        openjck = User.objects.create_user('openjck',
+                                           'example@example.com',
+                                           'password')
+        some_other_user = User.objects.create_user('SomeOtherUser',
+                                                   'example@example.com',
+                                                   'password')
+        pa = mommy.make(PushApplication, user=openjck)
+        self.assertFalse(pa.created_by(some_other_user))
 
 
 class GetAutopushEndpointTests(TestCase):
