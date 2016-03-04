@@ -18,7 +18,8 @@ body {
 }
 
 .top-bar ul {
-    background-color: transparent;
+    background-color: #424F5A;
+    color: #fff;
 }
 
 main {
