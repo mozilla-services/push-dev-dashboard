@@ -80,16 +80,16 @@ class PushApplication(models.Model):
     def __unicode__(self):
         return "%s: %s" % (self.user.username, self.name)
 
-    def validate_vapid_key(self, encrypted_token):
+    def validate_vapid_key(self, b64_signed_token):
         try:
-            key_data = urlsafe_b64decode(self.vapid_key)
+            key_data = urlsafe_b64decode(str(self.vapid_key))
             key_string = extract_public_key(key_data)
             verifying_key = ecdsa.VerifyingKey.from_string(
                 key_string,
                 curve=ecdsa.NIST256p
             )
-            if (verifying_key.verify(encrypted_token,
-                                     str(self.vapid_key_token))):
+            signed_token = urlsafe_b64decode(str(b64_signed_token))
+            if (verifying_key.verify(signed_token, str(self.vapid_key_token))):
                 self.vapid_key_status = 'valid'
                 self.validated = timezone.make_aware(
                     datetime.now(),
@@ -104,16 +104,20 @@ class PushApplication(models.Model):
     def start_recording(self):
         try:
             post_resp = self.post_key_to_autopush()
-            if post_resp['status'] == 'success':
+            if 'status' in post_resp and post_resp['status'] == 'success':
                 self.vapid_key_status = 'recording'
                 self.save()
         except requests.ConnectionError:
             pass  # pass leaves status alone, which will retry POST later
 
     def post_key_to_autopush(self):
+        # TODO: check timeout value
         resp = requests.post(get_autopush_endpoint() + '/keys',
-                             data={'key': self.vapid_key})
-        return resp.json()
+                             json={'public-key': self.vapid_key})
+        if resp.status_code == 200:
+            return resp.json()
+        else:
+            return {}
 
     def get_messages(self):
         messages_endpoint = (get_autopush_endpoint() +

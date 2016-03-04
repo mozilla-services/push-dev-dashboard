@@ -73,15 +73,15 @@ class PushApplicationTests(TestCase):
         self, start_recording
     ):
         start_recording.expects_call()
-        signature = self.signing_key.sign(str(self.pa.vapid_key_token))
-        self.pa.validate_vapid_key(signature)
+        signed_token = self.signing_key.sign(str(self.pa.vapid_key_token))
+        self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
         self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
 
     def test_validate_invalid_vapid_key_sets_status(self):
         other_signing_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        signature = other_signing_key.sign(str(self.pa.vapid_key_token))
-        self.pa.validate_vapid_key(signature)
+        signed_token = other_signing_key.sign(str(self.pa.vapid_key_token))
+        self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
         self.assertEqual(u'invalid', self.pa.vapid_key_status)
 
     @fudge.patch('push.models.PushApplication.post_key_to_autopush')
@@ -107,7 +107,7 @@ class PushApplicationTests(TestCase):
     def test_post_key_to_autopush_uses_requests_json(self, post):
         pa = mommy.make(PushApplication, vapid_key_status='valid')
         post.expects_call().returns(
-            fudge.Fake().expects('json').returns(
+            fudge.Fake().has_attr(status_code=200).expects('json').returns(
                 self.fake_post_response_json
             )
         )

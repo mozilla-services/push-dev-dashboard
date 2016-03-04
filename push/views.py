@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -35,11 +36,11 @@ class PushApplicationDetails(UserPassesTestMixin, TemplateView):
     raise_exception = True
 
     def test_func(self):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
         return push_app.created_by(self.request.user)
 
     def get_context_data(self, **kwargs):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
 
         context = super(PushApplicationDetails,
                         self).get_context_data(**kwargs)
@@ -58,11 +59,11 @@ class ValidatePushApplication(UserPassesTestMixin, TemplateView):
     raise_exception = True
 
     def test_func(self):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
         return push_app.created_by(self.request.user)
 
     def get_context_data(self, **kwargs):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
 
         context = super(ValidatePushApplication,
                         self).get_context_data(**kwargs)
@@ -73,3 +74,9 @@ class ValidatePushApplication(UserPassesTestMixin, TemplateView):
         })
 
         return context
+
+    def post(self, request, pk, *args, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=pk)
+        push_app.validate_vapid_key(request.POST["signed_token"])
+        # TODO: add message
+        return redirect('push.details', pk=pk)
