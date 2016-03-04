@@ -146,6 +146,7 @@ PIPELINE = {
             'source_filenames': (
                 # Global
                 'css/layout.css',
+                'css/navigation.css',
                 'css/forms.css',
 
                 # Login page
