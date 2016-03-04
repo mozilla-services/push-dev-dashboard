@@ -22,6 +22,13 @@ VAPID_KEY_STATUS_CHOICES = (
 )
 
 
+class MessagesAPIError(Exception):
+    def __init__(self, message):
+        super(Exception, self).__init__(
+            "Error communicating with Push Messages API: %s" % message
+        )
+
+
 def generate_jws_key_token():
     return uuid.uuid4()
 
@@ -52,12 +59,28 @@ def extract_public_key(key_data):
 
 
 def get_autopush_endpoint():
-    endpoint = getattr(settings, 'AUTOPUSH_KEYS_ENDPOINT', None)
+    endpoint = getattr(settings, 'PUSH_MESSAGES_API_ENDPOINT', None)
     if not endpoint:
         raise ImproperlyConfigured(
-            "Must set AUTOPUSH_KEYS_ENDPOINT env var."
+            "Must set PUSH_MESSAGES_API_ENDPOINT env var."
         )
     return endpoint
+
+
+def push_messages_api_request(method, endpoint, json_data=None):
+    try:
+        resp = requests.request(method,
+                                get_autopush_endpoint() + endpoint,
+                                json=json_data,
+                                timeout=settings.PUSH_MESSAGES_API_TIMEOUT)
+    except requests.exceptions.RequestException as e:
+        raise MessagesAPIError(e.message)
+    if resp.status_code == 200:
+        return resp.json()
+    else:
+        raise MessagesAPIError("Status: %s; Content: %s" % (
+            resp.status_code, resp.content)
+        )
 
 
 class PushApplication(models.Model):
@@ -102,31 +125,19 @@ class PushApplication(models.Model):
             self.save()
 
     def start_recording(self):
-        try:
-            post_resp = self.post_key_to_autopush()
-            if 'status' in post_resp and post_resp['status'] == 'success':
-                self.vapid_key_status = 'recording'
-                self.save()
-        except requests.ConnectionError:
-            pass  # pass leaves status alone, which will retry POST later
+        post_resp_json = self.post_key_to_api()
+        if post_resp_json['status'] == 'success':
+            self.vapid_key_status = 'recording'
+            self.save()
 
-    def post_key_to_autopush(self):
-        # TODO: check timeout value
-        resp = requests.post(get_autopush_endpoint() + '/keys',
-                             json={'public-key': self.vapid_key})
-        if resp.status_code == 200:
-            return resp.json()
-        else:
-            return {}
+    def post_key_to_api(self):
+        return push_messages_api_request('post',
+                                         '/keys',
+                                         {'public-key': self.vapid_key})
 
     def get_messages(self):
-        messages_endpoint = (get_autopush_endpoint() +
-                             '/messages/%s' % self.vapid_key)
-        try:
-            resp = requests.get(messages_endpoint)
-            return resp.json()
-        except requests.ConnectionError:
-            return False
+        return push_messages_api_request('get',
+                                         '/messages/%s' % self.vapid_key)
 
     def created_by(self, user):
         return self.user == user

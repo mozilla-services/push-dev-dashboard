@@ -6,6 +6,7 @@ from uuid import UUID
 
 import ecdsa
 import fudge
+from fudge.inspector import arg
 import requests
 
 from django.conf import settings
@@ -16,7 +17,8 @@ from django.contrib.auth.models import User
 
 from model_mommy import mommy
 
-from .models import PushApplication, extract_public_key, get_autopush_endpoint
+from .models import PushApplication, MessagesAPIError
+from .models import extract_public_key, get_autopush_endpoint
 
 
 def _gen_keys():
@@ -26,7 +28,7 @@ def _gen_keys():
     return (signing_key, verifying_key, vapid_key)
 
 
-class PushApplicationTests(TestCase):
+class PushApplicationTestCase(TestCase):
     def setUp(self):
         self.user = mommy.make('auth.User')
         self.pa = PushApplication(user=self.user, name='test app')
@@ -58,6 +60,8 @@ class PushApplicationTests(TestCase):
             ]
         }
 
+
+class PushApplicationTests(PushApplicationTestCase):
     def test_default_values(self):
         self.assertEqual(u'pending', self.pa.vapid_key_status)
         self.assertEqual(None, self.pa.validated)
@@ -84,53 +88,6 @@ class PushApplicationTests(TestCase):
         self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
         self.assertEqual(u'invalid', self.pa.vapid_key_status)
 
-    @fudge.patch('push.models.PushApplication.post_key_to_autopush')
-    def test_start_recording_posts_and_sets_status(self,
-                                                   post_key_to_autopush):
-        post_key_to_autopush.expects_call().returns(
-            self.fake_post_response_json
-        )
-        self.pa.start_recording()
-        self.assertEqual('recording', self.pa.vapid_key_status)
-
-    @fudge.patch('push.models.PushApplication.post_key_to_autopush')
-    def test_start_recording_handles_connection_error(self,
-                                                      post_key_to_autopush):
-        pa = mommy.make(PushApplication, vapid_key_status='valid')
-        post_key_to_autopush.expects_call().raises(
-            requests.ConnectionError("broken")
-        )
-        pa.start_recording()
-        self.assertEqual('valid', pa.vapid_key_status)
-
-    @fudge.patch('requests.post')
-    def test_post_key_to_autopush_uses_requests_json(self, post):
-        pa = mommy.make(PushApplication, vapid_key_status='valid')
-        post.expects_call().returns(
-            fudge.Fake().has_attr(status_code=200).expects('json').returns(
-                self.fake_post_response_json
-            )
-        )
-        pa.post_key_to_autopush()
-
-    @fudge.patch('requests.get')
-    def test_get_messages_uses_requests_json(self, get):
-        pa = mommy.make(PushApplication, vapid_key_status='valid')
-        get.expects_call().returns(
-            fudge.Fake().expects('json').returns(
-                self.fake_get_response_json
-            )
-        )
-        pa.get_messages()
-
-    @fudge.patch('requests.get')
-    def test_get_messages_returns_False_on_connection_error(self, get):
-        pa = mommy.make(PushApplication, vapid_key_status='recording')
-        get.expects_call().raises(
-            requests.ConnectionError("broken")
-        )
-        self.assertEqual(False, pa.get_messages())
-
     @fudge.patch('requests.get')
     def test_created_by_returns_true_for_match(self, get):
         openjck = User.objects.create_user('openjck',
@@ -151,13 +108,79 @@ class PushApplicationTests(TestCase):
         self.assertFalse(pa.created_by(some_other_user))
 
 
+class PushApplicationMessagesAPITests(PushApplicationTestCase):
+    @fudge.patch('push.models.PushApplication.post_key_to_api')
+    def test_start_recording_calls_api_and_sets_status(self, post_key_to_api):
+        post_key_to_api.expects_call().returns(
+            self.fake_post_response_json
+        )
+        self.pa.start_recording()
+        self.assertEqual('recording', self.pa.vapid_key_status)
+
+    @fudge.patch('requests.request')
+    def test_post_key_to_api_uses_requests_json(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        request.expects_call().with_args(
+            'post',
+            arg.any(),
+            json={'public-key': pa.vapid_key},
+            timeout=arg.any()
+        ).returns(
+            fudge.Fake().has_attr(status_code=200).expects('json').returns(
+                self.fake_post_response_json
+            )
+        )
+        pa.post_key_to_api()
+
+    @fudge.patch('requests.request')
+    def test_post_key_to_api_MessagesAPIError_on_connection_error(self,
+                                                                  request):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        request.expects_call().raises(
+            requests.ConnectionError("broken")
+        )
+        with self.assertRaises(MessagesAPIError):
+            pa.post_key_to_api()
+        self.assertEqual('valid', pa.vapid_key_status)
+
+    @fudge.patch('requests.request')
+    def test_post_key_to_api_MessagesAPIError_on_status_500(self,
+                                                            request):
+        request.expects_call().returns(
+            fudge.Fake().has_attr(status_code=500, content='Status: 500')
+        )
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        with self.assertRaisesRegexp(MessagesAPIError, 'Status: 500'):
+            pa.post_key_to_api()
+        self.assertEqual('valid', pa.vapid_key_status)
+
+    @fudge.patch('requests.request')
+    def test_get_messages_uses_requests_json(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='valid')
+        request.expects_call().returns(
+            fudge.Fake().has_attr(status_code=200).expects('json').returns(
+                self.fake_get_response_json
+            )
+        )
+        pa.get_messages()
+
+    @fudge.patch('requests.request')
+    def test_get_messages_MessagesAPIError_on_connection_error(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        request.expects_call().raises(
+            requests.ConnectionError("broken")
+        )
+        with self.assertRaises(MessagesAPIError):
+            pa.get_messages()
+
+
 class GetAutopushEndpointTests(TestCase):
     def test_missing_value_raises_exception(self):
-        prev_value = settings.AUTOPUSH_KEYS_ENDPOINT
-        settings.AUTOPUSH_KEYS_ENDPOINT = None
+        prev_value = settings.PUSH_MESSAGES_API_ENDPOINT
+        settings.PUSH_MESSAGES_API_ENDPOINT = None
         with self.assertRaises(ImproperlyConfigured):
             get_autopush_endpoint()
-        settings.AUTOPUSH_KEYS_ENDPOINT = prev_value
+        settings.PUSH_MESSAGES_API_ENDPOINT = prev_value
 
 
 class ExtractPublicKeyTests(TestCase):
