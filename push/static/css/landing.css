@@ -1,12 +1,12 @@
-form#add-push-application input[type="submit"] {
-    display: block;
-}
-
 #datadog {
     width: 758px;
     height: 258px;
     border: 0;
     overflow: hidden;
     display: block;
-    margin: 20px auto;
+    margin: 0 auto 20px auto;
+}
+
+#cta {
+    text-align: center;
 }

@@ -7,12 +7,15 @@ from push.forms import PushAppForm, VapidValidationForm
 from push.models import PushApplication
 
 
-class PushApplicationLanding(LoginRequiredMixin, TemplateView):
+class PushApplicationLanding(TemplateView):
     template_name = 'push/landing.html'
 
+
+class PushApplications(LoginRequiredMixin, TemplateView):
+    template_name = 'push/applications.html'
+
     def get_context_data(self, **kwargs):
-        context = super(PushApplicationLanding,
-                        self).get_context_data(**kwargs)
+        context = super(PushApplications, self).get_context_data(**kwargs)
         context['domain_auth_form'] = DomainAuthForm()
         context['push_app_form'] = PushAppForm()
         domains = None

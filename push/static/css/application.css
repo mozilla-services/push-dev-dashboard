@@ -1,0 +1,3 @@
+form#add-push-application input[type="submit"] {
+    display: block;
+}
