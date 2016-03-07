@@ -17,8 +17,8 @@ from django.contrib.auth.models import User
 
 from model_mommy import mommy
 
-from .models import PushApplication, MessagesAPIError
-from .models import extract_public_key, get_autopush_endpoint
+from ..models import PushApplication, MessagesAPIError
+from ..models import extract_public_key, get_autopush_endpoint
 
 
 def _gen_keys():
