@@ -8,7 +8,7 @@ from django.utils import timezone
 
 from model_mommy import mommy
 
-from .models import DomainAuthorization
+from ..models import DomainAuthorization
 
 
 class DomainAuthorizationTests(TestCase):
