@@ -53,6 +53,11 @@
             </div>
         </div>
         <main class="row">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    {% block breadcrumbs %}{% endblock %}
+                </ul>
+            </nav>
             {% if messages %}
                 {% for message in messages %}
                 <div class="callout {{ message.tags }}" data-closable>

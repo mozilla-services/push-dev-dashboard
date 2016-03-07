@@ -1,6 +1,11 @@
 {% extends "dashboard/base.html" %}
 {% load socialaccount %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">Home</a></li>
+<li><span class="show-for-sr">Current: </span>Push</li>
+{% endblock %}
+
 {% block content %}
     <iframe id="datadog" src="https://p.datadoghq.com/sb/NsBIKn-0f8bfd3083" seamless="seamless" scrolling="no"></iframe>
     <div id="cta">

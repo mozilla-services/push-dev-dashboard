@@ -1,15 +1,49 @@
 {% extends "dashboard/base.html" %}
 
-{% block content %}
-    <h2>{{ name }}</h2>
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'push.landing' %}">Push</a></li>
+<li><span class="show-for-sr">Current: </span>{{ app.name }}</li>
+{% endblock %}
 
-    {% if vapid_key_status == 'valid' %}
-        <dl>
-            <dt>VAPID Key</dt>
-            <dd>{{ vapid_key_token }}</dd>
-        </dl>
-    {% else %}
-        <p>This application has not been validated.</p>
-        <a id="validate" class="button" href="{% url 'push.validate' id %}">Validate application</a>
+{% block content %}
+    <h2>{{ app.name }}</h2>
+    <dl>
+        <dt>VAPID Key</dt>
+        <dd>{{ app.vapid_key }}</dd>
+        <dt>VAPID Key Status</dt>
+        <dd>
+            {{ app.vapid_key_status }}
+            {% if app.vapid_key_status == 'pending' %}
+                <a class="validate button" href="{% url 'push.validate' app.id %}">Validate</a>
+            {% elif app.vapid_key_status == 'invalid' %}
+                <a class="validate button" href="{% url 'push.validate' app.id %}">Re-validate</a>
+            {% endif %}
+        </dd>
+    </dl>
+    {% if app.vapid_key_status == 'recording' %}
+    <h3>Messages</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Size</th>
+                <th>TTL</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in app_messages %}
+            <tr>
+                <td>{{ message.id|truncatechars:20 }}</td>
+                <td>{{ message.timestamp }}</td>
+                <td>{{ message.size }}</td>
+                <td>{{ message.ttl }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="center">No messages to display</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -5,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from domains.forms import DomainAuthForm
 from domains.models import DomainAuthorization
 from push.forms import PushAppForm, VapidValidationForm
-from push.models import PushApplication
+from push.models import PushApplication, MessagesAPIError
 
 
 class PushApplicationLanding(TemplateView):
@@ -44,11 +45,14 @@ class PushApplicationDetails(UserPassesTestMixin, TemplateView):
 
         context = super(PushApplicationDetails,
                         self).get_context_data(**kwargs)
+        try:
+            app_messages = push_app.get_messages()
+        except MessagesAPIError as e:
+            app_messages = {'messages': []}
+            messages.warning(self.request, e.message)
         context.update({
-            'id': push_app.id,
-            'name': push_app.name,
-            'vapid_key_status': push_app.vapid_key_status,
-            'vapid_key_token': push_app.vapid_key_token,
+            'app': push_app,
+            'app_messages': app_messages['messages']
         })
 
         return context
