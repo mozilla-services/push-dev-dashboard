@@ -38,7 +38,7 @@ class DomainAuthorizationTests(TestCase):
         da2 = DomainAuthorization(user=self.user, domain='test.com')
         self.assertNotEqual(self.da.token, da2.token)
 
-    # patch out the actual DNS request
+    # patch out the model DNS method
     @fudge.patch('domains.models.DomainAuthorization.get_dns_txt_record')
     def test_validate_dns_type(self, get_dns_txt_record):
         fake_record = fudge.Fake().has_attr(
