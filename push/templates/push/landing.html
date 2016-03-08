@@ -7,7 +7,7 @@
         {% if request.user.is_authenticated %}
             <a class="button" href="{% url 'push.applications' %}">Manage push applications</a>
         {% else %}
-        <p><a href="{% provider_login_url "fxa" %}">Sign in</a> to track your push applications</p>
+        <p><a href="{% provider_login_url "fxa" %}?next={{ request.path }}">Sign in</a> to track your push applications</p>
         {% endif %}
     </div>
 {% endblock %}
