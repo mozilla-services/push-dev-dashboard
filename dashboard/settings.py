@@ -146,6 +146,7 @@ PIPELINE = {
             'source_filenames': (
                 # Global
                 'css/layout.css',
+                'css/navigation.css',
                 'css/forms.css',
 
                 # Login page
@@ -153,6 +154,9 @@ PIPELINE = {
 
                 # Push applicaton landing page
                 'css/landing.css',
+
+                # Push applications page
+                'css/applications.css',
 
                 # Push application validation page
                 'css/validate.css',
