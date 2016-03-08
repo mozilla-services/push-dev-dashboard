@@ -67,7 +67,7 @@
         {% for app in push_apps %}
             <tr>
                 <td>
-                    {% if app.vapid_key_status == 'recording' %}
+                    {% if app.recording %}
                         <a href="{% url 'push.details' app.id %}">{{ app.name }}</a>
                     {% else %}
                         {{ app.name }}
@@ -76,7 +76,7 @@
                 <td>{{ app.vapid_key|truncatechars:20 }}</td>
                 <td>
                     {{ app.vapid_key_status }}
-                    {% if app.vapid_key_status == 'pending' or app.vapid_key_status == 'invalid'%}
+                    {% if app.can_validate %}
                         <a class="button" href="{% url 'push.validate' app.id %}">Validate</a>
                     {% endif %}
                 </td>

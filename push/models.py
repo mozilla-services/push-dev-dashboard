@@ -103,6 +103,18 @@ class PushApplication(models.Model):
     def __unicode__(self):
         return "%s: %s" % (self.user.username, self.name)
 
+    def can_validate(self):
+        return self.vapid_key_status in ['pending', 'invalid']
+
+    def valid(self):
+        return self.vapid_key_status in ['valid', 'recording']
+
+    def invalid(self):
+        return self.vapid_key_status == 'invalid'
+
+    def recording(self):
+        return self.vapid_key_status == 'recording'
+
     def validate_vapid_key(self, b64_signed_token):
         try:
             key_data = urlsafe_b64decode(str(self.vapid_key))

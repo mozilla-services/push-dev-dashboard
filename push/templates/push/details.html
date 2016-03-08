@@ -15,14 +15,12 @@
         <dt>VAPID Key Status</dt>
         <dd>
             {{ app.vapid_key_status }}
-            {% if app.vapid_key_status == 'pending' %}
+            {% if app.can_validate %}
                 <a class="validate button" href="{% url 'push.validate' app.id %}">Validate</a>
-            {% elif app.vapid_key_status == 'invalid' %}
-                <a class="validate button" href="{% url 'push.validate' app.id %}">Re-validate</a>
             {% endif %}
         </dd>
     </dl>
-    {% if app.vapid_key_status == 'recording' %}
+    {% if app.recording %}
     <h3>Messages</h3>
     <table>
         <thead>
