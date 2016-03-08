@@ -7,22 +7,13 @@ body {
     margin: 0 0 100px;
 }
 
-.top-bar {
-    background-color: #424F5A;
-    color: #fff;
-}
-
-.top-bar a {
-    color: #fff;
-}
-
-.top-bar ul {
-    background-color: #424F5A;
-}
-
 main {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+a {
+    color: #00549E;
 }
 
 form {
@@ -32,6 +23,35 @@ form {
 footer {
     height: 100px;
     width: 100%;
+}
+
+.top-bar {
+    background: #1e1e21;
+    background-image: -webkit-radial-gradient(top left,ellipse farthest-side,#00549e 0,rgba(0,0,0,0) 100%);
+    background-image: radial-gradient(ellipse farthest-side at top left,#00549e 0,rgba(0,0,0,0) 100%);
+    background-size: 100% 500px;
+    background-repeat: no-repeat;
+    background-position: top center_insert_eventr;
+}
+
+.top-bar a {
+    color: #fff;
+}
+
+.top-bar ul {
+    background-color: transparent;
+}
+
+.top-bar ul.submenu {
+    background-color: #00549E;
+}
+
+.breadcrumbs a {
+    color: #00549E;
+}
+
+.button {
+    background-color: #00549E;
 }
 
 .center {

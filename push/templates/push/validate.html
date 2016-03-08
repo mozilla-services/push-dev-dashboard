@@ -1,13 +1,24 @@
 {% extends "dashboard/base.html" %}
 
-{% block content %}
-    <p>Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token.  Instructions for signing the token. Instructions for signing the token:</p>
-    <span id="vapid-key-token">{{ vapid_key_token }}</span>
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'push.landing' %}">Push</a></li>
+<li><a href="{% url 'push.applications' %}">Applications</a></li>
+<li><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></li>
+<li><span class="show-for-sr">Current: </span>Validate</li>
+{% endblock %}
 
-    <form id="vapid-validation" action="{% url 'push.validate' id %}" method="POST">
+{% block content %}
+    <p>To verify you own the signing key for your app, please sign the following token using the same key you use to sign this application's VAPID JWT, and paste the url-safe, base64-encoded value below.</p>
+    <dl>
+        <dt>Token:</dt>
+        <dd>{{ app.vapid_key_token }}</dd>
+    </dl>
+
+    <form id="vapid-validation" action="{% url 'push.validate' app.id %}" method="POST">
         {% csrf_token %}
 
-        <label for="{{ vapid_validation_form.signed_token.auto_id }}">Signed token:</label>
+        <label for="{{ vapid_validation_form.signed_token.auto_id }}">URL-safe, base64-encoded signed token:</label>
         {{ vapid_validation_form.signed_token }}
 
         <input type="submit" class="button" value="Validate">

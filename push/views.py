@@ -72,8 +72,7 @@ class ValidatePushApplication(UserPassesTestMixin, TemplateView):
         context = super(ValidatePushApplication,
                         self).get_context_data(**kwargs)
         context.update({
-            'id': push_app.id,
-            'vapid_key_token': push_app.vapid_key_token,
+            'app': push_app,
             'vapid_validation_form': VapidValidationForm(),
         })
 
@@ -82,5 +81,8 @@ class ValidatePushApplication(UserPassesTestMixin, TemplateView):
     def post(self, request, pk, *args, **kwargs):
         push_app = get_object_or_404(PushApplication, pk=pk)
         push_app.validate_vapid_key(request.POST["signed_token"])
-        # TODO: add message
+        if push_app.vapid_key_status in ['valid', 'recording']:
+            messages.success(self.request, "VAPID Key validated.")
+        elif push_app.vapid_key_status == 'invalid':
+            messages.warning(self.request, "Invalid signature.")
         return redirect('push.details', pk=pk)

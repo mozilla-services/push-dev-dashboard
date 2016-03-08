@@ -1,4 +1,21 @@
 {% extends "dashboard/base.html" %}
+{% load socialaccount %}
+{% load staticfiles %}
 
 {% block content %}
+<div class="row">
+    <div class="large-6 columns">
+        <h2>Monitor your apps in Firefox</h2>
+        <p>Firefox Developer Services Dashboard shows how your apps and sites
+        are using Mozilla services.</p>
+        {% if not request.user.is_authenticated %}
+            <a class="button" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
+        {% else %}
+            <a class="button" href="{% url 'push.applications' %}">Manage your applications</a>
+        {% endif %}
+    </div>
+    <div class="large-6 columns">
+        <img src="{% static "img/screenshot.png"%}" />
+    </div>
+</div>
 {% endblock %}
