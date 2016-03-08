@@ -68,6 +68,28 @@ class PushApplicationTests(PushApplicationTestCase):
         self.assertIsInstance(self.pa.vapid_key_token, UUID)
         self.assertEqual(4, self.pa.vapid_key_token.version)
 
+    def test_status_shortcut_methods(self):
+        pending_app = PushApplication()
+        valid_app = PushApplication(vapid_key_status='valid')
+        invalid_app = PushApplication(vapid_key_status='invalid')
+        recording_app = PushApplication(vapid_key_status='recording')
+
+        self.assertTrue(pending_app.can_validate())
+        self.assertTrue(invalid_app.can_validate())
+        self.assertFalse(valid_app.can_validate())
+        self.assertFalse(recording_app.can_validate())
+
+        self.assertTrue(valid_app.valid())
+        self.assertTrue(recording_app.valid())
+        self.assertFalse(invalid_app.valid())
+        self.assertFalse(pending_app.valid())
+
+        self.assertTrue(invalid_app.invalid())
+        self.assertFalse(valid_app.invalid())
+
+        self.assertTrue(recording_app.recording())
+        self.assertFalse(pending_app.recording())
+
     def test_same_app_name_gets_unique_token_value(self):
         pa2 = PushApplication(user=self.user, name=u'test app')
         self.assertNotEqual(self.pa.vapid_key_token, pa2.vapid_key_token)
