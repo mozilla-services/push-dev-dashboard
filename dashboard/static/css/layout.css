@@ -8,21 +8,7 @@ body {
 }
 
 main {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-a {
-    color: #00549E;
-}
-
-form {
-    margin: 20px 0;
-}
-
-footer {
-    height: 100px;
-    width: 100%;
+    margin: 20px auto;
 }
 
 .top-bar {
@@ -31,7 +17,7 @@ footer {
     background-image: radial-gradient(ellipse farthest-side at top left,#00549e 0,rgba(0,0,0,0) 100%);
     background-size: 100% 500px;
     background-repeat: no-repeat;
-    background-position: top center_insert_eventr;
+    background-position: top center;
 }
 
 .top-bar a {
@@ -54,6 +40,6 @@ footer {
     background-color: #00549E;
 }
 
-.center {
+#sign-in-notice {
     text-align: center;
 }

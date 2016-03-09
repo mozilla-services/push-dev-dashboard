@@ -145,9 +145,10 @@ PIPELINE = {
         'dashboard': {
             'source_filenames': (
                 # Global
+                'css/elements.css',
+                'css/forms.css',
                 'css/layout.css',
                 'css/navigation.css',
-                'css/forms.css',
 
                 # Login page
                 'css/login.css',
@@ -157,9 +158,6 @@ PIPELINE = {
 
                 # Push applications page
                 'css/applications.css',
-
-                # Push application validation page
-                'css/validate.css',
             ),
             'output_filename': 'css/dashboard.css',
         },

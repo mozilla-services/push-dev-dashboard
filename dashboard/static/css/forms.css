@@ -1,3 +1,7 @@
+form {
+    margin: 20px 0;
+}
+
 label {
     float: left;
 }
@@ -28,4 +32,5 @@ textarea, input {
     cursor: default;
     font-size: .7em;
     margin-top: 2px;
+    text-align: center;
 }
