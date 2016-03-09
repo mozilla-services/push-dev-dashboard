@@ -158,6 +158,9 @@ PIPELINE = {
 
                 # Push applications page
                 'css/applications.css',
+
+                # Push application details page
+                'css/details.css',
             ),
             'output_filename': 'css/dashboard.css',
         },
