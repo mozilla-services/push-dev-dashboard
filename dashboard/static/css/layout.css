@@ -7,9 +7,17 @@ body {
     margin: 0 0 100px;
 }
 
+main {
+    margin: 20px auto;
+}
+
 .top-bar {
-    background-color: #424F5A;
-    color: #fff;
+    background: #1e1e21;
+    background-image: -webkit-radial-gradient(top left,ellipse farthest-side,#00549e 0,rgba(0,0,0,0) 100%);
+    background-image: radial-gradient(ellipse farthest-side at top left,#00549e 0,rgba(0,0,0,0) 100%);
+    background-size: 100% 500px;
+    background-repeat: no-repeat;
+    background-position: top center;
 }
 
 .top-bar a {
@@ -17,19 +25,21 @@ body {
 }
 
 .top-bar ul {
-    background-color: #424F5A;
+    background-color: transparent;
 }
 
-main {
-    margin-top: 20px;
-    margin-bottom: 20px;
+.top-bar ul.submenu {
+    background-color: #00549E;
 }
 
-form {
-    margin: 20px 0;
+.breadcrumbs a {
+    color: #00549E;
 }
 
-footer {
-    height: 100px;
-    width: 100%;
+.button {
+    background-color: #00549E;
+}
+
+#sign-in-notice {
+    text-align: center;
 }

@@ -1,13 +1,15 @@
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from domains.forms import DomainAuthForm
 from domains.models import DomainAuthorization
 from push.forms import PushAppForm, VapidValidationForm
-from push.models import PushApplication
+from push.models import PushApplication, MessagesAPIError
 
 
-class PushApplicationLanding(TemplateView):
+class Landing(TemplateView):
     template_name = 'push/landing.html'
 
 
@@ -30,46 +32,54 @@ class PushApplications(LoginRequiredMixin, TemplateView):
         return context
 
 
-class PushApplicationDetails(UserPassesTestMixin, TemplateView):
+class UserOwnsPushAppMixin(UserPassesTestMixin):
+    def test_func(self):
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
+        return push_app.created_by(self.request.user)
+
+
+class Details(UserOwnsPushAppMixin, TemplateView):
     template_name = 'push/details.html'
     raise_exception = True
 
-    def test_func(self):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
-        return push_app.created_by(self.request.user)
-
     def get_context_data(self, **kwargs):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=kwargs['pk'])
 
-        context = super(PushApplicationDetails,
-                        self).get_context_data(**kwargs)
+        context = super(Details, self).get_context_data(**kwargs)
+        app_messages = {'messages': []}
+        try:
+            app_messages = push_app.get_messages()
+        except MessagesAPIError as e:
+            messages.warning(self.request, e.message)
         context.update({
-            'id': push_app.id,
-            'name': push_app.name,
-            'vapid_key_status': push_app.vapid_key_status,
-            'vapid_key_token': push_app.vapid_key_token,
+            'app': push_app,
+            'app_messages': app_messages['messages']
         })
 
         return context
 
 
-class ValidatePushApplication(UserPassesTestMixin, TemplateView):
+class ValidatePushApplication(UserOwnsPushAppMixin, TemplateView):
     template_name = 'push/validate.html'
     raise_exception = True
 
-    def test_func(self):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
-        return push_app.created_by(self.request.user)
-
     def get_context_data(self, **kwargs):
-        push_app = PushApplication.objects.get(pk=self.kwargs['pk'])
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
 
         context = super(ValidatePushApplication,
                         self).get_context_data(**kwargs)
         context.update({
-            'id': push_app.id,
-            'vapid_key_token': push_app.vapid_key_token,
+            'app': push_app,
             'vapid_validation_form': VapidValidationForm(),
         })
 
         return context
+
+    def post(self, request, pk, *args, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=pk)
+        push_app.validate_vapid_key(request.POST["signed_token"])
+        if push_app.valid:
+            messages.success(self.request, "VAPID Key validated.")
+        elif push_app.invalid:
+            messages.warning(self.request, "Invalid signature.")
+        return redirect('push.details', pk=pk)

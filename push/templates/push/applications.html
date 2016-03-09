@@ -1,6 +1,12 @@
 {% extends "dashboard/base.html" %}
 {% load waffle_tags %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'push.landing' %}">Push</a></li>
+<li><span class="show-for-sr">Current: </span>Applications</li>
+{% endblock %}
+
 {% block content %}
     {% switch "domains_enabled" %}
     <h3>Domain Authorizations</h3>
@@ -54,13 +60,26 @@
             <tr>
                 <th>Name</th>
                 <th>VAPID Key</th>
+                <th>VAPID Key Status</th>
             </tr>
         </thead>
         <tbody>
         {% for app in push_apps %}
             <tr>
-                <td><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></td>
-                <td>{{ app.vapid_key }}</td>
+                <td>
+                    {% if app.recording %}
+                        <a href="{% url 'push.details' app.id %}">{{ app.name }}</a>
+                    {% else %}
+                        {{ app.name }}
+                    {% endif %}
+                </td>
+                <td>{{ app.vapid_key|truncatechars:20 }}</td>
+                <td>
+                    {{ app.vapid_key_status }}
+                    {% if app.can_validate %}
+                        <a class="button" href="{% url 'push.validate' app.id %}">Validate</a>
+                    {% endif %}
+                </td>
         {% endfor %}
         </tbody>
     </table>
