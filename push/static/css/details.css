@@ -1,0 +1,7 @@
+#push-app-info .button {
+    margin-left: 5px;
+}
+
+#push-app-info dt:not(:first-child) {
+    margin-top: 10px;
+}
