@@ -11,3 +11,8 @@ nav#main-navigation {
 nav#account-management {
     float: right;
 }
+
+nav#account-management .fa-firefox {
+    margin-right: 0;
+    vertical-align: baseline;
+}
