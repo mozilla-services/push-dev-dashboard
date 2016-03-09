@@ -44,7 +44,7 @@
                                 <li><a href="{% url 'account_logout' %}">Sign out</a></li>
                             {% else %}
                                 <li>
-                                <a class="button" href="{% provider_login_url "fxa" %}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
+                                    <a class="button" href="{% provider_login_url "fxa" %}?next={{ request.path }}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
                                 </li>
                             {% endif %}
                         </ul>
