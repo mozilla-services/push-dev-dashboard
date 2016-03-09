@@ -9,7 +9,7 @@ from push.forms import PushAppForm, VapidValidationForm
 from push.models import PushApplication, MessagesAPIError
 
 
-class PushApplicationLanding(TemplateView):
+class Landing(TemplateView):
     template_name = 'push/landing.html'
 
 
@@ -32,23 +32,24 @@ class PushApplications(LoginRequiredMixin, TemplateView):
         return context
 
 
-class PushApplicationDetails(UserPassesTestMixin, TemplateView):
-    template_name = 'push/details.html'
-    raise_exception = True
-
+class UserOwnsPushAppMixin(UserPassesTestMixin):
     def test_func(self):
         push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
         return push_app.created_by(self.request.user)
 
-    def get_context_data(self, **kwargs):
-        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
 
-        context = super(PushApplicationDetails,
-                        self).get_context_data(**kwargs)
+class Details(UserOwnsPushAppMixin, TemplateView):
+    template_name = 'push/details.html'
+    raise_exception = True
+
+    def get_context_data(self, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=kwargs['pk'])
+
+        context = super(Details, self).get_context_data(**kwargs)
+        app_messages = {'messages': []}
         try:
             app_messages = push_app.get_messages()
         except MessagesAPIError as e:
-            app_messages = {'messages': []}
             messages.warning(self.request, e.message)
         context.update({
             'app': push_app,
@@ -58,13 +59,9 @@ class PushApplicationDetails(UserPassesTestMixin, TemplateView):
         return context
 
 
-class ValidatePushApplication(UserPassesTestMixin, TemplateView):
+class ValidatePushApplication(UserOwnsPushAppMixin, TemplateView):
     template_name = 'push/validate.html'
     raise_exception = True
-
-    def test_func(self):
-        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
-        return push_app.created_by(self.request.user)
 
     def get_context_data(self, **kwargs):
         push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])

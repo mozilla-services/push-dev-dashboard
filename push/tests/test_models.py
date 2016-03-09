@@ -19,6 +19,7 @@ from model_mommy import mommy
 
 from ..models import PushApplication, MessagesAPIError
 from ..models import extract_public_key, get_autopush_endpoint
+from . import messages_api_response_json_messages
 
 
 def _gen_keys():
@@ -44,20 +45,7 @@ class PushApplicationTestCase(TestCase):
         }
         self.fake_get_response_json = {
             'public-key': self.pa.vapid_key,
-            'messages': [
-                {
-                    'id': 'ABCdef123456',
-                    'timestamp': '2016-02-24T17:24:45.737Z',
-                    'size': 321,
-                    'ttl': 86400
-                },
-                {
-                    'id': 'GHIjkl789101',
-                    'timestamp': '2016-02-24T17:24:45.314Z',
-                    'size': 0,
-                    'ttl': 0
-                }
-            ]
+            'messages': messages_api_response_json_messages
         }
 
 
