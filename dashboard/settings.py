@@ -172,6 +172,15 @@ PIPELINE = {
             'output_filename': 'css/dashboard.css',
         },
     },
+    'JAVASCRIPT': {
+        'dashboard': {
+            'source_filenames': (
+                'js/analytics.js',
+                'js/sign_in.js'
+            ),
+            'output_filename': 'js/dashboard.js'
+        }
+    }
 }
 
 # django-allauth

@@ -85,6 +85,8 @@
     <script src="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.js"></script>
     <script>
         $(document).foundation();
+        window.dashboard = {};
     </script>
+    {% javascript 'dashboard' %}
     {% block post_script %}{% endblock %}
 </html>
