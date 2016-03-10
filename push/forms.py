@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form, CharField, Textarea
+from django.forms import ModelForm, Form, CharField
 
 from .models import PushApplication
 
@@ -10,4 +10,4 @@ class PushAppForm(ModelForm):
 
 
 class VapidValidationForm(Form):
-    signed_token = CharField(widget=Textarea)
+    signed_token = CharField()
