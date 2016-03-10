@@ -1,5 +1,12 @@
 {
-    "dependencies": {
-        "yuglify": "^0.1.4"
-    }
+  "scripts": {
+    "test": "eslint dashboard/static/js/*.js; csslint --quiet --warnings=' ' dashboard/static/css/*.css push/static/css/*.css"
+  },
+  "dependencies": {
+    "yuglify": "^0.1.4"
+  },
+  "devDependencies": {
+    "csslint": "^0.10.0",
+    "eslint": "^2.3.0"
+  }
 }
