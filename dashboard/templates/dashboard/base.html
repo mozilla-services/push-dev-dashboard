@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         {% stylesheet 'dashboard' %}
         {% block stylesheets %}{% endblock %}
+        {% include "includes/google_analytics.html" %}
     </head>
     <body>
       <div data-sticky-container>
@@ -84,6 +85,8 @@
     <script src="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.js"></script>
     <script>
         $(document).foundation();
+        window.dashboard = {};
     </script>
+    {% javascript 'dashboard' %}
     {% block post_script %}{% endblock %}
 </html>

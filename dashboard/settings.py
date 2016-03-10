@@ -87,6 +87,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'dashboard.context_processors.conf_settings'
             ],
         },
     },
@@ -170,6 +172,15 @@ PIPELINE = {
             'output_filename': 'css/dashboard.css',
         },
     },
+    'JAVASCRIPT': {
+        'dashboard': {
+            'source_filenames': (
+                'js/analytics.js',
+                'js/sign_in.js'
+            ),
+            'output_filename': 'js/dashboard.js'
+        }
+    }
 }
 
 # django-allauth
@@ -209,3 +220,6 @@ SITE_ID = 1
 # TODO: Set real stage/prod AUTOPUSH_KEYS_ENDPOINT
 PUSH_MESSAGES_API_ENDPOINT = config('PUSH_MESSAGES_API_ENDPOINT', None)
 PUSH_MESSAGES_API_TIMEOUT = 3.05
+
+# Google Analytics
+GOOGLE_ANALYTICS_ACCOUNT = config('GOOGLE_ANALYTICS_ACCOUNT', None)
