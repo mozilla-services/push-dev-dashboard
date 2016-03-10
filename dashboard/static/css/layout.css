@@ -24,6 +24,23 @@ main {
     color: #fff;
 }
 
+.top-bar-title a::before {
+    background-image: url('/static/img/firefox-logo.png');
+    background-size: 38px;
+    content: ' ';
+    display: block;
+    float: left;
+    height: 38px;
+    margin-right: 10px;
+    width: 38px;
+}
+
+.top-bar-title a {
+    font-weight: bold;
+    position: relative;
+    top: 6px;
+}
+
 .top-bar ul {
     background-color: transparent;
 }
