@@ -1,7 +1,7 @@
 {% load socialaccount %}
 <div class="sign-in-area">
     <a class="button sign-in-btn" href="{% provider_login_url "fxa" %}?next={{ request.path }}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>
-    {% if debug %}
+    {% if 'dev.lcip.org' in settings.SOCIALACCOUNT_PROVIDERS.fxa.OAUTH_ENDPOINT %}
     <div class="callout warning sign-in-tooltip">Note: Using dev FxA Environment</div>
     {% endif %}
 </div>
