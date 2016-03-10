@@ -28,7 +28,7 @@ Install Locally
 
 #. `Install requirements`_::
 
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
 #. Source the ``.env`` file to set environment config vars (Can also use `autoenv`_)::
 
