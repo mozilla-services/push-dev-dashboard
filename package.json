@@ -1,5 +1,12 @@
 {
-    "dependencies": {
-        "yuglify": "^0.1.4"
-    }
+  "scripts": {
+    "test": "eslint --ignore-pattern 'staticfiles/**/*.js' --ignore-pattern 'env/**/*.js' .; csslint --quiet --exclude-list='node_modules,staticfiles,env' --warnings=' ' ."
+  },
+  "dependencies": {
+    "yuglify": "^0.1.4"
+  },
+  "devDependencies": {
+    "csslint": "^0.10.0",
+    "eslint": "^2.3.0"
+  }
 }

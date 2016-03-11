@@ -5,12 +5,14 @@ Requirements
 ------------
 
 * `postgres`_ for database
-* `python`_ 2.7, `virtualenv`_, & `pip`_ for app server
+* `python`_ 2.7, `virtualenv`_, `pip`_ for app server
+* `npm`_ for front-end testing
 
 .. _postgres: https://wiki.postgresql.org/wiki/Detailed_installation_guides
 .. _python: https://www.python.org/
 .. _virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 .. _pip: https://pip.readthedocs.org/en/latest/
+.. _npm: https://www.npmjs.com/
 
 
 Install Locally
@@ -94,10 +96,12 @@ Run the Tests
 #. Install test requirements::
 
     pip install -r requirements-test.txt
+    npm install
 
-#. Running the test suite::
+#. Run the test suites::
 
     python manage.py test
+    npm test
 
 
 Working on Docs

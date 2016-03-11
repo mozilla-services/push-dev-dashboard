@@ -58,9 +58,14 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    INSTALLED_APPS += [
-        'debug_toolbar'
-    ]
+    try:
+        import debug_toolbar
+        assert debug_toolbar
+        INSTALLED_APPS += [
+            'debug_toolbar'
+        ]
+    except:
+        pass
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
