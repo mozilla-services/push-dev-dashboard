@@ -47,4 +47,4 @@ COPY . /usr/src/app
 RUN python manage.py collectstatic --no-input
 
 EXPOSE 8000
-CMD exec newrelic-admin run-program gunicorn dashboard.wsgi --log-file - --workers $WORKERS --bind 0.0.0.0:8000
+CMD exec newrelic-admin run-program gunicorn dashboard.wsgi --log-file - --workers $WORKERS --bind 0.0.0.0:${PORT:-8000}
