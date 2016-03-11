@@ -5,7 +5,8 @@ Requirements
 ------------
 
 * `postgres`_ for database
-* `python`_ 2.7, `virtualenv`_, `pip`_ for app server, & `npm`_ for front-end testing
+* `python`_ 2.7, `virtualenv`_, `pip`_ for app server
+* `npm`_ for front-end testing
 
 .. _postgres: https://wiki.postgresql.org/wiki/Detailed_installation_guides
 .. _python: https://www.python.org/
