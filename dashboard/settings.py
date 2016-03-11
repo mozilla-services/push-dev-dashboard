@@ -157,9 +157,9 @@ PIPELINE = {
         'dashboard': {
             'source_filenames': (
                 # Global
+                'css/main.css',
                 'css/elements.css',
                 'css/forms.css',
-                'css/layout.css',
                 'css/navigation.css',
 
                 # Login page

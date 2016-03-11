@@ -1,3 +1,7 @@
+#sign-in-notice {
+    text-align: center;
+}
+
 .sign-in-tooltip {
     transition: transform 300ms, opacity 300ms;
     transform: translateY(-1em);
@@ -6,6 +10,7 @@
     position: absolute;
     display: inline-block;
 }
+
 .sign-in-area:hover .sign-in-tooltip {
     transform: translateY(0);
     opacity: 1;
