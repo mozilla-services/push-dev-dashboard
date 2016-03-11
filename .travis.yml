@@ -4,7 +4,8 @@ python:
 env:
     matrix:
         - TOXENV=py27
-        - TOXENV=style
+        - TOXENV=back-style
+        - TOXENV=front-style
         - TOXENV=docs
 install:
     - pip install tox
