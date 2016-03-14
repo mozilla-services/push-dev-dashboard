@@ -13,11 +13,11 @@ class Landing(TemplateView):
     template_name = 'push/landing.html'
 
 
-class PushApplications(LoginRequiredMixin, TemplateView):
-    template_name = 'push/applications.html'
+class List(LoginRequiredMixin, TemplateView):
+    template_name = 'push/list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PushApplications, self).get_context_data(**kwargs)
+        context = super(List, self).get_context_data(**kwargs)
         context['domain_auth_form'] = DomainAuthForm()
         context['push_app_form'] = PushAppForm()
         domains = None
@@ -59,15 +59,14 @@ class Details(UserOwnsPushAppMixin, TemplateView):
         return context
 
 
-class ValidatePushApplication(UserOwnsPushAppMixin, TemplateView):
-    template_name = 'push/validate.html'
+class Validation(UserOwnsPushAppMixin, TemplateView):
+    template_name = 'push/validation.html'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
         push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
 
-        context = super(ValidatePushApplication,
-                        self).get_context_data(**kwargs)
+        context = super(Validation, self).get_context_data(**kwargs)
         context.update({
             'app': push_app,
             'vapid_validation_form': VapidValidationForm(),

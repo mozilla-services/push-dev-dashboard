@@ -10,7 +10,7 @@
     <iframe id="datadog" src="https://p.datadoghq.com/sb/NsBIKn-0f8bfd3083" seamless="seamless" scrolling="no"></iframe>
     <div id="cta">
         {% if request.user.is_authenticated %}
-            <a class="button" href="{% url 'push.applications' %}">Manage push applications</a>
+            <a class="button" href="{% url 'push.list' %}">Manage push applications</a>
         {% else %}
         <p><a href="{% provider_login_url "fxa" %}?next={{ request.path }}">Sign in</a> to track your push applications</p>
         {% endif %}

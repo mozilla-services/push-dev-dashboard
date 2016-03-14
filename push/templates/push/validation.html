@@ -3,7 +3,7 @@
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">Home</a></li>
 <li><a href="{% url 'push.landing' %}">Push</a></li>
-<li><a href="{% url 'push.applications' %}">Applications</a></li>
+<li><a href="{% url 'push.list' %}">Applications</a></li>
 <li><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></li>
 <li><span class="show-for-sr">Current: </span>Validate</li>
 {% endblock %}
@@ -15,7 +15,7 @@
         <dd>{{ app.vapid_key_token }}</dd>
     </dl>
 
-    <form id="vapid-validation" action="{% url 'push.validate' app.id %}" method="POST">
+    <form id="vapid-validation" action="{% url 'push.validation' app.id %}" method="POST">
         {% csrf_token %}
 
         <label for="{{ vapid_validation_form.signed_token.auto_id }}">URL-safe, base64-encoded signed token:</label>

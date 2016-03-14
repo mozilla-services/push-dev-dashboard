@@ -6,13 +6,13 @@ urlpatterns = [
     url(r'^$', push_views.Landing.as_view(), name="push.landing"),
 
     url(r'^apps/$',
-        push_views.PushApplications.as_view(),
-        name='push.applications'),
+        push_views.List.as_view(),
+        name='push.list'),
 
     url(r'^apps/(?P<pk>[0-9]+)/$', push_views.Details.as_view(),
         name='push.details'),
 
-    url(r'^apps/(?P<pk>[0-9]+)/validate/$',
-        push_views.ValidatePushApplication.as_view(),
-        name='push.validate'),
+    url(r'^apps/(?P<pk>[0-9]+)/validation/$',
+        push_views.Validation.as_view(),
+        name='push.validation'),
 ]
