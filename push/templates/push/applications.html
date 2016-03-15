@@ -117,7 +117,13 @@ function formSubmit(e) {
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
     });
 
-    api_call.always(function() {
+    api_call.fail(function(jqXHR) {
+      $.each(jqXHR.responseJSON, function(index, element) {
+        $('#id_' + index).after('<div class="alert callout">' + element + '</div>');
+      });
+    });
+
+    api_call.success(function() {
         window.location.reload();
     });
 }

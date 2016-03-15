@@ -87,7 +87,7 @@ class PushApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     vapid_key = models.CharField(
-        blank=True, max_length=255,
+        blank=False, max_length=255,
         help_text="VAPID p256ecdsa value; url-safe base-64 encoded."
     )
     vapid_key_status = models.CharField(max_length=255,
