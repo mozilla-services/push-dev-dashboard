@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: Fira Sans;
+    font-family: "Fira Sans";
     margin: 0 0 100px;
 }
 
@@ -25,7 +25,7 @@ main {
 }
 
 .top-bar-title a::before {
-    background-image: url('/static/img/firefox-logo.png');
+    background-image: url('../img/firefox-logo.png');
     background-size: 38px;
     content: ' ';
     display: block;
@@ -41,22 +41,11 @@ main {
     top: 6px;
 }
 
-.top-bar ul {
-    background-color: transparent;
-}
-
-.top-bar ul.submenu {
-    background-color: #00549E;
-}
-
 .breadcrumbs a {
     color: #00549E;
 }
 
 .button {
     background-color: #00549E;
-}
-
-#sign-in-notice {
-    text-align: center;
+    margin: 0;
 }

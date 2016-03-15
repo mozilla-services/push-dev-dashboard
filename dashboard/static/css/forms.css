@@ -2,11 +2,11 @@ form {
     margin: 20px 0;
 }
 
-label {
+form label {
     float: left;
 }
 
-label + .question-mark-tip {
+form label + .question-mark-tip {
     float: left;
     margin-left: 10px;
 }
