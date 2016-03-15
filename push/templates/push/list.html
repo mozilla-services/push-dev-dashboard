@@ -86,7 +86,7 @@
     {% else %}
         <p>No push apps found.</p>
     {% endif %}
-    <form id="add-push-application" action="{% url 'pushapplication-list' %}" method="POST">
+    <form id="add-push-application" action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
         {% csrf_token %}
 
         <label for="{{ push_app_form.name.auto_id }}">Name:</label>
