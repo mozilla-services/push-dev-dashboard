@@ -93,7 +93,7 @@
         {{ push_app_form.name }}
 
         <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID Key:</label>
-        <span class="question-mark-tip has-tip" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
+        <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
         {{ push_app_form.vapid_key }}
 
         <input type="submit" class="button" value="Add Push Application">
