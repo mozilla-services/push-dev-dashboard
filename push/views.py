@@ -1,7 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext as _
+from django.views.generic import TemplateView
 
 from domains.forms import DomainAuthForm
 from domains.models import DomainAuthorization
@@ -78,7 +79,7 @@ class Validation(UserOwnsPushAppMixin, TemplateView):
         push_app = get_object_or_404(PushApplication, pk=pk)
         push_app.validate_vapid_key(request.POST["signed_token"])
         if push_app.valid:
-            messages.success(self.request, "VAPID Key validated.")
+            messages.success(self.request, _("VAPID Key validated."))
         elif push_app.invalid:
-            messages.warning(self.request, "Invalid signature.")
+            messages.warning(self.request, _("Invalid signature."))
         return redirect('push.details', pk=pk)

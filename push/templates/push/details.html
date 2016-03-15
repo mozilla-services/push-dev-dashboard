@@ -1,34 +1,35 @@
 {% extends "dashboard/base.html" %}
+{% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
 <li><a href="{% url 'push.landing' %}">Push</a></li>
-<li><a href="{% url 'push.list' %}">Applications</a></li>
-<li><span class="show-for-sr">Current: </span>{{ app.name }}</li>
+<li><a href="{% url 'push.list' %}">{% trans "Applications" %}</a></li>
+<li><span class="show-for-sr">{% trans "Current:" %} </span>{{ app.name }}</li>
 {% endblock %}
 
 {% block content %}
     <h2>{{ app.name }}</h2>
     <dl id="push-app-info">
-        <dt>VAPID Key</dt>
+        <dt>VAPID {% trans "Key" %}</dt>
         <dd>{{ app.vapid_key }}</dd>
-        <dt>VAPID Key Status</dt>
+        <dt>VAPID {% trans "Key Status" %}</dt>
         <dd>
             {{ app.vapid_key_status }}
             {% if app.can_validate %}
-                <a class="validate button" href="{% url 'push.validation' app.id %}">Validate</a>
+            <a class="validate button" href="{% url 'push.validation' app.id %}">{% trans "Validate" %}</a>
             {% endif %}
         </dd>
     </dl>
     {% if app.recording %}
-    <h3>Messages</h3>
+    <h3>{% trans "Messages" %}</h3>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Timestamp</th>
-                <th>Size</th>
-                <th>TTL</th>
+                <th>{% trans "ID" %}</th>
+                <th>{% trans "Timestamp" %}</th>
+                <th>{% trans "Size" %}</th>
+                <th>{% trans "TTL" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +41,7 @@
                 <td>{{ message.ttl }}</td>
             </tr>
         {% empty %}
-            <tr><td colspan="4">No messages to display</td></tr>
+        <tr><td colspan="4">{% trans "No messages to display" %}</td></tr>
         {% endfor %}
         </tbody>
     </table>

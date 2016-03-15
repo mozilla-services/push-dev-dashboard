@@ -120,6 +120,22 @@ Read the beautiful docs::
     open html/index.html
 
 
+Adding a Translation
+--------------------
+#. Make the ``{locale}`` directory for the new locale::
+
+    mkdir locale/{locale}
+
+#. Run ``makemessages`` to make a ``django.po`` file for it::
+
+    python manage.py makemessages {locale}
+
+#. Add the new directory to git::
+
+    git add locale/{locale}
+    git commit -m "Adding {locale} locale"
+
+
 What to work on
 ---------------
 

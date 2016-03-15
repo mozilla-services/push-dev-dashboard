@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from .managers import PushApplicationManager
 
@@ -25,7 +26,7 @@ VAPID_KEY_STATUS_CHOICES = (
 class MessagesAPIError(Exception):
     def __init__(self, message):
         super(Exception, self).__init__(
-            "Error communicating with Push Messages API: %s" % message
+            _("Error communicating with Push Messages API: %s") % message
         )
 
 
@@ -55,14 +56,14 @@ def extract_public_key(key_data):
     # key format is "spki"
     if key_len == 88 and key_data[:3] == '0V0':
         return key_data[-64:]
-    raise ValueError("Unknown public key format specified")
+    raise ValueError(_("Unknown public key format specified"))
 
 
 def get_autopush_endpoint():
     endpoint = getattr(settings, 'PUSH_MESSAGES_API_ENDPOINT', None)
     if not endpoint:
         raise ImproperlyConfigured(
-            "Must set PUSH_MESSAGES_API_ENDPOINT env var."
+            _("Must set PUSH_MESSAGES_API_ENDPOINT env var.")
         )
     return endpoint
 
@@ -78,8 +79,10 @@ def push_messages_api_request(method, endpoint, json_data=None):
     if resp.status_code == 200:
         return resp.json()
     else:
-        raise MessagesAPIError("Status: %s; Content: %s" % (
-            resp.status_code, resp.content)
+        raise MessagesAPIError(
+            # Translators: Error status code & content returned from an API
+            _("Status: %(status)s; Content: %(content)s") %
+            {'status': resp.status_code, 'content': resp.content}
         )
 
 
@@ -88,7 +91,7 @@ class PushApplication(models.Model):
     name = models.CharField(max_length=255)
     vapid_key = models.CharField(
         blank=False, max_length=255,
-        help_text="VAPID p256ecdsa value; url-safe base-64 encoded."
+        help_text=_("VAPID p256ecdsa value; url-safe base-64 encoded.")
     )
     vapid_key_status = models.CharField(max_length=255,
                                         default='pending',

@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-15 22:40+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: dashboard/templates/dashboard/base.html:24
+msgid "Firefox Developer Services Dashboard"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:33
+msgid "Manage applications"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:58
+msgid "You are here:"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:79
+msgid "Source on GitHub"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:79
+msgid "Issues"
+msgstr ""
+
+#: dashboard/templates/dashboard/errors/403.html:5
+msgid "403 Permission Denied"
+msgstr ""
+
+#: dashboard/templates/dashboard/errors/404.html:5
+msgid "404 Not Found"
+msgstr ""
+
+#: dashboard/templates/dashboard/errors/500.html:5
+msgid "500 Internal Server Error"
+msgstr ""
+
+#: dashboard/templates/dashboard/home.html:9
+msgid "Monitor your apps in Firefox"
+msgstr ""
+
+#: dashboard/templates/dashboard/home.html:10
+msgid ""
+"Firefox Developer Services Dashboard shows how your apps and sites are using "
+"Mozilla services."
+msgstr ""
+
+#: dashboard/templates/dashboard/home.html:14
+msgid "Manage your applications"
+msgstr ""
+
+#: dashboard/templates/dashboard/home.html:18
+msgid ""
+"A screenshot of a push application landing page, showing messages and "
+"application metadata"
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:8
+msgid "You must sign in to access that page."
+msgstr ""
+
+#: push/models.py:29
+#, python-format
+msgid "Error communicating with Push Messages API: %s"
+msgstr ""
+
+#: push/models.py:59
+msgid "Unknown public key format specified"
+msgstr ""
+
+#: push/models.py:66
+msgid "Must set PUSH_MESSAGES_API_ENDPOINT env var."
+msgstr ""
+
+#. Translators: Error status code & content returned from an API
+#: push/models.py:84
+#, python-format
+msgid "Status: %(status)s; Content: %(content)s"
+msgstr ""
+
+#: push/models.py:94
+msgid "VAPID p256ecdsa value; url-safe base-64 encoded."
+msgstr ""
+
+#: push/templates/push/details.html:5 push/templates/push/landing.html.py:6
+#: push/templates/push/list.html:6 push/templates/push/validation.html.py:5
+msgid "Home"
+msgstr ""
+
+#: push/templates/push/details.html:7 push/templates/push/list.html.py:8
+#: push/templates/push/validation.html:7
+msgid "Applications"
+msgstr ""
+
+#: push/templates/push/details.html:8 push/templates/push/landing.html.py:7
+#: push/templates/push/list.html:8 push/templates/push/validation.html.py:9
+msgid "Current:"
+msgstr ""
+
+#: push/templates/push/details.html:14 push/templates/push/list.html.py:63
+msgid "Key"
+msgstr ""
+
+#: push/templates/push/details.html:16 push/templates/push/list.html.py:64
+msgid "Key Status"
+msgstr ""
+
+#: push/templates/push/details.html:20 push/templates/push/list.html.py:81
+#: push/templates/push/validation.html:9
+msgid "Validate"
+msgstr ""
+
+#: push/templates/push/details.html:25
+msgid "Messages"
+msgstr ""
+
+#: push/templates/push/details.html:29
+msgid "ID"
+msgstr ""
+
+#: push/templates/push/details.html:30
+msgid "Timestamp"
+msgstr ""
+
+#: push/templates/push/details.html:31
+msgid "Size"
+msgstr ""
+
+#: push/templates/push/details.html:32
+msgid "TTL"
+msgstr ""
+
+#: push/templates/push/details.html:44
+msgid "No messages to display"
+msgstr ""
+
+#: push/templates/push/landing.html:14
+msgid "Manage push applications"
+msgstr ""
+
+#: push/templates/push/landing.html:16
+msgid "Sign in"
+msgstr ""
+
+#: push/templates/push/landing.html:16
+msgid "to track your push applications"
+msgstr ""
+
+#: push/templates/push/list.html:57
+msgid "Push Service Applications"
+msgstr ""
+
+#: push/templates/push/list.html:62
+msgid "Application Name"
+msgstr ""
+
+#: push/templates/push/list.html:88
+msgid "No push applications found."
+msgstr ""
+
+#: push/templates/push/list.html:93
+msgid "Application name:"
+msgstr ""
+
+#: push/templates/push/list.html:96
+msgid "key"
+msgstr ""
+
+#: push/templates/push/list.html:97
+msgid ""
+"The public key that the application server sends for VAPID JWT validation. "
+"This should be the exact value sent in the \\"
+msgstr ""
+
+#: push/templates/push/list.html:100
+msgid "Add Push Application"
+msgstr ""
+
+#: push/templates/push/validation.html:14
+msgid ""
+"To verify you own the signing key for your app, please sign the following "
+"token using the same key you use to sign this application's VAPID JWT, and "
+"paste the url-safe, base64-encoded value below."
+msgstr ""
+
+#: push/templates/push/validation.html:16
+msgid "Token:"
+msgstr ""
+
+#: push/templates/push/validation.html:23
+msgid "URL-safe, base64-encoded signed token:"
+msgstr ""
+
+#: push/templates/push/validation.html:29
+msgid "This application has already been validated."
+msgstr ""
+
+#: push/views.py:82
+msgid "VAPID Key validated."
+msgstr ""
+
+#: push/views.py:84
+msgid "Invalid signature."
+msgstr ""
+
+#: templates/includes/fxa_sign_in_link.html:4
+msgid "Sign in with <i class=\"fa fa-firefox\"></i> Firefox Account "
+msgstr ""
+
+#: templates/includes/fxa_sign_in_link.html:6
+msgid "Note: Using dev FxA Environment"
+msgstr ""

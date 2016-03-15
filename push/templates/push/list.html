@@ -1,10 +1,11 @@
 {% extends "dashboard/base.html" %}
+{% load i18n %}
 {% load waffle_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
 <li><a href="{% url 'push.landing' %}">Push</a></li>
-<li><span class="show-for-sr">Current: </span>Applications</li>
+<li><span class="show-for-sr">{% trans "Current:"%}</span>{% trans "Applications" %}</li>
 {% endblock %}
 
 {% block content %}
@@ -62,14 +63,14 @@
 
     <section id="push-applications">
         <section id="push-applications-list">
-            <h2>Push Applications</h2>
+            <h2>{% trans "Push Applications" %}</h2>
             {% if push_apps %}
                 <table>
                     <thead>
                         <tr>
-                            <th>Application Name</th>
-                            <th>VAPID Key</th>
-                            <th>VAPID Key Status</th>
+                            <th>{% trans "Application Name" %}</th>
+                            <th>VAPID {% trans "Key" %}</th>
+                            <th>VAPID {% trans "Key Status" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,23 +94,23 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>No push applications have been registered. Use the form below to add some.</p>
+            <p>{% trans "No push applications have been registered. Use the form below to add some." %}</p>
             {% endif %}
         </section> {# push-applications-list #}
 
         <section id="add-push-application">
-            <h2>Add Push Application</h2>
+            <h2>{% trans "Add Push Application" %}</h2>
             <form action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
                 {% csrf_token %}
 
-                <label for="{{ push_app_form.name.auto_id }}">Application name:</label>
+                <label for="{{ push_app_form.name.auto_id }}">{% trans "Application name:" %}</label>
                 {{ push_app_form.name }}
 
-                <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID key:</label>
-                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
+                <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID {% trans "key:" %}</label>
+                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans "The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the \"p256ecdsa\" parameter of the Crypto-Key header of the POST requests to the push server." %}'></span>
                 {{ push_app_form.vapid_key }}
 
-                <input type="submit" class="button" value="Add">
+                <input type="submit" class="button" value="{% trans "Add" %}">
             </form>
         </section> {# add-push-application #}
     </section> {# push-applications #}

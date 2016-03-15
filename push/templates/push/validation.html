@@ -1,31 +1,32 @@
 {% extends "dashboard/base.html" %}
+{% load i18n %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
 <li><a href="{% url 'push.landing' %}">Push</a></li>
-<li><a href="{% url 'push.list' %}">Applications</a></li>
+<li><a href="{% url 'push.list' %}">{% trans "Applications" %}</a></li>
 <li><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></li>
-<li><span class="show-for-sr">Current: </span>Validate</li>
+<li><span class="show-for-sr">{% trans "Current:" %} </span>{% trans "Validate" %}</li>
 {% endblock %}
 
 {% block content %}
     {% if not app.valid %}
-        <p>To verify you own the signing key for your app, please sign the following token using the same key you use to sign this application's VAPID JWT, and paste the url-safe, base64-encoded value below.</p>
+    <p>{% trans "To verify you own the signing key for your app, please sign the following token using the same key you use to sign this application's VAPID JWT, and paste the url-safe, base64-encoded value below." %}</p>
         <dl>
-            <dt>Token:</dt>
+            <dt>{% trans "Token:" %}</dt>
             <dd>{{ app.vapid_key_token }}</dd>
         </dl>
 
         <form id="vapid-validation" action="{% url 'push.validation' app.id %}" method="POST">
             {% csrf_token %}
 
-            <label for="{{ vapid_validation_form.signed_token.auto_id }}">URL-safe, base64-encoded signed token:</label>
+            <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "URL-safe, base64-encoded signed token:" %}</label>
             {{ vapid_validation_form.signed_token }}
 
             <input type="submit" class="button" value="Validate">
         </form>
     {% else %}
-        <p>This application has already been validated.</p>
+        <p>{% trans "This application has already been validated." %}</p>
         <a class="button" href="{% url 'push.details' app.id %}">View application</a>
     {% endif %}
 {% endblock %}
