@@ -3,7 +3,7 @@
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">Home</a></li>
 <li><a href="{% url 'push.landing' %}">Push</a></li>
-<li><a href="{% url 'push.applications' %}">Applications</a></li>
+<li><a href="{% url 'push.list' %}">Applications</a></li>
 <li><span class="show-for-sr">Current: </span>{{ app.name }}</li>
 {% endblock %}
 
@@ -16,7 +16,7 @@
         <dd>
             {{ app.vapid_key_status }}
             {% if app.can_validate %}
-                <a class="validate button" href="{% url 'push.validate' app.id %}">Validate</a>
+                <a class="validate button" href="{% url 'push.validation' app.id %}">Validate</a>
             {% endif %}
         </dd>
     </dl>

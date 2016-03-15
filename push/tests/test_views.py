@@ -7,8 +7,7 @@ from django.test import TestCase
 
 from ..forms import PushAppForm
 from ..models import PushApplication, MessagesAPIError
-from ..views import (Landing, PushApplications, Details,
-                     ValidatePushApplication, UserOwnsPushAppMixin)
+from ..views import Landing, List, Details, Validation, UserOwnsPushAppMixin
 from . import messages_api_response_json_messages
 
 
@@ -44,16 +43,16 @@ class PushViewTests(TestCase):
 
     def test_template_names(self):
         landing = Landing()
-        listing = PushApplications()
+        listing = List()
         details = Details()
-        validate = ValidatePushApplication()
+        validate = Validation()
         self.assertIn('landing.html', landing.template_name)
-        self.assertIn('applications.html', listing.template_name)
+        self.assertIn('list.html', listing.template_name)
         self.assertIn('details.html', details.template_name)
-        self.assertIn('validate.html', validate.template_name)
+        self.assertIn('validation.html', validate.template_name)
 
     def test_listing_context_form_and_apps_for_user(self):
-        listing = PushApplications()
+        listing = List()
         listing.request = self.request
 
         context = listing.get_context_data()

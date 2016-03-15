@@ -29,7 +29,7 @@
                                 <a href="{% url 'push.landing' %}">Push</a>
                                 {% if request.user.is_authenticated %}
                                     <ul class="menu">
-                                        <li><a href="{% url 'push.applications' %}">Manage applications</a></li>
+                                        <li><a href="{% url 'push.list' %}">Manage applications</a></li>
                                     </ul>
                                 {% endif %}
                             </li>

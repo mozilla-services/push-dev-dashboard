@@ -168,7 +168,7 @@ PIPELINE = {
                 # Push applicaton landing page
                 'css/landing.css',
 
-                # Push applications page
+                # Push application listing page
                 'css/applications.css',
 
                 # Push application details page
