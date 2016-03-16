@@ -11,6 +11,11 @@ main {
     margin: 20px auto;
 }
 
+section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .top-bar {
     background: #1e1e21;
     background-image: -webkit-radial-gradient(top left,ellipse farthest-side,#00549e 0,rgba(0,0,0,0) 100%);

@@ -9,95 +9,110 @@
 
 {% block content %}
     {% switch "domains_enabled" %}
-    <h3>Domain Authorizations</h3>
-    {% if domains %}
-    <table>
-        <thead>
-            <tr>
-                <th>Domain</th>
-                <th>Status</th>
-                <th>Token</th>
-                <th>Validated</th>
-                <th>Expires</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for domain in domains %}
-            <tr>
-                <td>{{ domain.domain }}</td>
-                <td>{{ domain.status }}
-                    {% if domain.status == "valid" %}
-                        <i class="fa fa-check"></i>
-                    {% elif domain.status == "pending" %}
-                        <i data-tooltip aria-haspopup="true" class="fa fa-clock-o has-tip" data-disable-hover="false"
-                            title="It may take up to 10 minutes to validate your domain."></i>
-                    {% endif %}
-                </td>
-                <td>{{ domain.token }}
-                    <i data-tooltip aria-haspopup="true" class="fa fa-info-circle has-tip" data-disable-hover="false"
-                        title="Add this value to a 'mozilla-services' TXT host record on your DNS"></i>
-                </td>
-                <td>{{ domain.validated }}</td>
-                <td>{{ domain.expires }}</td>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        No domains found.
-    {% endif %}
-    <form action="{% url 'domainauthorization-list' %}" method="POST">
-        {% csrf_token %}
-        {{ domain_auth_form }}
-        <input type="submit" class="button" value="Add Domain">
-    </form>
+        <section id="domains">
+            <section id="domains-list">
+                <h2>Domains</h2>
+                {% if domains %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Domain</th>
+                                <th>Status</th>
+                                <th>Token</th>
+                                <th>Validated</th>
+                                <th>Expires</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for domain in domains %}
+                                <tr>
+                                    <td>{{ domain.domain }}</td>
+                                    <td>{{ domain.status }}
+                                        {% if domain.status == "valid" %}
+                                            <i class="fa fa-check"></i>
+                                        {% elif domain.status == "pending" %}
+                                            <i data-tooltip aria-haspopup="true" class="fa fa-clock-o has-tip" data-disable-hover="false"
+                                                title="It may take up to 10 minutes to validate your domain."></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ domain.token }}
+                                        <i data-tooltip aria-haspopup="true" class="fa fa-info-circle has-tip" data-disable-hover="false"
+                                            title="Add this value to a 'mozilla-services' TXT host record on your DNS"></i>
+                                    </td>
+                                    <td>{{ domain.validated }}</td>
+                                    <td>{{ domain.expires }}</td>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No domains have been registered. Use the form below to add some.</p>
+                {% endif %}
+            </section> {# domains-list #}
+
+            <section id="add-domain">
+                <h2>Add Domain</h2>
+                <form action="{% url 'domainauthorization-list' %}" method="POST">
+                    {% csrf_token %}
+                    {{ domain_auth_form }}
+                    <input type="submit" class="button" value="Add">
+                </form>
+            </section> {# add-domain #}
+        </section> {# domains #}
     {% endswitch %}
 
+    <section id="push-applications">
+        <section id="push-applications-list">
+            <h2>Push Applications</h2>
+            {% if push_apps %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Application Name</th>
+                            <th>VAPID Key</th>
+                            <th>VAPID Key Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in push_apps %}
+                            <tr>
+                                <td>
+                                    {% if app.recording %}
+                                        <a href="{% url 'push.details' app.id %}">{{ app.name }}</a>
+                                    {% else %}
+                                        {{ app.name }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ app.vapid_key|truncatechars:20 }}</td>
+                                <td>
+                                    {{ app.vapid_key_status }}
+                                    {% if app.can_validate %}
+                                        <a class="button" href="{% url 'push.validation' app.id %}">Validate</a>
+                                    {% endif %}
+                                </td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No push applications have been registered. Use the form below to add some.</p>
+            {% endif %}
+        </section> {# push-applications-list #}
 
-    <h3>Push Service Applications</h3>
-    {% if push_apps %}
-    <table id="push-applications">
-        <thead>
-            <tr>
-                <th>Application Name</th>
-                <th>VAPID Key</th>
-                <th>VAPID Key Status</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for app in push_apps %}
-            <tr>
-                <td>
-                    {% if app.recording %}
-                        <a href="{% url 'push.details' app.id %}">{{ app.name }}</a>
-                    {% else %}
-                        {{ app.name }}
-                    {% endif %}
-                </td>
-                <td>{{ app.vapid_key|truncatechars:20 }}</td>
-                <td>
-                    {{ app.vapid_key_status }}
-                    {% if app.can_validate %}
-                        <a class="button" href="{% url 'push.validation' app.id %}">Validate</a>
-                    {% endif %}
-                </td>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <p>No push apps found.</p>
-    {% endif %}
-    <form id="add-push-application" action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
-        {% csrf_token %}
+        <section id="add-push-application">
+            <h2>Add Push Application</h2>
+            <form action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
+                {% csrf_token %}
 
-        <label for="{{ push_app_form.name.auto_id }}">Application name:</label>
-        {{ push_app_form.name }}
+                <label for="{{ push_app_form.name.auto_id }}">Application name:</label>
+                {{ push_app_form.name }}
 
-        <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID key:</label>
-        <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
-        {{ push_app_form.vapid_key }}
+                <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID key:</label>
+                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.'></span>
+                {{ push_app_form.vapid_key }}
 
-        <input type="submit" class="button" value="Add Push Application">
-    </form>
+                <input type="submit" class="button" value="Add">
+            </form>
+        </section> {# add-push-application #}
+    </section> {# push-applications #}
 {% endblock %}
 
 {% block post_script %}

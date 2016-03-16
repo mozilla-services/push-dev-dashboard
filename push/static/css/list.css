@@ -1,0 +1,8 @@
+#push-applications table .button {
+    margin-left: 10px;
+}
+
+#add-push-application input[type="text"] {
+    width: 800px;
+    max-width: 100%;
+}
