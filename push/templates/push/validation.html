@@ -26,5 +26,6 @@
         </form>
     {% else %}
         <p>This application has already been validated.</p>
+        <a class="button" href="{% url 'push.details' app.id %}">View application</a>
     {% endif %}
 {% endblock %}
