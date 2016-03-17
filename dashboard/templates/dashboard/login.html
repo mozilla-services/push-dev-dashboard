@@ -1,10 +1,11 @@
 {% extends "dashboard/base.html" %}
+{% load i18n %}
 {% load socialaccount %}
 
 {% block content %}
     <div id="sign-in-notice">
         <p class="warning callout">
-            You must sign in to access that page.
+        {% trans "You must sign in to access that page." %}
         </p>
         {% include "includes/fxa_sign_in_link.html" %}
     </div>

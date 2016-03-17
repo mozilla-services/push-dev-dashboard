@@ -1,21 +1,21 @@
 {% extends "dashboard/base.html" %}
+{% load i18n %}
 {% load socialaccount %}
 {% load staticfiles %}
 
 {% block content %}
 <div class="row">
     <div class="large-6 columns">
-        <h2>Monitor your apps in Firefox</h2>
-        <p>Firefox Developer Services Dashboard shows how your apps and sites
-        are using Mozilla services.</p>
+        <h2>{% trans "Monitor your apps in Firefox" %}</h2>
+        <p>{% trans "Firefox Developer Services Dashboard shows how your apps and sites are using Mozilla services." %}</p>
         {% if not request.user.is_authenticated %}
             {% include "includes/fxa_sign_in_link.html" %}
         {% else %}
-            <a class="button" href="{% url 'push.list' %}">Manage your applications</a>
+        <a class="button" href="{% url 'push.list' %}">{% trans "Manage your applications" %}</a>
         {% endif %}
     </div>
     <div class="large-6 columns">
-        <img src="{% static "img/screenshot.png"%}" alt="A screenshot of the codesy.io push application landing page, showing messages and application metadata" />
+        <img src="{% static "img/screenshot.png"%}" alt="{% trans "A screenshot of a push application landing page, showing messages and application metadata" %}" />
     </div>
 </div>
 {% endblock %}

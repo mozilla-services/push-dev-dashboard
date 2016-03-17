@@ -7,3 +7,4 @@ dashboard/static/lib
 node_modules
 MANIFEST
 .coveralls.yml
+locale/**/*.mo

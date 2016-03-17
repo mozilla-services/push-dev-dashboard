@@ -13,8 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 import dashboard.views as dashboard_views
@@ -24,23 +24,18 @@ handler404 = dashboard_views.NotFound.as_view()
 handler500 = dashboard_views.InternalServerError.as_view()
 
 urlpatterns = [
-    # our app urls
-    url(r'^$', dashboard_views.Home.as_view(), name='home'),
-    url(r'^api/docs/', include('rest_framework_swagger.urls')),
-    url(r'^api/v1/', include('api.urls')),
-    url(r'^push/', include('push.urls')),
-    url(r'^accounts/login/$', dashboard_views.Login.as_view(), name='login'),
-
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^api/docs/', include('rest_framework_swagger.urls')),
 
     # django urls
     url(r'^admin/', admin.site.urls),
 ]
 
-# Make some error pages available under error/ for easier testing
-if settings.DEBUG:
-    urlpatterns += [
-        url(r'^error/404/$', dashboard_views.NotFound.as_view()),
-        url(r'^error/500/$', dashboard_views.InternalServerError.as_view()),
-    ]
+urlpatterns += i18n_patterns(
+    # our app urls
+    url(r'^$', dashboard_views.Home.as_view(), name='home'),
+    url(r'^api/v1/', include('api.urls')),
+    url(r'^push/', include('push.urls')),
+    url(r'^accounts/login/$', dashboard_views.Login.as_view(), name='login'),
+)
