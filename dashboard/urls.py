@@ -20,7 +20,6 @@ from django.contrib import admin
 import dashboard.views as dashboard_views
 
 handler403 = dashboard_views.PermissionDenied.as_view()
-handler404 = dashboard_views.NotFound.as_view()
 handler500 = dashboard_views.InternalServerError.as_view()
 
 urlpatterns = [
