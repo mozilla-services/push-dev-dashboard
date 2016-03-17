@@ -1,20 +1,29 @@
 language: python
 python:
-    - "2.7"
+- '2.7'
 env:
-    matrix:
-        - TOXENV=py27
-        - TOXENV=back-style
-        - TOXENV=front-style
-        - TOXENV=docs
+  matrix:
+  - TOXENV=py27
+  - TOXENV=back-style
+  - TOXENV=front-style
+  - TOXENV=docs
 install:
-    - pip install tox
-script:
-    tox
+- pip install tox
+script: tox
 notifications:
-    irc:
-        channels:
-            - "irc.mozilla.org#mds"
-        on_success: always
-        on_failure: always
-        use_notice: true
+  irc:
+    channels:
+    - irc.mozilla.org#mds
+    on_success: always
+    on_failure: always
+    use_notice: true
+deploy:
+  provider: deis
+  controller: deis.deis.dev.mozaws.net
+  app: dev-dashboard
+  username: admin
+  password:
+    secure: B9UA+QuDtJKr1dX8hjE7r7BFMb/GxY/d1nBRY7CiA5y6fdi2eyKi0Mmst8Pn2ZiHwE3SJXMynHfq1HNYN12Gzz74PrBSLMHJuHnHMB3HXYs0bzkYMeWDUai8svAaADwo9zxxZPv3F419iKKpox9lWXKcYM/eMj/VVV+ejNWgvO6WsVfKDECMYfYDXEupfD/Qr0MgccuIGDTMXBAPsxSr8Mz4s5k8uNOYu4FbSHs2ouqNlwX0LLM7O+/koUhPq+oPW/Eax5qzrz9m4TeF7OQqc/Ngg33Ex/cxKE3YQC1Yy764ipYknX8k+D/TGdVXC8xaKQp1Kl7MK+AEpQBBBKG71SX1ePiQD9tF4ZbyVdZCzQtTnFZfUxb+FMM8XsLzC+M0W+ToNN+dnV5BsM6+gr8X/dzxzHUQE4KBzK4ZYU1nv9+IzlfPsTbUS9Bn8x2WHcqt7CgBXE3y/qrxqKk9f9JBLKEOykPruEIQRJ4F8SKl4skF74GFuNEAAyjWnnkesrVAiYWWKM9tBHIQ4/dkJMp4zEDkbDqI6FM3JEaYvIU/l2Zu8ih17FZTEFr+AeQJjq8rgiMOFGsycVQzla0GqOHwzGGA9YYvAF3TIS0wN2TFn1RY6DAM/vHuLBFEHVDzzNkbVsshhtCbjdl2jpb26uqSnDFTh/xJ08lL/vk0Xv1FQeo=
+  on:
+    repo: mozilla-services/push-dev-dashboard
+    branch: master
