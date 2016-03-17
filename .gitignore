@@ -8,3 +8,7 @@ node_modules
 MANIFEST
 .coveralls.yml
 locale/**/*.mo
+.coverage
+.dpl
+.tox
+deis
