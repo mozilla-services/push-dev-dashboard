@@ -180,8 +180,12 @@ PIPELINE = {
     'JAVASCRIPT': {
         'dashboard': {
             'source_filenames': (
+                # Global
                 'js/analytics.js',
-                'js/sign_in.js'
+                'js/sign_in.js',
+
+                # Push application listing page
+                'js/add-push-application.js',
             ),
             'output_filename': 'js/dashboard.js'
         }
