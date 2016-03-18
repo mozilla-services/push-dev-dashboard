@@ -156,26 +156,29 @@ STATICFILES_FINDERS = (
 
 # django-pipeline
 PIPELINE = {
+    'COMPILERS': (
+        'pipeline.compilers.stylus.StylusCompiler',
+    ),
     'STYLESHEETS': {
         'dashboard': {
             'source_filenames': (
                 # Global
-                'css/main.css',
-                'css/elements.css',
-                'css/forms.css',
-                'css/navigation.css',
+                'styles/main.styl',
+                'styles/elements.styl',
+                'styles/forms.styl',
+                'styles/navigation.styl',
 
                 # Login page
-                'css/login.css',
+                'styles/login.styl',
 
                 # Push applicaton landing page
-                'css/landing.css',
+                'styles/landing.styl',
 
                 # Push application listing page
-                'css/list.css',
+                'styles/list.styl',
 
                 # Push application details page
-                'css/details.css',
+                'styles/details.styl',
             ),
             'output_filename': 'css/dashboard.css',
         },

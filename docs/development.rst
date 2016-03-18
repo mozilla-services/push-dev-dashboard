@@ -31,6 +31,8 @@ Install Locally
 #. `Install requirements`_::
 
     pip install -r requirements-dev.txt
+    npm install
+    npm link stylus yuglify
 
 #. Source the ``.env`` file to set environment config vars (Can also use `autoenv`_)::
 

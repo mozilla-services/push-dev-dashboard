@@ -1,12 +1,13 @@
 {
   "scripts": {
-    "test": "eslint --ignore-pattern 'staticfiles/**/*.js' --ignore-pattern 'env/**/*.js' .; csslint --quiet --exclude-list='node_modules,staticfiles,env' --warnings=' ' ."
+    "test": "eslint --ignore-pattern 'staticfiles/**/*.js' --ignore-pattern 'env/**/*.js' .; stylint **/static/styles/*.styl"
   },
   "dependencies": {
+    "stylus": "^0.54.2",
     "yuglify": "^0.1.4"
   },
   "devDependencies": {
-    "csslint": "^0.10.0",
-    "eslint": "^2.3.0"
+    "eslint": "^2.3.0",
+    "stylint": "^1.3.6"
   }
 }
