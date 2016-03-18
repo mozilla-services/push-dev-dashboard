@@ -28,3 +28,4 @@ deploy:
   on:
     repo: mozilla-services/push-dev-dashboard
     branch: master
+    condition: "$TOXENV = py27"
