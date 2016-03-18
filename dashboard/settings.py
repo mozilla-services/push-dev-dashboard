@@ -155,6 +155,7 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
+DISABLE_WRAPPER = True
 PIPELINE = {
     'STYLESHEETS': {
         'dashboard': {
