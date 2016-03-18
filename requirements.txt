@@ -1,6 +1,8 @@
+APScheduler==3.0.5
 Django==1.9.4
 dj-database-url==0.4.0
 django-allauth==0.24.1
+django-extensions==1.6.1
 django-pipeline==1.6.6
 djangorestframework==3.3.2
 django-rest-swagger==0.3.5
