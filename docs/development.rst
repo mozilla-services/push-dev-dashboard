@@ -90,6 +90,16 @@ OAuth client app.
 .. _Add a django-allauth social app: http://127.0.0.1:8000/admin/socialaccount/socialapp/add/
 .. _Log out of the admin account: http://127.0.0.1:8000/admin/logout/
 
+Use production assets
+---------------------
+
+Front-end assets are compressed on production. To test these compressed assets
+locally, follow these steps:
+
+#. In .env, set ``DJANGO_DEBUG`` to ``False``
+#. Stop ``runserver`` if it's already running
+#. Run ``python manage.py collectstatic``
+#. Run ``python manage.py runserver``
 
 Run the Tests
 -------------
