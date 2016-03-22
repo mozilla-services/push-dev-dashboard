@@ -240,3 +240,5 @@ PUSH_MESSAGES_API_TIMEOUT = 3.05
 
 # Google Analytics
 GOOGLE_ANALYTICS_ACCOUNT = config('GOOGLE_ANALYTICS_ACCOUNT', None)
+
+PONTOON_HOST = config('PONTOON_HOST', 'https://pontoon.mozilla.org')
