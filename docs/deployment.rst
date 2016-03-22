@@ -1,63 +1,94 @@
 Deployment
 ==========
 
-moz-dev-dash is designed with `12-factor app philosophy`_ to run on `heroku`_, so you
-can easily deploy your changes to your own heroku app with `heroku toolbelt`_.
+moz-dev-dash is designed with `12-factor app philosophy`_, so you can easily
+deploy your changes to your own app.
 
 
-Deploy your own
----------------
+Deploy your own (on Mozilla Deis)
+---------------------------------
 
-#. `Create a heroku remote`_. We suggest naming it moz-dev-dash-`username`::
+#. `Install the deis client`_.
 
-    heroku apps:create moz-dev-dash-username
+#. `Register`_/login with the Mozilla Deis controller::
 
-#. Set the heroku app to use the "multi" buildpack::
+    deis register http://deis.deis.dev.mozaws.net
+    deis auth:login http://deis.deis.dev.mozaws.net
 
-    heroku buildpacks:set https://github.com/ddollar/heroku-buildpack-multi.git
+#. Add your public key::
 
-#. Push code to the heroku remote::
+    deis keys:add
 
-    git push heroku master
+#. Create the application::
 
-#. `Migrate`_ DB tables on heroku::
+    deis create dev-dashboard-username
 
-    heroku run python manage.py migrate
+#. Push code to the deis remote::
 
-#. Create a superuser on heroku::
+    git push deis master
 
-    heroku run python manage.py createsuperuser
+#. `Request a dev IAM account from Mozilla Cloud Ops`_ to create your RDS
+   Postgres instance in the Mozilla account.
 
-#. Open the new heroku app::
+#. `Create an RDS Postgres instance`_ in us-east-1 with default settings except:
 
-    heroku open
+   * DB Instance Class: db.t2.micro
+   * Allocated Storag: 5 GB
+   * VPC: vpc-9c2b0ef8
 
-Enable Firefox Accounts Auth on Heroku
---------------------------------------
+#. In the RDS Instance configuration details, click the "Security Groups".
+   (Usually something like "rds-launch-wizard-N (sg-abcdef123)")
 
-To enable Firefox Account sign-ins on your heroku app, you will need to create
+#. In the security group, under the "Inbound" tab, change the source to allow
+   the deis cluster hosts::
+
+    10.21.0.0/16
+
+#. Set the ``DATABASE_URL`` environment variable to match the RDS DB::
+
+    deis config:set DATABASE_URL=postgres://username:password@endpoint/dbname
+
+#. Migrate DB tables on the new RDS instance::
+
+    deis run python manage.py migrate
+
+#. Dock to app instance to create a superuser::
+
+    deisctl dock dev-dashboard-username
+    /app/.heroku/python/bin/python manage.py createsuperuser
+
+#. Open the new deis app::
+
+    deis open
+
+.. _Request a dev IAM account from Mozilla Cloud Ops: https://mana.mozilla.org/wiki/display/SVCOPS/Requesting+A+Dev+IAM+account+from+Cloud+Operations
+.. _Create an RDS Postgres instance: https://console.aws.amazon.com/rds/home?region=us-east-1#launch-dbinstance:ct=dashboard:
+.. _Install the deis client: http://docs.deis.io/en/latest/using_deis/install-client.html
+.. _Register: http://docs.deis.io/en/latest/using_deis/register-user.html
+
+
+Enable Firefox Accounts Auth on your Deis app
+---------------------------------------------
+
+To enable Firefox Account sign-ins on your Deis app, you will need to create
 your own Firefox Accounts OAuth Client for your app domain.
 
 #. Go to `register your own Firefox Accounts OAuth Client`_:
 
     * Client name: moz-dev-dash-username
-    * Redirect URI: https://moz-dev-dash-username.herokuapp.com/accounts/fxa/login/callback/
+    * Redirect URI: http://dev-dashboard-username.deis.dev.mozaws.net/accounts/fxa/login/callback/
     * Trusted Mozilla Client: **CHECKED**
 
    Be sure to copy the client secret - you can't see it again.
 
-#. Go to https://moz-dev-dash-username.herokuapp.com/admin/socialaccount/socialapp/add/
+#. Go to http://dev-dashboard-username.deis.dev.mozaws.net//admin/socialaccount/socialapp/add/
    to :ref:`enable Firefox Accounts Auth` like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
 
-#. Sign in at https://moz-dev-dash-username.herokuapp.com/ with a Firefox
+#. Sign in at http://dev-dashboard.deis.dev.mozaws.net/ with a Firefox
    Account.
 
 
 .. _12-factor app philosophy: http://12factor.net/
-.. _heroku toolbelt: https://toolbelt.heroku.com/
-.. _Create a heroku remote: https://devcenter.heroku.com/articles/git#creating-a-heroku-remote
 .. _register your own Firefox Accounts OAuth Client: https://oauth-stable.dev.lcip.org/console/client/register
 
-.. _heroku: https://www.heroku.com/
 .. _git hooks: http://git-scm.com/book/en/Customizing-Git-Git-Hooks
-.. _balanced.js: https://github.com/balanced/balanced-js

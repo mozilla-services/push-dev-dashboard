@@ -34,7 +34,7 @@ Resources
 :Issues:        https://github.com/mozilla-services/push-dev-dashboard/issues
 :IRC:           irc://irc.mozilla.org/mds
 :Mailing list:  https://lists.mozilla.org/listinfo/mds-public
-:Servers:       https://moz-push-dash.herokuapp.com (stage)
+:Servers:       http://dev-dashboard.deis.dev.mozaws.net/ (stage)
 
 
 Contents
