@@ -1,3 +1,5 @@
+@require 'vars/colors';
+
 html {
     min-height: 100%;
 }
@@ -13,7 +15,7 @@ main {
 
 section {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: @margin-top;
 }
 
 .top-bar {
@@ -30,14 +32,15 @@ section {
 }
 
 .top-bar-title a::before {
+    width: 38px;
+    height: @width;
+    background-size: @width;
+
     background-image: url('../img/firefox-logo.png');
-    background-size: 38px;
     content: ' ';
     display: block;
     float: left;
-    height: 38px;
     margin-right: 10px;
-    width: 38px;
 }
 
 .top-bar-title a {
@@ -47,10 +50,10 @@ section {
 }
 
 .breadcrumbs a {
-    color: #00549E;
+    color: $blue;
 }
 
 .button {
-    background-color: #00549E;
+    background-color: $blue;
     margin: 0;
 }
