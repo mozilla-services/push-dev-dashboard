@@ -12,8 +12,8 @@ Deploy your own (on Mozilla Deis)
 
 #. `Register`_/login with the Mozilla Deis controller::
 
-    deis register http://deis.deis.dev.mozaws.net
-    deis auth:login http://deis.deis.dev.mozaws.net
+    deis register https://deis.deis.dev.mozaws.net
+    deis auth:login https://deis.deis.dev.mozaws.net
 
 #. Add your public key::
 
@@ -76,15 +76,15 @@ your own Firefox Accounts OAuth Client for your app domain.
 #. Go to `register your own Firefox Accounts OAuth Client`_:
 
     * Client name: moz-dev-dash-username
-    * Redirect URI: http://dev-dashboard-username.deis.dev.mozaws.net/accounts/fxa/login/callback/
+    * Redirect URI: https://dev-dashboard-username.deis.dev.mozaws.net/accounts/fxa/login/callback/
     * Trusted Mozilla Client: **CHECKED**
 
    Be sure to copy the client secret - you can't see it again.
 
-#. Go to http://dev-dashboard-username.deis.dev.mozaws.net//admin/socialaccount/socialapp/add/
+#. Go to https://dev-dashboard-username.deis.dev.mozaws.net//admin/socialaccount/socialapp/add/
    to :ref:`enable Firefox Accounts Auth` like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
 
-#. Sign in at http://dev-dashboard.deis.dev.mozaws.net/ with a Firefox
+#. Sign in at https://dev-dashboard-username.deis.dev.mozaws.net/ with a Firefox
    Account.
 
 
