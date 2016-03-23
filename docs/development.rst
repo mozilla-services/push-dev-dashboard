@@ -130,15 +130,32 @@ Read the beautiful docs::
     open html/index.html
 
 
+.. _Update translations:
+
+Updating Translations
+---------------------
+
+#. Run ``makemessages`` to make updated ``django.po`` files::
+
+    python manage.py makemessages --keep-pot
+
+#. Commit the updates to git::
+
+    git add locale
+    git commit -m "Updating translations {YYYY-MM-DD}"
+
+
 Adding a Translation
 --------------------
-#. Make the ``{locale}`` directory for the new locale::
+#. First, `Update translations`_
+
+#. Make the new ``{locale}`` directory for the new language::
 
     mkdir locale/{locale}
 
-#. Run ``makemessages`` to make a ``django.po`` file for it::
+#. Run ``makemessages`` to make the ``django.po`` file for it::
 
-    python manage.py makemessages {locale}
+    python manage.py makemessages -l {locale}
 
 #. Add the new directory to git::
 
