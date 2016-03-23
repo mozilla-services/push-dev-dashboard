@@ -8,7 +8,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Push Dashboard</title>
+        <title>{% trans "Push Dashboard" %}</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.css">
         <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -27,7 +27,7 @@
                     <nav id="main-navigation">
                         <ul class="dropdown menu" data-dropdown-menu="data-dropdown-menu">
                             <li>
-                                <a href="{% url 'push.landing' %}">Push</a>
+                            <a href="{% url 'push.landing' %}">{% trans "Push" %}</a>
                                 {% if request.user.is_authenticated %}
                                     <ul class="menu">
                                         <li><a href="{% url 'push.list' %}">{% trans "Manage applications" %}</a></li>
@@ -43,7 +43,7 @@
                                 <li>
                                     <a href="/">{{ request.user.username }}</a>
                                 </li>
-                                <li><a href="{% url 'account_logout' %}">Sign out</a></li>
+                                <li><a href="{% url 'account_logout' %}">{% trans "Sign out" %}</a></li>
                             {% else %}
                                 <li>
                                 {% include "includes/fxa_sign_in_link.html" %}

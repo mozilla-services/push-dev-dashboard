@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-<li><a href="{% url 'push.landing' %}">Push</a></li>
+<li><a href="{% url 'push.landing' %}">{% trans "Push" %}</a></li>
 <li><span class="show-for-sr">{% trans "Current:"%}</span>{% trans "Applications" %}</li>
 {% endblock %}
 
@@ -17,11 +17,11 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Domain</th>
-                                <th>Status</th>
-                                <th>Token</th>
-                                <th>Validated</th>
-                                <th>Expires</th>
+                                <th>{% trans "Domain" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Token" %}</th>
+                                <th>{% trans "Validated" %}</th>
+                                <th>{% trans "Expires" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,7 +87,7 @@
                                 <td>
                                     {{ app.vapid_key_status }}
                                     {% if app.can_validate %}
-                                        <a class="button" href="{% url 'push.validation' app.id %}">Validate</a>
+                                    <a class="button" href="{% url 'push.validation' app.id %}">{% trans "Validate" %}</a>
                                     {% endif %}
                                 </td>
                         {% endfor %}
@@ -107,7 +107,7 @@
                 {{ push_app_form.name }}
 
                 <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID {% trans "key:" %}</label>
-                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans "The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the \"p256ecdsa\" parameter of the Crypto-Key header of the POST requests to the push server." %}'></span>
+                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans 'The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.' %}'></span>
                 {{ push_app_form.vapid_key }}
 
                 <input type="submit" class="button" value="{% trans "Add" %}">

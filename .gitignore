@@ -12,3 +12,4 @@ locale/**/*.mo
 .dpl
 .tox
 deis
+locale/templates/LC_MESSAGES/django.po

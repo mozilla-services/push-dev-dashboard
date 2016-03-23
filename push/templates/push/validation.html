@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-<li><a href="{% url 'push.landing' %}">Push</a></li>
+<li><a href="{% url 'push.landing' %}">{% trans "Push" %}</a></li>
 <li><a href="{% url 'push.list' %}">{% trans "Applications" %}</a></li>
 <li><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></li>
 <li><span class="show-for-sr">{% trans "Current:" %} </span>{% trans "Validate" %}</li>
@@ -23,10 +23,10 @@
             <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "URL-safe, base64-encoded signed token:" %}</label>
             {{ vapid_validation_form.signed_token }}
 
-            <input type="submit" class="button" value="Validate">
+            <input type="submit" class="button" value="{% trans "Validate" %}">
         </form>
     {% else %}
         <p>{% trans "This application has already been validated." %}</p>
-        <a class="button" href="{% url 'push.details' app.id %}">View application</a>
+        <a class="button" href="{% url 'push.details' app.id %}">{% trans "View application" %}</a>
     {% endif %}
 {% endblock %}

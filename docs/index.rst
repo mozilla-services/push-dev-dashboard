@@ -6,14 +6,10 @@
 Welcome
 =======
 
-moz-dev-dash is the code for Mozilla Developer Services dashboard. It combines:
+moz-dev-dash is the code for Mozilla Developer Services dashboard - where web
+developers can manage how their web apps and sites use services like
+`Mozilla Push Service`_.
 
-* `Firefox Accounts`_ Authentication (via `django-allauth`_)
-* (Soon) Domain Verification (via ?)
-* `Mozilla Push Service`_ metrics
-
-.. _Firefox Accounts: https://support.mozilla.org/en-US/kb/access-mozilla-services-firefox-accounts
-.. _django-allauth: https://github.com/pennersr/django-allauth
 .. _Mozilla Push Service: https://autopush.readthedocs.org/en/latest/
 
 
