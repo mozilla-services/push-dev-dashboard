@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-15 22:40+0000\n"
+"POT-Creation-Date: 2016-03-23 21:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: dashboard/templates/dashboard/base.html:11
+msgid "Push Dashboard"
+msgstr ""
+
 #: dashboard/templates/dashboard/base.html:24
 msgid "Firefox Developer Services Dashboard"
 msgstr ""
 
+#: dashboard/templates/dashboard/base.html:30 push/templates/push/list.html:7
+#: push/templates/push/validation.html.py:6
+msgid "Push"
+msgstr ""
+
 #: dashboard/templates/dashboard/base.html:33
 msgid "Manage applications"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:46
+msgid "Sign out"
 msgstr ""
 
 #: dashboard/templates/dashboard/base.html:58
@@ -40,10 +53,6 @@ msgstr ""
 
 #: dashboard/templates/dashboard/errors/403.html:5
 msgid "403 Permission Denied"
-msgstr ""
-
-#: dashboard/templates/dashboard/errors/404.html:5
-msgid "404 Not Found"
 msgstr ""
 
 #: dashboard/templates/dashboard/errors/500.html:5
@@ -112,16 +121,16 @@ msgstr ""
 msgid "Current:"
 msgstr ""
 
-#: push/templates/push/details.html:14 push/templates/push/list.html.py:63
+#: push/templates/push/details.html:14 push/templates/push/list.html.py:72
 msgid "Key"
 msgstr ""
 
-#: push/templates/push/details.html:16 push/templates/push/list.html.py:64
+#: push/templates/push/details.html:16 push/templates/push/list.html.py:73
 msgid "Key Status"
 msgstr ""
 
-#: push/templates/push/details.html:20 push/templates/push/list.html.py:81
-#: push/templates/push/validation.html:9
+#: push/templates/push/details.html:20 push/templates/push/list.html.py:90
+#: push/templates/push/validation.html:9 push/templates/push/validation.html:26
 msgid "Validate"
 msgstr ""
 
@@ -154,41 +163,66 @@ msgid "Manage push applications"
 msgstr ""
 
 #: push/templates/push/landing.html:16
-msgid "Sign in"
+#, python-format
+msgid ""
+"<a href=\"%(href)s?next=%(request.path)s\">Sign in</a> to track your push "
+"applications "
 msgstr ""
 
-#: push/templates/push/landing.html:16
-msgid "to track your push applications"
+#: push/templates/push/list.html:20
+msgid "Domain"
 msgstr ""
 
-#: push/templates/push/list.html:57
-msgid "Push Service Applications"
+#: push/templates/push/list.html:21
+msgid "Status"
 msgstr ""
 
-#: push/templates/push/list.html:62
+#: push/templates/push/list.html:22
+msgid "Token"
+msgstr ""
+
+#: push/templates/push/list.html:23
+msgid "Validated"
+msgstr ""
+
+#: push/templates/push/list.html:24
+msgid "Expires"
+msgstr ""
+
+#: push/templates/push/list.html:66
+msgid "Push Applications"
+msgstr ""
+
+#: push/templates/push/list.html:71
 msgid "Application Name"
-msgstr ""
-
-#: push/templates/push/list.html:88
-msgid "No push applications found."
-msgstr ""
-
-#: push/templates/push/list.html:93
-msgid "Application name:"
-msgstr ""
-
-#: push/templates/push/list.html:96
-msgid "key"
 msgstr ""
 
 #: push/templates/push/list.html:97
 msgid ""
-"The public key that the application server sends for VAPID JWT validation. "
-"This should be the exact value sent in the \\"
+"No push applications have been registered. Use the form below to add some."
 msgstr ""
 
-#: push/templates/push/list.html:100
+#: push/templates/push/list.html:102
 msgid "Add Push Application"
+msgstr ""
+
+#: push/templates/push/list.html:106
+msgid "Application name:"
+msgstr ""
+
+#: push/templates/push/list.html:109
+msgid "key:"
+msgstr ""
+
+#: push/templates/push/list.html:110
+msgid ""
+"The public key that the application server sends for VAPID JWT validation. "
+"This should be the exact value sent in the \"p256ecdsa\" parameter of the "
+"Crypto-Key header of the POST requests to the push server."
+msgstr ""
+
+#: push/templates/push/list.html:113
+msgid "Add"
 msgstr ""
 
 #: push/templates/push/validation.html:14
@@ -210,6 +244,10 @@ msgstr ""
 msgid "This application has already been validated."
 msgstr ""
 
+#: push/templates/push/validation.html:30
+msgid "View application"
+msgstr ""
+
 #: push/views.py:82
 msgid "VAPID Key validated."
 msgstr ""
@@ -218,10 +256,18 @@ msgstr ""
 msgid "Invalid signature."
 msgstr ""
 
-#: templates/includes/fxa_sign_in_link.html:4
-msgid "Sign in with <i class=\"fa fa-firefox\"></i> Firefox Account "
+#: templates/404.html:5
+msgid "404 Not Found"
 msgstr ""
 
-#: templates/includes/fxa_sign_in_link.html:6
+#. Translators: the <i></i> is a firefox icon in the middle of the phrase.
+#: templates/includes/fxa_sign_in_link.html:5
+#, python-format
+msgid ""
+"<a class=\"button sign-in-btn\" href=\"%(href)s?next=%(request.path)s\">Sign "
+"in with <i class=\"fa fa-firefox\"></i> Firefox Account</a>"
+msgstr ""
+
+#: templates/includes/fxa_sign_in_link.html:7
 msgid "Note: Using dev FxA Environment"
 msgstr ""
