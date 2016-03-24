@@ -71,7 +71,7 @@
                             <th>{% trans "Application Name" %}</th>
                             <th>VAPID {% trans "Key" %}</th>
                             <th>VAPID {% trans "Key Status" %}</th>
-                            <th></th>
+                            <th>{% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,11 +87,11 @@
                                 <td>{{ app.vapid_key|truncatechars:20 }}</td>
                                 <td>
                                     {{ app.vapid_key_status }}
+                                </td>
+                                <td>
                                     {% if app.can_validate %}
                                     <a class="button" href="{% url 'push.validation' app.id %}">{% trans "Validate" %}</a>
                                     {% endif %}
-                                </td>
-                                <td>
                                     <a class="alert button" href="{% url 'push.deletion' app.id %}">{% trans "Delete" %}</a>
                                 </td>
                         {% endfor %}

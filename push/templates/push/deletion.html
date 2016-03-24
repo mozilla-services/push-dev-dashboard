@@ -14,11 +14,11 @@
             <fieldset>
             {% csrf_token %}
                 <legend>{% blocktrans %}Are you sure you want to delete?{% endblocktrans %}</legend>
-                <table>
-                    <tr><th width="20%" class="push-delete-form-table-label">{% trans "App Name:" %}</th><td>{{ app.name }}</td></tr>
-                    <tr><th class="push-delete-form-table-label">{% trans "VAPID Key:" %}</th><td>{{ app.vapid_key }}</td></tr>
-                    <tr><th class="push-delete-form-table-label">{% trans "VAPID Key Status:" %}</th><td>{{ app.vapid_key_status }}</td></tr>
-                </table>
+                <dl>
+                    <dt>{% trans "App Name:" %}</dt><dd>{{ app.name }}</dd>
+                    <dt>{% trans "VAPID Key:" %}</dt><dd>{{ app.vapid_key }}</dd>
+                    <dt>{% trans "VAPID Key Status:" %}</dt><dd>{{ app.vapid_key_status }}</dd>
+                </dl>
                 <input type="submit" class="alert button" value="{% trans "Confirm Delete" %}">
             </fieldset>
         </form>
