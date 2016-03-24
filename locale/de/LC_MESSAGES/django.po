@@ -30,7 +30,7 @@ msgstr ""
 #: dashboard/templates/dashboard/base.html:30 push/templates/push/list.html:7
 #: push/templates/push/validation.html.py:6
 msgid "Push"
-msgstr "Test"
+msgstr ""
 
 #: dashboard/templates/dashboard/base.html:33
 msgid "Manage applications"
