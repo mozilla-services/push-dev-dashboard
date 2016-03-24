@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-23 21:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-03-24 17:50+0000\n"
+"Last-Translator: Matjaž Horvat <matjaz.horvat@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pontoon\n"
 
 #: dashboard/templates/dashboard/base.html:11
 msgid "Push Dashboard"
@@ -29,7 +30,7 @@ msgstr ""
 #: dashboard/templates/dashboard/base.html:30 push/templates/push/list.html:7
 #: push/templates/push/validation.html.py:6
 msgid "Push"
-msgstr ""
+msgstr "Test"
 
 #: dashboard/templates/dashboard/base.html:33
 msgid "Manage applications"
@@ -65,8 +66,8 @@ msgstr ""
 
 #: dashboard/templates/dashboard/home.html:10
 msgid ""
-"Firefox Developer Services Dashboard shows how your apps and sites are using "
-"Mozilla services."
+"Firefox Developer Services Dashboard shows how your apps and sites are using"
+" Mozilla services."
 msgstr ""
 
 #: dashboard/templates/dashboard/home.html:14
@@ -130,7 +131,8 @@ msgid "Key Status"
 msgstr ""
 
 #: push/templates/push/details.html:20 push/templates/push/list.html.py:90
-#: push/templates/push/validation.html:9 push/templates/push/validation.html:26
+#: push/templates/push/validation.html:9
+#: push/templates/push/validation.html:26
 msgid "Validate"
 msgstr ""
 
@@ -264,8 +266,8 @@ msgstr ""
 #: templates/includes/fxa_sign_in_link.html:5
 #, python-format
 msgid ""
-"<a class=\"button sign-in-btn\" href=\"%(href)s?next=%(request.path)s\">Sign "
-"in with <i class=\"fa fa-firefox\"></i> Firefox Account</a>"
+"<a class=\"button sign-in-btn\" href=\"%(href)s?next=%(request.path)s\">Sign"
+" in with <i class=\"fa fa-firefox\"></i> Firefox Account</a>"
 msgstr ""
 
 #: templates/includes/fxa_sign_in_link.html:7
