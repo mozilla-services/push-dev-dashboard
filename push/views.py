@@ -83,3 +83,25 @@ class Validation(UserOwnsPushAppMixin, TemplateView):
         elif push_app.invalid:
             messages.warning(self.request, _("Invalid signature."))
         return redirect('push.details', pk=pk)
+
+
+class Deletion(UserOwnsPushAppMixin, TemplateView):
+    template_name = 'push/deletion.html'
+    raise_exception = True
+
+    def get_context_data(self, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
+
+        context = super(Deletion, self).get_context_data(**kwargs)
+        context.update({'app': push_app})
+
+        return context
+
+    def post(self, request, pk, *args, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=pk)
+        num_deleted, app_deleted = push_app.delete()
+        if num_deleted == 1:
+            messages.success(self.request, _("Application deleted."))
+        else:
+            messages.warning(self.request, _("Unable to delete application."))
+        return redirect('push.list')

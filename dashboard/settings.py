@@ -181,6 +181,9 @@ PIPELINE = {
 
                 # Push application details page
                 'styles/details.styl',
+
+                # Push application deletion page
+                'styles/deletion.styl',
             ),
             'output_filename': 'css/dashboard.css',
         },

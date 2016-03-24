@@ -15,4 +15,8 @@ urlpatterns = [
     url(r'^apps/(?P<pk>[0-9]+)/validation/$',
         push_views.Validation.as_view(),
         name='push.validation'),
+
+    url(r'^apps/(?P<pk>[0-9]+)/deletion/$',
+        push_views.Deletion.as_view(),
+        name='push.deletion'),
 ]

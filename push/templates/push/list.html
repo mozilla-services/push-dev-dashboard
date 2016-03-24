@@ -71,6 +71,7 @@
                             <th>{% trans "Application Name" %}</th>
                             <th>VAPID {% trans "Key" %}</th>
                             <th>VAPID {% trans "Key Status" %}</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,9 @@
                                     <a class="button" href="{% url 'push.validation' app.id %}">{% trans "Validate" %}</a>
                                     {% endif %}
                                 </td>
+                                <td>
+                                    <a class="alert button" href="{% url 'push.deletion' app.id %}">{% trans "Delete" %}</a>
+                                </td>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -100,7 +104,7 @@
 
         <section id="add-push-application">
             <h2>{% trans "Add Push Application" %}</h2>
-            <form action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
+            <form id="push-app-add" action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
                 {% csrf_token %}
 
                 <label for="{{ push_app_form.name.auto_id }}">{% trans "Application name:" %}</label>

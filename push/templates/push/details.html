@@ -21,6 +21,7 @@
             {% endif %}
         </dd>
     </dl>
+    <a class="alert button" href="{% url 'push.deletion' app.id %}">{% trans "Delete" %}</a>
     {% if app.recording %}
     <h3>{% trans "Messages" %}</h3>
     <table>

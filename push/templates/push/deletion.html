@@ -1,0 +1,25 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+<li><a href="{% url 'push.landing' %}">{% trans "Push" %}</a></li>
+<li><a href="{% url 'push.list' %}">{% trans "Applications" %}</a></li>
+<li><a href="{% url 'push.details' app.id %}">{{ app.name }}</a></li>
+<li><span class="show-for-sr">{% trans "Current:" %} </span>{% trans "Delete" %}</li>
+{% endblock %}
+
+{% block content %}
+        <form id="push-app-deletion" action="{% url 'push.deletion' app.id %}" method="POST">
+            <fieldset>
+            {% csrf_token %}
+                <legend>{% blocktrans %}Are you sure you want to delete?{% endblocktrans %}</legend>
+                <table>
+                    <tr><th width="20%" class="push-delete-form-table-label">{% trans "App Name:" %}</th><td>{{ app.name }}</td></tr>
+                    <tr><th class="push-delete-form-table-label">{% trans "VAPID Key:" %}</th><td>{{ app.vapid_key }}</td></tr>
+                    <tr><th class="push-delete-form-table-label">{% trans "VAPID Key Status:" %}</th><td>{{ app.vapid_key_status }}</td></tr>
+                </table>
+                <input type="submit" class="alert button" value="{% trans "Confirm Delete" %}">
+            </fieldset>
+        </form>
+{% endblock %}
