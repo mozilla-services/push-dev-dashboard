@@ -13,7 +13,7 @@
         {% if request.user.is_authenticated %}
         <a class="button" href="{% url 'push.list' %}">{% trans "Manage push applications" %}</a>
         {% else %}
-        <p>{% blocktrans href=provider_login_url "fxa" %}<a href="{{ href }}?next={{ request.path }}">Sign in</a> to track your push applications{% endblocktrans %}</p>
+        {% include "includes/fxa_sign_in_link.html" %}
         {% endif %}
     </div>
 {% endblock %}

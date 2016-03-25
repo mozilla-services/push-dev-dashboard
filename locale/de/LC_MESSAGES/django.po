@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 21:00+0000\n"
+"POT-Creation-Date: 2016-03-25 15:21+0000\n"
 "PO-Revision-Date: 2016-03-24 17:50+0000\n"
 "Last-Translator: Matjaž Horvat <matjaz.horvat@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,8 +66,8 @@ msgstr ""
 
 #: dashboard/templates/dashboard/home.html:10
 msgid ""
-"Firefox Developer Services Dashboard shows how your apps and sites are using"
-" Mozilla services."
+"Firefox Developer Services Dashboard shows how your apps and sites are using "
+"Mozilla services."
 msgstr ""
 
 #: dashboard/templates/dashboard/home.html:14
@@ -131,8 +131,7 @@ msgid "Key Status"
 msgstr ""
 
 #: push/templates/push/details.html:20 push/templates/push/list.html.py:90
-#: push/templates/push/validation.html:9
-#: push/templates/push/validation.html:26
+#: push/templates/push/validation.html:9 push/templates/push/validation.html:26
 msgid "Validate"
 msgstr ""
 
@@ -162,13 +161,6 @@ msgstr ""
 
 #: push/templates/push/landing.html:14
 msgid "Manage push applications"
-msgstr ""
-
-#: push/templates/push/landing.html:16
-#, python-format
-msgid ""
-"<a href=\"%(href)s?next=%(request.path)s\">Sign in</a> to track your push "
-"applications "
 msgstr ""
 
 #: push/templates/push/list.html:20
@@ -262,14 +254,10 @@ msgstr ""
 msgid "404 Not Found"
 msgstr ""
 
-#. Translators: the <i></i> is a firefox icon in the middle of the phrase.
-#: templates/includes/fxa_sign_in_link.html:5
-#, python-format
-msgid ""
-"<a class=\"button sign-in-btn\" href=\"%(href)s?next=%(request.path)s\">Sign"
-" in with <i class=\"fa fa-firefox\"></i> Firefox Account</a>"
+#: templates/includes/fxa_sign_in_link.html:4
+msgid "Sign in with Firefox Account"
 msgstr ""
 
-#: templates/includes/fxa_sign_in_link.html:7
+#: templates/includes/fxa_sign_in_link.html:6
 msgid "Note: Using dev FxA Environment"
 msgstr ""
