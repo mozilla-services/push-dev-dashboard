@@ -156,8 +156,8 @@ STATICFILES_FINDERS = (
 )
 
 # django-pipeline
-DISABLE_WRAPPER = True
 PIPELINE = {
+    'DISABLE_WRAPPER': True,
     'COMPILERS': (
         'pipeline.compilers.stylus.StylusCompiler',
     ),
