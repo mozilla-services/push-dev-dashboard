@@ -1,8 +1,7 @@
 {% load i18n %}
 {% load socialaccount %}
 <div class="sign-in-area">
-    {% comment %}Translators: the <i></i> is a firefox icon in the middle of the phrase.{% endcomment %}
-    {% blocktrans href=provider_login_url "fxa"%}<a class="button sign-in-btn" href="{{ href }}?next={{ request.path }}">Sign in with <i class="fa fa-firefox"></i> Firefox Account</a>{% endblocktrans %}
+    <a class="button sign-in-btn" href="{% provider_login_url "fxa" %}"><i class="fa fa-firefox"></i>{% trans "Sign in with Firefox Account" %}</a>
     {% if 'dev.lcip.org' in settings.SOCIALACCOUNT_PROVIDERS.fxa.OAUTH_ENDPOINT %}
     <div class="callout warning sign-in-tooltip">{% trans "Note: Using dev FxA Environment" %}</div>
     {% endif %}

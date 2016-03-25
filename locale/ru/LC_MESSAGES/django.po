@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 21:00+0000\n"
+"POT-Creation-Date: 2016-03-25 15:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,13 +164,6 @@ msgstr ""
 msgid "Manage push applications"
 msgstr ""
 
-#: push/templates/push/landing.html:16
-#, python-format
-msgid ""
-"<a href=\"%(href)s?next=%(request.path)s\">Sign in</a> to track your push "
-"applications "
-msgstr ""
-
 #: push/templates/push/list.html:20
 msgid "Domain"
 msgstr ""
@@ -262,14 +255,10 @@ msgstr ""
 msgid "404 Not Found"
 msgstr ""
 
-#. Translators: the <i></i> is a firefox icon in the middle of the phrase.
-#: templates/includes/fxa_sign_in_link.html:5
-#, python-format
-msgid ""
-"<a class=\"button sign-in-btn\" href=\"%(href)s?next=%(request.path)s\">Sign "
-"in with <i class=\"fa fa-firefox\"></i> Firefox Account</a>"
+#: templates/includes/fxa_sign_in_link.html:4
+msgid "Sign in with Firefox Account"
 msgstr ""
 
-#: templates/includes/fxa_sign_in_link.html:7
+#: templates/includes/fxa_sign_in_link.html:6
 msgid "Note: Using dev FxA Environment"
 msgstr ""
