@@ -38,24 +38,26 @@ class UserOwnsPushAppMixin(UserPassesTestMixin):
         push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
         return push_app.created_by(self.request.user)
 
+    def get_context_data(self, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=kwargs['pk'])
+        context = dict({'app': push_app})
+        return context
+
 
 class Details(UserOwnsPushAppMixin, TemplateView):
     template_name = 'push/details.html'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
-        push_app = get_object_or_404(PushApplication, pk=kwargs['pk'])
-
         context = super(Details, self).get_context_data(**kwargs)
+        # TODO: refactor push_app.get_messages() from view into template
+        push_app = context['app']
         app_messages = {'messages': []}
         try:
             app_messages = push_app.get_messages()
         except MessagesAPIError as e:
             messages.warning(self.request, e.message)
-        context.update({
-            'app': push_app,
-            'app_messages': app_messages['messages']
-        })
+        context.update({'app_messages': app_messages['messages']})
 
         return context
 
@@ -65,11 +67,8 @@ class Validation(UserOwnsPushAppMixin, TemplateView):
     raise_exception = True
 
     def get_context_data(self, **kwargs):
-        push_app = get_object_or_404(PushApplication, pk=self.kwargs['pk'])
-
         context = super(Validation, self).get_context_data(**kwargs)
         context.update({
-            'app': push_app,
             'vapid_validation_form': VapidValidationForm(),
         })
 
@@ -83,3 +82,17 @@ class Validation(UserOwnsPushAppMixin, TemplateView):
         elif push_app.invalid:
             messages.warning(self.request, _("Invalid signature."))
         return redirect('push.details', pk=pk)
+
+
+class Deletion(UserOwnsPushAppMixin, TemplateView):
+    template_name = 'push/deletion.html'
+    raise_exception = True
+
+    def post(self, request, pk, *args, **kwargs):
+        push_app = get_object_or_404(PushApplication, pk=pk)
+        num_deleted, app_deleted = push_app.delete()
+        if num_deleted == 1:
+            messages.success(self.request, _("Application deleted."))
+        else:
+            messages.warning(self.request, _("Unable to delete application."))
+        return redirect('push.list')

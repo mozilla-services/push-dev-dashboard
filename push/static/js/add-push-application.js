@@ -29,5 +29,5 @@ function formSubmit(e) {
 $(document).ready(function() {
     'use strict';
 
-    $('form').submit(formSubmit);
+    $('form#push-app-add').submit(formSubmit);
 });

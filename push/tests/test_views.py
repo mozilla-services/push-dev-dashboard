@@ -9,7 +9,8 @@ from dashboard.tests import UrlTestsFor200
 
 from ..forms import PushAppForm
 from ..models import PushApplication, MessagesAPIError
-from ..views import Landing, List, Details, Validation, UserOwnsPushAppMixin
+from ..views import (Deletion, Details, Landing, List, UserOwnsPushAppMixin,
+                     Validation)
 from . import messages_api_response_json_messages
 
 
@@ -60,8 +61,16 @@ class UserOwnsPushAppMixinTest(TestCase):
         mixin.kwargs = {'pk': app.id}
         self.assertTrue(mixin.test_func())
 
+    def test_adds_app_to_context_data(self):
+        user = mommy.make(User)
+        app = mommy.make(PushApplication, user=user)
+        mixin = UserOwnsPushAppMixin()
+        mixin.request = fudge.Fake().has_attr(user=user)
+        context = mixin.get_context_data(pk=app.id)
+        self.assertEqual(app, context['app'])
 
-class PushViewTests(TestCase):
+
+class PushViewGETTests(TestCase):
     def setUp(self):
         self.user = mommy.make(User)
         self.request = fudge.Fake().has_attr(user=self.user)
@@ -71,10 +80,12 @@ class PushViewTests(TestCase):
         listing = List()
         details = Details()
         validate = Validation()
+        deletion = Deletion()
         self.assertIn('landing.html', landing.template_name)
         self.assertIn('list.html', listing.template_name)
         self.assertIn('details.html', details.template_name)
         self.assertIn('validation.html', validate.template_name)
+        self.assertIn('deletion.html', deletion.template_name)
 
     def test_listing_context_form_and_apps_for_user(self):
         listing = List()
@@ -143,3 +154,27 @@ class PushViewTests(TestCase):
 
         context = details.get_context_data(pk=app.id)
         self.assertEqual(0, len(context['app_messages']))
+
+
+class PushDeletionViewTests(TestCase):
+    def setUp(self):
+        self.user = mommy.make(User)
+        self.app = mommy.make(PushApplication, user=self.user)
+        self.request = fudge.Fake().has_attr(user=self.user)
+
+    def test_post_unkown_pk_404(self):
+        self.assertEqual(1, len(PushApplication.objects.all()))
+        deletion = Deletion()
+        with self.assertRaises(Http404):
+            deletion.post(self.request, 9999)
+        self.assertEqual(1, len(PushApplication.objects.all()))
+
+    @fudge.patch("push.views.messages")
+    def test_post_pk_deletes_and_redirects(self, messages):
+        messages.expects('success')
+        self.assertEqual(1, len(PushApplication.objects.all()))
+        deletion = Deletion()
+        deletion.request = self.request
+        resp = deletion.post(self.request, self.app.id)
+        self.assertEqual(0, len(PushApplication.objects.all()))
+        self.assertEqual(302, resp.status_code)
