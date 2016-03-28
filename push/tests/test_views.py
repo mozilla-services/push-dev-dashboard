@@ -3,7 +3,9 @@ from model_mommy import mommy
 
 from django.contrib.auth.models import User
 from django.http import Http404
-from django.test import TestCase, override_settings
+from django.test import TestCase
+
+from dashboard.tests import UrlTestsFor200
 
 from ..forms import PushAppForm
 from ..models import PushApplication, MessagesAPIError
@@ -11,14 +13,18 @@ from ..views import Landing, List, Details, Validation, UserOwnsPushAppMixin
 from . import messages_api_response_json_messages
 
 
-# PipelineCachedStorage breaks in some test environments (like Travis)
-@override_settings(STATICFILES_STORAGE='pipeline.storage.PipelineStorage')
-class UrlTestsFor200(TestCase):
+class PushUrlTestsFor200(UrlTestsFor200):
     def setUp(self):
-        self.user = mommy.make(User)
-        self.user.set_password('testpass')
-        self.user.save()
+        super(PushUrlTestsFor200, self).setUp()
         self.app = mommy.make(PushApplication, user=self.user)
+        self.signed_out_urls = (
+            '/en/push/',
+        )
+        self.signed_in_urls = (
+            '/en/push/apps/',
+            '/en/push/apps/%d/',
+            '/en/push/apps/%d/validation/',
+        )
 
     def assert_all_urls_200(self, urls):
         for url in urls:
@@ -27,27 +33,7 @@ class UrlTestsFor200(TestCase):
                 url = url % self.app.id
             except TypeError:
                 pass
-            response = self.client.get(url)
-            self.assertEqual(
-                200, response.status_code,
-                "%s returned %d, not return 200" % (url, response.status_code)
-            )
-
-    def test_signed_out_urls(self):
-        signed_out_urls = (
-            '/en/push/',
-        )
-        self.assert_all_urls_200(signed_out_urls)
-
-    def test_signed_in_urls(self):
-        signed_in_urls = (
-            '/en/push/apps/',
-            '/en/push/apps/%d/',
-            '/en/push/apps/%d/validation/',
-        )
-        self.client.login(username=self.user.username, password='testpass')
-
-        self.assert_all_urls_200(signed_in_urls)
+            self.assert_url_200(url)
 
 
 class UserOwnsPushAppMixinTest(TestCase):
