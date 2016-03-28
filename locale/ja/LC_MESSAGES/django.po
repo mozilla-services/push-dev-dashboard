@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 15:21+0000\n"
+"POT-Creation-Date: 2016-03-28 19:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,35 +19,40 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: dashboard/templates/dashboard/base.html:11
-msgid "Push Dashboard"
+#: dashboard/templates/dashboard/home.html:10
+msgid ""
+"Firefox Developer Services Dashboard shows how your apps and sites are using "
+"Mozilla services."
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:24
+#: dashboard/templates/dashboard/base.html:12
+#: dashboard/templates/dashboard/base.html:25
 msgid "Firefox Developer Services Dashboard"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:30 push/templates/push/list.html:7
-#: push/templates/push/validation.html.py:6
+#: dashboard/templates/dashboard/base.html:31
+#: push/templates/push/deletion.html:6 push/templates/push/list.html.py:7
+#: push/templates/push/validation.html:6
 msgid "Push"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:33
+#: dashboard/templates/dashboard/base.html:34
 msgid "Manage applications"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:46
+#: dashboard/templates/dashboard/base.html:47
 msgid "Sign out"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:58
+#: dashboard/templates/dashboard/base.html:59
 msgid "You are here:"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:79
+#: dashboard/templates/dashboard/base.html:80
 msgid "Source on GitHub"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:79
+#: dashboard/templates/dashboard/base.html:80
 msgid "Issues"
 msgstr ""
 
@@ -61,12 +66,6 @@ msgstr ""
 
 #: dashboard/templates/dashboard/home.html:9
 msgid "Monitor your apps in Firefox"
-msgstr ""
-
-#: dashboard/templates/dashboard/home.html:10
-msgid ""
-"Firefox Developer Services Dashboard shows how your apps and sites are using "
-"Mozilla services."
 msgstr ""
 
 #: dashboard/templates/dashboard/home.html:14
@@ -106,19 +105,46 @@ msgstr ""
 msgid "VAPID p256ecdsa value; url-safe base-64 encoded."
 msgstr ""
 
-#: push/templates/push/details.html:5 push/templates/push/landing.html.py:6
-#: push/templates/push/list.html:6 push/templates/push/validation.html.py:5
+#: push/templates/push/deletion.html:5 push/templates/push/details.html.py:5
+#: push/templates/push/landing.html:6 push/templates/push/list.html.py:6
+#: push/templates/push/validation.html:5
 msgid "Home"
 msgstr ""
 
-#: push/templates/push/details.html:7 push/templates/push/list.html.py:8
-#: push/templates/push/validation.html:7
+#: push/templates/push/deletion.html:7 push/templates/push/details.html.py:7
+#: push/templates/push/list.html:8 push/templates/push/validation.html.py:7
 msgid "Applications"
 msgstr ""
 
-#: push/templates/push/details.html:8 push/templates/push/landing.html.py:7
-#: push/templates/push/list.html:8 push/templates/push/validation.html.py:9
+#: push/templates/push/deletion.html:9 push/templates/push/details.html.py:8
+#: push/templates/push/landing.html:7 push/templates/push/list.html.py:8
+#: push/templates/push/validation.html:9
 msgid "Current:"
+msgstr ""
+
+#: push/templates/push/deletion.html:9 push/templates/push/details.html:24
+#: push/templates/push/list.html.py:95
+msgid "Delete"
+msgstr ""
+
+#: push/templates/push/deletion.html:16
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+#: push/templates/push/deletion.html:18
+msgid "App Name:"
+msgstr ""
+
+#: push/templates/push/deletion.html:19
+msgid "VAPID Key:"
+msgstr ""
+
+#: push/templates/push/deletion.html:20
+msgid "VAPID Key Status:"
+msgstr ""
+
+#: push/templates/push/deletion.html:22
+msgid "Confirm Delete"
 msgstr ""
 
 #: push/templates/push/details.html:14 push/templates/push/list.html.py:72
@@ -129,32 +155,32 @@ msgstr ""
 msgid "Key Status"
 msgstr ""
 
-#: push/templates/push/details.html:20 push/templates/push/list.html.py:90
+#: push/templates/push/details.html:20 push/templates/push/list.html.py:93
 #: push/templates/push/validation.html:9 push/templates/push/validation.html:26
 msgid "Validate"
 msgstr ""
 
-#: push/templates/push/details.html:25
+#: push/templates/push/details.html:26
 msgid "Messages"
 msgstr ""
 
-#: push/templates/push/details.html:29
+#: push/templates/push/details.html:30
 msgid "ID"
 msgstr ""
 
-#: push/templates/push/details.html:30
+#: push/templates/push/details.html:31
 msgid "Timestamp"
 msgstr ""
 
-#: push/templates/push/details.html:31
+#: push/templates/push/details.html:32
 msgid "Size"
 msgstr ""
 
-#: push/templates/push/details.html:32
+#: push/templates/push/details.html:33
 msgid "TTL"
 msgstr ""
 
-#: push/templates/push/details.html:44
+#: push/templates/push/details.html:45
 msgid "No messages to display"
 msgstr ""
 
@@ -190,31 +216,35 @@ msgstr ""
 msgid "Application Name"
 msgstr ""
 
-#: push/templates/push/list.html:97
+#: push/templates/push/list.html:74
+msgid "Actions"
+msgstr ""
+
+#: push/templates/push/list.html:101
 msgid ""
 "No push applications have been registered. Use the form below to add some."
 msgstr ""
 
-#: push/templates/push/list.html:102
+#: push/templates/push/list.html:106
 msgid "Add Push Application"
 msgstr ""
 
-#: push/templates/push/list.html:106
+#: push/templates/push/list.html:110
 msgid "Application name:"
 msgstr ""
 
-#: push/templates/push/list.html:109
+#: push/templates/push/list.html:113
 msgid "key:"
 msgstr ""
 
-#: push/templates/push/list.html:110
+#: push/templates/push/list.html:114
 msgid ""
 "The public key that the application server sends for VAPID JWT validation. "
 "This should be the exact value sent in the \"p256ecdsa\" parameter of the "
 "Crypto-Key header of the POST requests to the push server."
 msgstr ""
 
-#: push/templates/push/list.html:113
+#: push/templates/push/list.html:117
 msgid "Add"
 msgstr ""
 
@@ -241,12 +271,20 @@ msgstr ""
 msgid "View application"
 msgstr ""
 
-#: push/views.py:82
+#: push/views.py:81
 msgid "VAPID Key validated."
 msgstr ""
 
-#: push/views.py:84
+#: push/views.py:83
 msgid "Invalid signature."
+msgstr ""
+
+#: push/views.py:95
+msgid "Application deleted."
+msgstr ""
+
+#: push/views.py:97
+msgid "Unable to delete application."
 msgstr ""
 
 #: templates/404.html:5
