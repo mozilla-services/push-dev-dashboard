@@ -3,7 +3,7 @@
 {% load socialaccount %}
 {% load staticfiles %}
 <!doctype html>
-<html id="push-dashboard" lang="en-US" dir="ltr">
+<html id="push-dashboard" lang="en-US" dir="ltr" {% if settings.GOOGLE_ANALYTICS_ACCOUNT %}data-ga_id="{{ settings.GOOGLE_ANALYTICS_ACCOUNT }}" data-ga_filename="analytics{% if settings.DEBUG %}_debug{% endif %}.js"{% endif %}>
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         {% stylesheet 'dashboard' %}
         {% block stylesheets %}{% endblock %}
-        {% include "includes/google_analytics.html" %}
     </head>
     <body>
       <div data-sticky-container>

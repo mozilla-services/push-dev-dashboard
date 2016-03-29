@@ -192,7 +192,7 @@ PIPELINE = {
         'dashboard': {
             'source_filenames': (
                 # Global
-                'js/dashboard.js',
+                'js/main.js',
                 'js/analytics.js',
                 'js/sign_in.js',
 
