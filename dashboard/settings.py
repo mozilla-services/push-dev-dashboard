@@ -158,7 +158,8 @@ STATICFILES_FINDERS = (
 # django-pipeline
 PIPELINE = {
     'DISABLE_WRAPPER': True,
-    'STYLUS_ARGUMENTS': '--use %s/node_modules/autoprefixer-stylus' % BASE_DIR,
+    'STYLUS_ARGUMENTS': '--sourcemap '
+                        '--use %s/node_modules/autoprefixer-stylus' % BASE_DIR,
     'COMPILERS': (
         'pipeline.compilers.stylus.StylusCompiler',
     ),
