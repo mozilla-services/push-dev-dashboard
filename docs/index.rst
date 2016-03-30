@@ -18,8 +18,8 @@ Resources
 .. image:: https://travis-ci.org/mozilla-services/push-dev-dashboard.png?branch=master
    :target: https://travis-ci.org/mozilla-services/push-dev-dashboard
    :alt: Travis-CI Build Status
-.. image:: https://coveralls.io/repos/mozilla-services/push-dev-dashboard/badge.png
-    :target: https://coveralls.io/r/mozilla-services/push-dev-dashboard
+.. image:: https://codecov.io/github/mozilla-services/push-dev-dashboard/coverage.svg?branch=master
+    :target: https://codecov.io/github/mozilla-services/push-dev-dashboard?branch=master
 .. image:: https://requires.io/github/mozilla-services/push-dev-dashboard/requirements.png?branch=master
    :target: https://requires.io/github/mozilla-services/push-dev-dashboard/requirements/?branch=master
    :alt: Requirements Status
