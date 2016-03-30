@@ -90,16 +90,26 @@ OAuth client app.
 .. _Add a django-allauth social app: http://127.0.0.1:8000/admin/socialaccount/socialapp/add/
 .. _Log out of the admin account: http://127.0.0.1:8000/admin/logout/
 
-Use production assets
----------------------
+Run in production mode
+----------------------
 
-Front-end assets are compressed on production. To test these compressed assets
-locally, follow these steps:
+Follow these steps to emulate production (for example, to test compressed
+assets). Run all commands from the project root.
 
-#. In .env, set ``DJANGO_DEBUG`` to ``False``
 #. Stop ``runserver`` if it's already running
+#. In .env, set ``DJANGO_DEBUG`` to ``False``
 #. Run ``python manage.py collectstatic``
-#. Run ``python manage.py runserver``
+#. Install `stunnel`_
+    * Mac: ``brew install stunnel``
+#. Run this command to generate a local cert and key for stunnel (you can use
+   the default values for all prompts):
+   ``openssl req -new -x509 -days 9999 -nodes -out stunnel/stunnel.pem -keyout stunnel/stunnel.pem``
+#. Run ``stunnel stunnel/dev_https``
+#. In another terminal, run ``HTTPS=1 python manage.py runserver 127.0.0.1:5000``
+#. Go to https://127.0.0.1:8443 to confirm the certificate exception and browse
+   the site
+
+.. _stunnel: https://www.stunnel.org/index.html
 
 Run the Tests
 -------------
