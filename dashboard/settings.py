@@ -71,6 +71,7 @@ if DEBUG:
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -191,6 +192,7 @@ PIPELINE = {
         'dashboard': {
             'source_filenames': (
                 # Global
+                'js/main.js',
                 'js/analytics.js',
                 'js/sign_in.js',
 
@@ -244,3 +246,10 @@ PUSH_MESSAGES_API_TIMEOUT = 3.05
 GOOGLE_ANALYTICS_ACCOUNT = config('GOOGLE_ANALYTICS_ACCOUNT', None)
 
 PONTOON_HOST = config('PONTOON_HOST', 'https://pontoon.mozilla.org')
+
+# django-csp
+CSP_FONT_SRC = ('code.cdn.mozilla.net', 'maxcdn.bootstrapcdn.com')
+CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'ajax.googleapis.com',
+                  PONTOON_HOST, 'www.google-analytics.com')
+CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.cdn.mozilla.net',
+                 'maxcdn.bootstrapcdn.com')
