@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "eslint --ignore-pattern 'staticfiles/**/*.js' --ignore-pattern 'env/**/*.js' .; stylint **/static/styles/*.styl"
+    "test": "eslint --ignore-pattern 'staticfiles/**/*.js' --ignore-pattern 'env/**/*.js' . && stylint **/static/styles/*.styl"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.9.2",
