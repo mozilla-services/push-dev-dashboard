@@ -121,6 +121,7 @@ class PushApplicationTests(PushApplicationTestCase):
 class PushApplicationMessagesAPITests(PushApplicationTestCase):
     @fudge.patch('push.models.PushApplication.post_key_to_api')
     def test_start_recording_calls_api_and_sets_status(self, post_key_to_api):
+        self.pa.vapid_key_status = 'valid'
         post_key_to_api.expects_call().returns(
             self.fake_post_response_json
         )

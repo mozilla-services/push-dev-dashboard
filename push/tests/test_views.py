@@ -161,6 +161,8 @@ class PushDeletionViewTests(TestCase):
         self.user = mommy.make(User)
         self.app = mommy.make(PushApplication, user=self.user)
         self.request = fudge.Fake().has_attr(user=self.user)
+        self.view = Deletion()
+        self.view.request = self.request
 
     def test_post_unkown_pk_404(self):
         self.assertEqual(1, len(PushApplication.objects.all()))
@@ -173,8 +175,48 @@ class PushDeletionViewTests(TestCase):
     def test_post_pk_deletes_and_redirects(self, messages):
         messages.expects('success')
         self.assertEqual(1, len(PushApplication.objects.all()))
-        deletion = Deletion()
-        deletion.request = self.request
-        resp = deletion.post(self.request, self.app.id)
+        resp = self.view.post(self.request, self.app.id)
         self.assertEqual(0, len(PushApplication.objects.all()))
+        self.assertEqual(302, resp.status_code)
+
+
+class PushValidationViewTests(TestCase):
+    def setUp(self):
+        self.user = mommy.make(User)
+        self.app = mommy.make(PushApplication, user=self.user)
+        self.request = fudge.Fake().has_attr(user=self.user,
+                                             POST={"signed_token": True})
+        self.view = Validation()
+        self.view.request = self.request
+
+    def test_post_unkown_pk_404(self):
+        self.assertEqual(1, len(PushApplication.objects.all()))
+        with self.assertRaises(Http404):
+            self.view.post(self.request, 9999)
+        self.assertEqual(1, len(PushApplication.objects.all()))
+
+    @fudge.patch("push.views.messages")
+    @fudge.patch("push.views.get_object_or_404")
+    def test_post_pk_valid_token_redirects_with_success(self,
+                                                        messages,
+                                                        get_object):
+        messages.expects('success')
+        (get_object.expects_call()
+                   .returns_fake()
+                   .expects("validate_vapid_key")
+                   .has_attr(valid=True))
+        resp = self.view.post(self.request, self.app.id)
+        self.assertEqual(302, resp.status_code)
+
+    @fudge.patch("push.views.messages")
+    @fudge.patch("push.views.get_object_or_404")
+    def test_post_pk_invalid_token_redirects_with_warning(self,
+                                                          messages,
+                                                          get_object):
+        messages.expects('warning')
+        (get_object.expects_call()
+                   .returns_fake()
+                   .expects("validate_vapid_key")
+                   .has_attr(valid=False, invalid=True))
+        resp = self.view.post(self.request, self.app.id)
         self.assertEqual(302, resp.status_code)
