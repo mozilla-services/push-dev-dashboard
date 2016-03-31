@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from base64 import urlsafe_b64decode
-from datetime import datetime
 import uuid
 
 import ecdsa
@@ -129,10 +128,7 @@ class PushApplication(models.Model):
             signed_token = urlsafe_b64decode(str(b64_signed_token))
             if (verifying_key.verify(signed_token, str(self.vapid_key_token))):
                 self.vapid_key_status = 'valid'
-                self.validated = timezone.make_aware(
-                    datetime.now(),
-                    timezone.get_current_timezone()
-                )
+                self.validated = timezone.now()
                 self.save()
                 self.start_recording()
         except ecdsa.BadSignatureError:
