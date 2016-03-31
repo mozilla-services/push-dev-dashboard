@@ -140,6 +140,7 @@ class PushApplication(models.Model):
             self.save()
 
     def start_recording(self):
+        assert self.vapid_key_status == 'valid'
         post_resp_json = self.post_key_to_api()
         if post_resp_json['status'] == 'success':
             self.vapid_key_status = 'recording'
