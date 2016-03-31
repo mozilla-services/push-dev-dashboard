@@ -255,11 +255,9 @@ PUSH_MESSAGES_API_TIMEOUT = 3.05
 # Google Analytics
 GOOGLE_ANALYTICS_ACCOUNT = config('GOOGLE_ANALYTICS_ACCOUNT', None)
 
-PONTOON_HOST = config('PONTOON_HOST', 'https://pontoon.mozilla.org')
-
 # django-csp
 CSP_FONT_SRC = ('code.cdn.mozilla.net', 'maxcdn.bootstrapcdn.com')
 CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'ajax.googleapis.com',
-                  PONTOON_HOST, 'www.google-analytics.com')
+                  'www.google-analytics.com')
 CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.cdn.mozilla.net',
                  'maxcdn.bootstrapcdn.com')
