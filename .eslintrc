@@ -5,6 +5,7 @@ env:
 
 globals:
     dashboard: false
+    ga: false
 
 rules:
     curly: 0
