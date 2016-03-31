@@ -10,6 +10,7 @@ MANIFEST
 .coveralls.yml
 locale/**/*.mo
 .coverage
+coverage.xml
 .dpl
 .tox
 deis
