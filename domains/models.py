@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from datetime import datetime, timedelta
+from datetime import timedelta
 import uuid
 
 from decouple import config
@@ -68,12 +68,6 @@ class DomainAuthorization(models.Model):
             record = self.get_dns_txt_record()
             if str(record.a.rdata).strip('"') == str(self.token):
                 self.status = 'valid'
-                self.validated = timezone.make_aware(
-                    datetime.now(),
-                    timezone.get_current_timezone()
-                )
-                self.expires = timezone.make_aware(
-                    datetime.now() + timedelta(1),
-                    timezone.get_current_timezone()
-                )
+                self.validated = timezone.now()
+                self.expires = self.validated + timedelta(1)
                 self.save()

@@ -1,11 +1,11 @@
-from datetime import datetime
+from django.utils import timezone
 
 from django.db import models
 
 
 class DomainAuthorizationManager(models.Manager):
     def __init__(self, *args, **kwargs):
-        self.expired_Q = models.Q(expires__lte=datetime.now())
+        self.expired_Q = models.Q(expires__lte=timezone.now())
         self.pending_Q = models.Q(status='pending')
         super(DomainAuthorizationManager, self).__init__(*args, **kwargs)
 

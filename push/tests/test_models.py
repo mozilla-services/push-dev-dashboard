@@ -1,6 +1,5 @@
 # coding: UTF-8
 from base64 import urlsafe_b64encode, urlsafe_b64decode
-from datetime import datetime
 import random
 from uuid import UUID
 
@@ -36,9 +35,7 @@ class PushApplicationTestCase(TestCase):
         self.signing_key, self.verifying_key, self.vapid_key = _gen_keys()
         self.pa.vapid_key = self.vapid_key
         self.pa.save()
-        self.tz_aware_now = timezone.make_aware(
-            datetime.now(), timezone.get_current_timezone()
-        )
+        self.tz_aware_now = timezone.now()
         self.fake_post_response_json = {
             'public-key': self.pa.vapid_key,
             'status': 'success'

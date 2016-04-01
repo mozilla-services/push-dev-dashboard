@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from uuid import UUID
 
 import fudge
@@ -19,9 +19,7 @@ class DomainAuthorizationTests(TestCase):
             domain='test.com',
             type='dns'
         )
-        self.tz_aware_now = timezone.make_aware(
-            datetime.now(), timezone.get_current_timezone()
-        )
+        self.tz_aware_now = timezone.now()
 
     def test_default_values(self):
         self.assertEqual('pending', self.da.status)
@@ -55,9 +53,7 @@ class DomainAuthorizationTests(TestCase):
 
 class DomainAuthorizationManagerTests(TestCase):
     def setUp(self):
-        self.tz_aware_now = timezone.make_aware(
-            datetime.now(), timezone.get_current_timezone()
-        )
+        self.tz_aware_now = timezone.now()
         # A non-expired, valid domain auth
         mommy.make(DomainAuthorization,
                    expires=self.tz_aware_now + timedelta(1),
