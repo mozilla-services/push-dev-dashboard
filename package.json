@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "eslint . && stylint **/static/styles/*.styl"
+    "test": "eslint . && stylint **/static/styles/"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.9.2",
