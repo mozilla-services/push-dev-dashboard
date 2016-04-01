@@ -260,4 +260,4 @@ CSP_FONT_SRC = ('code.cdn.mozilla.net', 'maxcdn.bootstrapcdn.com')
 CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'ajax.googleapis.com',
                   'www.google-analytics.com')
 CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.cdn.mozilla.net',
-                 'maxcdn.bootstrapcdn.com')
+                 'maxcdn.bootstrapcdn.com', 'www.google-analytics.com')
