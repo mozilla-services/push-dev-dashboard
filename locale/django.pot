@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 19:44+0000\n"
+"POT-Creation-Date: 2016-04-05 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,33 +25,33 @@ msgid ""
 msgstr ""
 
 #: dashboard/templates/dashboard/base.html:12
-#: dashboard/templates/dashboard/base.html:25
+#: dashboard/templates/dashboard/base.html:24
 msgid "Firefox Developer Services Dashboard"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:31
+#: dashboard/templates/dashboard/base.html:30
 #: push/templates/push/deletion.html:6 push/templates/push/list.html.py:7
 #: push/templates/push/validation.html:6
 msgid "Push"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:34
+#: dashboard/templates/dashboard/base.html:33
 msgid "Manage applications"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:47
+#: dashboard/templates/dashboard/base.html:46
 msgid "Sign out"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:59
+#: dashboard/templates/dashboard/base.html:58
 msgid "You are here:"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:80
+#: dashboard/templates/dashboard/base.html:79
 msgid "Source on GitHub"
 msgstr ""
 
-#: dashboard/templates/dashboard/base.html:80
+#: dashboard/templates/dashboard/base.html:79
 msgid "Issues"
 msgstr ""
 
@@ -81,26 +81,26 @@ msgstr ""
 msgid "You must sign in to access that page."
 msgstr ""
 
-#: push/models.py:29
+#: push/models.py:28
 #, python-format
 msgid "Error communicating with Push Messages API: %s"
 msgstr ""
 
-#: push/models.py:59
+#: push/models.py:58
 msgid "Unknown public key format specified"
 msgstr ""
 
-#: push/models.py:66
+#: push/models.py:65
 msgid "Must set PUSH_MESSAGES_API_ENDPOINT env var."
 msgstr ""
 
 #. Translators: Error status code & content returned from an API
-#: push/models.py:84
+#: push/models.py:83
 #, python-format
 msgid "Status: %(status)s; Content: %(content)s"
 msgstr ""
 
-#: push/models.py:94
+#: push/models.py:93
 msgid "VAPID p256ecdsa value; url-safe base-64 encoded."
 msgstr ""
 
@@ -228,23 +228,38 @@ msgstr ""
 msgid "Add Push Application"
 msgstr ""
 
-#: push/templates/push/list.html:110
+#: push/templates/push/list.html:112
 msgid "Application name:"
 msgstr ""
 
-#: push/templates/push/list.html:113
+#: push/templates/push/list.html:115
 msgid "key:"
 msgstr ""
 
-#: push/templates/push/list.html:114
+#: push/templates/push/list.html:116
 msgid ""
 "The public key that the application server sends for VAPID JWT validation. "
 "This should be the exact value sent in the \"p256ecdsa\" parameter of the "
-"Crypto-Key header of the POST requests to the push server."
+"Crypto-Key header. See the VAPID Draft for more details."
 msgstr ""
 
-#: push/templates/push/list.html:117
+#: push/templates/push/list.html:119
 msgid "Add"
+msgstr ""
+
+#: push/templates/push/list.html:123
+msgid ""
+"To monitor your push application messages, your application server must "
+"implement VAPID. VAPID allows your application server to submit information "
+"about itself to the Mozilla push service, which improves application "
+"stability, exception handling, and security."
+msgstr ""
+
+#: push/templates/push/list.html:124
+#, python-format
+msgid ""
+"See <a href=\"%(vapid_href)s\" target=\"_blank\">the VAPID Draft for more "
+"details</a>."
 msgstr ""
 
 #: push/templates/push/validation.html:14

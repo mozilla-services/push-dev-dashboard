@@ -104,6 +104,8 @@
 
         <section id="add-push-application">
             <h2>{% trans "Add Push Application" %}</h2>
+            <div class="row">
+                <div class="large-6 columns">
             <form id="push-app-add" action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
                 {% csrf_token %}
 
@@ -111,11 +113,17 @@
                 {{ push_app_form.name }}
 
                 <label for="{{ push_app_form.vapid_key.auto_id }}">VAPID {% trans "key:" %}</label>
-                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans 'The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header of the POST requests to the push server.' %}'></span>
+                <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans 'The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header. See the VAPID Draft for more details.' %}'></span>
                 {{ push_app_form.vapid_key }}
 
                 <input type="submit" class="button" value="{% trans "Add" %}">
             </form>
+                </div>
+                <div class="large-6 columns callout secondary">
+                    <p>{% trans "To monitor your push application messages, your application server must implement VAPID. VAPID allows your application server to submit information about itself to the Mozilla push service, which improves application stability, exception handling, and security." %}</p>
+                    <p>{% blocktrans with vapid_href="https://tools.ietf.org/html/draft-thomson-webpush-vapid-02" %}See <a href="{{ vapid_href }}" target="_blank">the VAPID Draft for more details</a>.{% endblocktrans %}</p>
+                </div>
+            </div>
         </section> {# add-push-application #}
     </section> {# push-applications #}
 {% endblock %}
