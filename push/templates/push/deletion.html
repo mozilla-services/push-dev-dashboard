@@ -13,7 +13,7 @@
         <form id="push-app-deletion" action="{% url 'push.deletion' app.id %}" method="POST">
             <fieldset>
             {% csrf_token %}
-                <legend>{% blocktrans %}Are you sure you want to delete?{% endblocktrans %}</legend>
+                <legend>{% trans "Are you sure you want to delete?" %}</legend>
                 <dl>
                     <dt>{% trans "App Name:" %}</dt><dd>{{ app.name }}</dd>
                     <dt>{% trans "VAPID Key:" %}</dt><dd>{{ app.vapid_key }}</dd>
