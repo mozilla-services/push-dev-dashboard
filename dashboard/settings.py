@@ -32,6 +32,10 @@ DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REDIRECT_EXEMPT = [
+    '^__heartbeat__$',
+    '^__lbheartbeat__$',
+]
 if DEBUG is False:
     CSRF_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = True
