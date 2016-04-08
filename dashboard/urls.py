@@ -24,8 +24,10 @@ handler500 = dashboard_views.InternalServerError.as_view()
 
 urlpatterns = [
     # dockerflow healthcheck endpoints
-    url(r'^__heartbeat__$', dashboard_views.Heartbeat.as_view(), name='heartbeat'),
-    url(r'^__lbheartbeat__$', dashboard_views.Heartbeat.as_view(), name='lbheartbeat'),
+    url(r'^__heartbeat__$',
+        dashboard_views.Heartbeat.as_view(), name='heartbeat'),
+    url(r'^__lbheartbeat__$',
+        dashboard_views.Heartbeat.as_view(), name='lbheartbeat'),
 
     # 3rd-party app urls
     url(r'^accounts/', include('allauth.urls')),
