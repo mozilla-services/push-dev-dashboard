@@ -1,4 +1,5 @@
-from django.views.generic import TemplateView
+from django.http import HttpResponse
+from django.views.generic import TemplateView, View
 
 
 class Home(TemplateView):
@@ -15,3 +16,8 @@ class PermissionDenied(TemplateView):
 
 class InternalServerError(TemplateView):
     template_name = 'dashboard/errors/500.html'
+
+
+class Heartbeat(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('OK')

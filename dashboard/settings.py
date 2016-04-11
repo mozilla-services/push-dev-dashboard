@@ -31,7 +31,19 @@ DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
+ROOT_URLCONF = 'dashboard.urls'
+
+HEALTHCHECK_URL = '^%s$' % config('HEALTHCHECK_URL', default='__heartbeat__'),
+LBHEALTHCHECK_URL = '^%s$' % config(
+    'LBHEALTHCHECK_URL', default='__lbheartbeat__'
+)
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REDIRECT_EXEMPT = [
+    '^%s$' % HEALTHCHECK_URL,
+    '^%s$' % LBHEALTHCHECK_URL,
+]
+
 if DEBUG is False:
     CSRF_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = True
@@ -92,8 +104,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'waffle.middleware.WaffleMiddleware',
 ]
-
-ROOT_URLCONF = 'dashboard.urls'
 
 TEMPLATES = [
     {

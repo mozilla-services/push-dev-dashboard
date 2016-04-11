@@ -37,6 +37,8 @@ class DashboardUrlTestsFor200(UrlTestsFor200):
     def setUp(self):
         super(DashboardUrlTestsFor200, self).setUp()
         self.signed_out_urls = (
+            '/__heartbeat__',
+            '/__lbheartbeat__',
             '/en/',
             '/accounts/login/',
         )
