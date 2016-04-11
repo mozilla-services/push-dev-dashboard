@@ -181,6 +181,19 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
         with self.assertRaises(MessagesAPIError):
             pa.get_messages()
 
+    @fudge.patch('requests.request')
+    def test_get_messages_MessagesAPIError_404_reverts_status(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        pa2 = mommy.make(PushApplication, vapid_key_status='recording')
+        request.expects_call().returns(
+            fudge.Fake().has_attr(status_code=404)
+        )
+        pa.get_messages()
+        pa = PushApplication.objects.get(pk=pa.id)
+        pa2 = PushApplication.objects.get(pk=pa2.id)
+        self.assertEqual('valid', pa.vapid_key_status)
+        self.assertEqual('valid', pa2.vapid_key_status)
+
 
 class GetAutopushEndpointTests(TestCase):
     def test_missing_value_raises_exception(self):

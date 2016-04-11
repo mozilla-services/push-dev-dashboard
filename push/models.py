@@ -23,10 +23,11 @@ VAPID_KEY_STATUS_CHOICES = (
 
 
 class MessagesAPIError(Exception):
-    def __init__(self, message):
+    def __init__(self, message, status_code=None):
         super(Exception, self).__init__(
             _("Error communicating with Push Messages API: %s") % message
         )
+        self.status_code = status_code
 
 
 def generate_jws_key_token():
@@ -77,6 +78,8 @@ def push_messages_api_request(method, endpoint, json_data=None):
         raise MessagesAPIError(e.message)
     if resp.status_code == 200:
         return resp.json()
+    elif resp.status_code == 404:
+        raise MessagesAPIError("404 at %s" % endpoint, resp.status_code)
     else:
         raise MessagesAPIError(
             # Translators: Error status code & content returned from an API
@@ -148,8 +151,21 @@ class PushApplication(models.Model):
                                          {'public-key': self.vapid_key})
 
     def get_messages(self):
-        return push_messages_api_request('get',
-                                         '/messages/%s' % self.vapid_key)
+        try:
+            resp_json = push_messages_api_request(
+                'get',
+                '/messages/%s' % self.vapid_key
+            )
+            return resp_json
+        except MessagesAPIError as e:
+            if e.status_code == 404:
+                # 404 from messages API indicates that *ALL* Push Apps' keys
+                # were lost. So, we need to reset all apps' vapid status to
+                # 'valid', which will cause start_recording_push_apps to
+                # re-POST *ALL* push apps' keys to messages API for recording
+                PushApplication.objects.all().update(vapid_key_status='valid')
+            else:
+                raise MessagesAPIError(e.message)
 
     def created_by(self, user):
         return self.user == user
