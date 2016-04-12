@@ -17,7 +17,9 @@ from . import messages_api_response_json_messages
 class PushUrlTestsFor200(UrlTestsFor200):
     def setUp(self):
         super(PushUrlTestsFor200, self).setUp()
-        self.app = mommy.make(PushApplication, user=self.user)
+        self.app = mommy.make(PushApplication,
+                              user=self.user,
+                              vapid_key_status='pending')
         self.signed_out_urls = (
             '/en/push/',
         )
@@ -204,7 +206,7 @@ class PushValidationViewTests(TestCase):
         (get_object.expects_call()
                    .returns_fake()
                    .expects("validate_vapid_key")
-                   .has_attr(valid=True))
+                   .expects("valid").returns(True))
         resp = self.view.post(self.request, self.app.id)
         self.assertEqual(302, resp.status_code)
 
@@ -217,6 +219,7 @@ class PushValidationViewTests(TestCase):
         (get_object.expects_call()
                    .returns_fake()
                    .expects("validate_vapid_key")
-                   .has_attr(valid=False, invalid=True))
+                   .expects("valid").returns(False)
+                   .expects("invalid").returns(True))
         resp = self.view.post(self.request, self.app.id)
         self.assertEqual(302, resp.status_code)

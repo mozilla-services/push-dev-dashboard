@@ -1,5 +1,6 @@
 # coding: UTF-8
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+import hashlib
 import random
 from uuid import UUID
 
@@ -84,7 +85,10 @@ class PushApplicationTests(PushApplicationTestCase):
         self, start_recording
     ):
         start_recording.expects_call()
-        signed_token = self.signing_key.sign(str(self.pa.vapid_key_token))
+        signed_token = self.signing_key.sign(
+            str(self.pa.vapid_key_token),
+            hashfunc=hashlib.sha256
+        )
         self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
         self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
@@ -163,8 +167,15 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
         self.assertEqual('valid', pa.vapid_key_status)
 
     @fudge.patch('requests.request')
-    def test_get_messages_uses_requests_json(self, request):
+    def test_get_messages_not_recording_returns_empty(self, request):
         pa = mommy.make(PushApplication, vapid_key_status='valid')
+        request.is_callable().times_called(0)
+        messages = pa.get_messages()
+        self.assertEqual([], messages['messages'])
+
+    @fudge.patch('requests.request')
+    def test_get_messages_uses_requests_json(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
         request.expects_call().returns(
             fudge.Fake().has_attr(status_code=200).expects('json').returns(
                 self.fake_get_response_json
