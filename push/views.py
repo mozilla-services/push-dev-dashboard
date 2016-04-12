@@ -77,9 +77,9 @@ class Validation(UserOwnsPushAppMixin, TemplateView):
     def post(self, request, pk, *args, **kwargs):
         push_app = get_object_or_404(PushApplication, pk=pk)
         push_app.validate_vapid_key(request.POST["signed_token"])
-        if push_app.valid:
+        if push_app.valid():
             messages.success(self.request, _("VAPID Key validated."))
-        elif push_app.invalid:
+        elif push_app.invalid():
             messages.warning(self.request, _("Invalid signature."))
         return redirect('push.details', pk=pk)
 

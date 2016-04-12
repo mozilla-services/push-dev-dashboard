@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from base64 import urlsafe_b64decode
+import hashlib
 import uuid
 
 import ecdsa
@@ -129,7 +130,10 @@ class PushApplication(models.Model):
                 curve=ecdsa.NIST256p
             )
             signed_token = urlsafe_b64decode(str(b64_signed_token))
-            if (verifying_key.verify(signed_token, str(self.vapid_key_token))):
+            if (
+                verifying_key.verify(signed_token, str(self.vapid_key_token),
+                                     hashfunc=hashlib.sha256)
+            ):
                 self.vapid_key_status = 'valid'
                 self.validated = timezone.now()
                 self.save()
@@ -151,6 +155,8 @@ class PushApplication(models.Model):
                                          {'public-key': self.vapid_key})
 
     def get_messages(self):
+        if not self.vapid_key_status == 'recording':
+            return {'messages': []}
         try:
             resp_json = push_messages_api_request(
                 'get',
