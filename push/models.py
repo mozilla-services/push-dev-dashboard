@@ -77,8 +77,8 @@ def push_messages_api_request(method, endpoint, json_data=None):
                                 timeout=settings.PUSH_MESSAGES_API_TIMEOUT)
     except requests.exceptions.RequestException as e:
         raise MessagesAPIError(e.message)
-    if resp.status_code == 200:
-        return resp.json()
+    if resp.status_code >= 200 and resp.status_code < 300:
+        return resp
     elif resp.status_code == 404:
         raise MessagesAPIError("404 at %s" % endpoint, resp.status_code)
     else:
@@ -150,19 +150,20 @@ class PushApplication(models.Model):
             self.save()
 
     def post_key_to_api(self):
-        return push_messages_api_request('post',
+        resp = push_messages_api_request('post',
                                          '/keys',
                                          {'public-key': self.vapid_key})
+        return resp.json()
 
     def get_messages(self):
         if not self.vapid_key_status == 'recording':
             return {'messages': []}
         try:
-            resp_json = push_messages_api_request(
+            resp = push_messages_api_request(
                 'get',
                 '/messages/%s' % self.vapid_key
             )
-            return resp_json
+            return resp.json()
         except MessagesAPIError as e:
             if e.status_code == 404:
                 # 404 from messages API indicates that *ALL* Push Apps' keys
