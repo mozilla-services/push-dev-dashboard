@@ -144,8 +144,8 @@ class PushApplication(models.Model):
 
     def start_recording(self):
         assert self.vapid_key_status == 'valid'
-        post_resp_json = self.post_key_to_api()
-        if post_resp_json['status'] == 'success':
+        post_resp = self.post_key_to_api()
+        if post_resp.status_code == 201:
             self.vapid_key_status = 'recording'
             self.save()
 
@@ -153,7 +153,7 @@ class PushApplication(models.Model):
         resp = push_messages_api_request('post',
                                          '/keys',
                                          {'public-key': self.vapid_key})
-        return resp.json()
+        return resp
 
     def get_messages(self):
         if not self.vapid_key_status == 'recording':
