@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import PushApplicationManager
+from . import NO_MESSAGES
 
 VAPID_KEY_STATUS_CHOICES = (
     ('pending', 'pending'),
@@ -157,13 +158,16 @@ class PushApplication(models.Model):
 
     def get_messages(self):
         if not self.vapid_key_status == 'recording':
-            return {'messages': []}
+            return NO_MESSAGES
         try:
             resp = push_messages_api_request(
                 'get',
                 '/messages/%s' % self.vapid_key
             )
-            return resp.json()
+            if resp.status_code == 200:
+                return resp.json()
+            else:
+                return NO_MESSAGES
         except MessagesAPIError as e:
             if e.status_code == 404:
                 # 404 from messages API indicates that *ALL* Push Apps' keys

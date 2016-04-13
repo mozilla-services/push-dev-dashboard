@@ -19,6 +19,7 @@ from model_mommy import mommy
 
 from ..models import PushApplication, MessagesAPIError
 from ..models import extract_public_key, get_autopush_endpoint
+from .. import NO_MESSAGES
 from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE)
 
 
@@ -163,8 +164,8 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
     def test_get_messages_not_recording_returns_empty(self, request):
         pa = mommy.make(PushApplication, vapid_key_status='valid')
         request.is_callable().times_called(0)
-        messages = pa.get_messages()
-        self.assertEqual([], messages['messages'])
+
+        self.assertEqual(NO_MESSAGES, pa.get_messages())
 
     @fudge.patch('requests.request')
     def test_get_messages_uses_requests_json(self, request):
@@ -175,6 +176,13 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
             )
         )
         pa.get_messages()
+
+    @fudge.patch('requests.request')
+    def test_get_messages_204_returns_empty_messages(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        request.expects_call().returns(fudge.Fake().has_attr(status_code=204))
+
+        self.assertEqual(NO_MESSAGES, pa.get_messages())
 
     @fudge.patch('requests.request')
     def test_get_messages_MessagesAPIError_on_connection_error(self, request):
