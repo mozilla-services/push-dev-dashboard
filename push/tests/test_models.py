@@ -19,7 +19,7 @@ from model_mommy import mommy
 
 from ..models import PushApplication, MessagesAPIError
 from ..models import extract_public_key, get_autopush_endpoint
-from . import messages_api_response_json_messages
+from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE)
 
 
 def _gen_keys():
@@ -37,13 +37,9 @@ class PushApplicationTestCase(TestCase):
         self.pa.vapid_key = self.vapid_key
         self.pa.save()
         self.tz_aware_now = timezone.now()
-        self.fake_post_response_json = {
-            'public-key': self.pa.vapid_key,
-            'status': 'success'
-        }
         self.fake_get_response_json = {
             'public-key': self.pa.vapid_key,
-            'messages': messages_api_response_json_messages
+            'messages': MESSAGES_API_RESPONSE_JSON_MESSAGES
         }
 
 
@@ -123,9 +119,8 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
     @fudge.patch('push.models.PushApplication.post_key_to_api')
     def test_start_recording_calls_api_and_sets_status(self, post_key_to_api):
         self.pa.vapid_key_status = 'valid'
-        post_key_to_api.expects_call().returns(
-            self.fake_post_response_json
-        )
+        post_key_to_api.expects_call().returns(MESSAGES_API_POST_RESPONSE)
+
         self.pa.start_recording()
         self.assertEqual('recording', self.pa.vapid_key_status)
 
@@ -138,9 +133,7 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
             json={'public-key': pa.vapid_key},
             timeout=arg.any()
         ).returns(
-            fudge.Fake().has_attr(status_code=200).expects('json').returns(
-                self.fake_post_response_json
-            )
+            MESSAGES_API_POST_RESPONSE
         )
         pa.post_key_to_api()
 

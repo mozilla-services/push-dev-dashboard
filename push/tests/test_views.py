@@ -11,7 +11,7 @@ from ..forms import PushAppForm
 from ..models import PushApplication, MessagesAPIError
 from ..views import (Deletion, Details, Landing, List, UserOwnsPushAppMixin,
                      Validation)
-from . import messages_api_response_json_messages
+from . import MESSAGES_API_RESPONSE_JSON_MESSAGES
 
 
 class PushUrlTestsFor200(UrlTestsFor200):
@@ -129,7 +129,7 @@ class PushViewGETTests(TestCase):
                                            get_object_or_404):
         get_object_or_404.expects_call().returns(
             fudge.Fake().expects('get_messages').returns(
-                {'messages': messages_api_response_json_messages}
+                {'messages': MESSAGES_API_RESPONSE_JSON_MESSAGES}
             )
         )
         app = mommy.make(PushApplication, user=self.user)
