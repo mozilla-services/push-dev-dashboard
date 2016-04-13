@@ -272,3 +272,12 @@ CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'ajax.googleapis.com',
                   'www.google-analytics.com')
 CSP_STYLE_SRC = ("'self'", 'cdn.jsdelivr.net', 'code.cdn.mozilla.net',
                  'maxcdn.bootstrapcdn.com', 'www.google-analytics.com')
+
+RAVEN_DSN = config('RAVEN_DSN', None)
+if RAVEN_DSN:
+    RAVEN_CONFIG = {
+        'dsn': RAVEN_DSN,
+    }
+    INSTALLED_APPS += [
+        'raven.contrib.django.raven_compat',
+    ]
