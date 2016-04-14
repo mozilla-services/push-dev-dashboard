@@ -36,6 +36,13 @@ def generate_jws_key_token():
     return uuid.uuid4()
 
 
+def fix_padding(string):
+    """ Some JWT libs strip the end padding from base64 strings """
+    if len(string) % 4:
+        return string + '===='[len(string) % 4:]
+    return string
+
+
 def extract_public_key(key_data):
     """
     See https://github.com/mozilla-services/autopush/blob/
@@ -124,13 +131,15 @@ class PushApplication(models.Model):
 
     def validate_vapid_key(self, b64_signed_token):
         try:
-            key_data = urlsafe_b64decode(str(self.vapid_key))
+            key_data = urlsafe_b64decode(str(fix_padding(self.vapid_key)))
             key_string = extract_public_key(key_data)
             verifying_key = ecdsa.VerifyingKey.from_string(
                 key_string,
                 curve=ecdsa.NIST256p
             )
-            signed_token = urlsafe_b64decode(str(b64_signed_token))
+            signed_token = urlsafe_b64decode(
+                str(fix_padding(b64_signed_token))
+            )
             if (
                 verifying_key.verify(signed_token, str(self.vapid_key_token),
                                      hashfunc=hashlib.sha256)

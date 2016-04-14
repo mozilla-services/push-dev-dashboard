@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 from model_mommy import mommy
 
 from ..models import PushApplication, MessagesAPIError
-from ..models import extract_public_key, get_autopush_endpoint
+from ..models import extract_public_key, fix_padding, get_autopush_endpoint
 from .. import NO_MESSAGES
 from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE)
 
@@ -90,7 +90,10 @@ class PushApplicationTests(PushApplicationTestCase):
         self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
 
-    def test_validate_invalid_vapid_key_sets_status(self):
+    @fudge.patch('push.models.PushApplication.start_recording')
+    def test_validate_invalid_vapid_key_sets_status(self, start_recording):
+        start_recording.is_callable().times_called(0)
+
         other_signing_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
         signed_token = other_signing_key.sign(str(self.pa.vapid_key_token))
         self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
@@ -214,6 +217,18 @@ class GetAutopushEndpointTests(TestCase):
         with self.assertRaises(ImproperlyConfigured):
             get_autopush_endpoint()
         settings.PUSH_MESSAGES_API_ENDPOINT = prev_value
+
+
+class FixPaddingTests(TestCase):
+    def setUp(self):
+        self.unpadded = ('BKN35wUomETjgRqu93qQiAt58NV3aeBX6dx4WIJVZpr2MqF4JQ8v'
+                         'GThfzmFsN15gJx2vldoUCjWuVXkTohV1klE')
+        self.padded = ('BKN35wUomETjgRqu93qQiAt58NV3aeBX6dx4WIJVZpr2MqF4JQ8v'
+                       'GThfzmFsN15gJx2vldoUCjWuVXkTohV1klE=')
+
+    def test_unpadded_becomes_multiple_of_4(self):
+        self.assertEqual(0, len(fix_padding(self.unpadded)) % 4)
+        self.assertEqual(0, len(fix_padding(self.padded)) % 4)
 
 
 class ExtractPublicKeyTests(TestCase):
