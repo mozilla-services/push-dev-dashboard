@@ -215,9 +215,6 @@ PIPELINE = {
                 'js/main.js',
                 'js/analytics.js',
                 'js/sign_in.js',
-
-                # Push application listing page
-                'js/add-push-application.js',
             ),
             'output_filename': 'js/dashboard.js'
         }
