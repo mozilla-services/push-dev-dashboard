@@ -32,6 +32,17 @@ class List(LoginRequiredMixin, TemplateView):
         context['push_apps'] = push_apps
         return context
 
+    def post(self, request, *args, **kwargs):
+        push_app_form = PushAppForm(request.POST)
+        if push_app_form.is_valid():
+            new_push_app = push_app_form.save(commit=False)
+            new_push_app.user = request.user
+            new_push_app.save()
+            messages.success(self.request, _("Added push application."))
+            return redirect('push.validation', pk=str(new_push_app.id))
+        else:
+            return redirect('push.list')
+
 
 class UserOwnsPushAppMixin(UserPassesTestMixin):
     def test_func(self):

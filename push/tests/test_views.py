@@ -2,8 +2,9 @@ import fudge
 from model_mommy import mommy
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import Http404
-from django.test import TestCase
+from django.test import Client, TestCase
 
 from dashboard.tests import UrlTestsFor200
 
@@ -156,6 +157,42 @@ class PushViewGETTests(TestCase):
 
         context = details.get_context_data(pk=app.id)
         self.assertEqual(0, len(context['app_messages']))
+
+
+class PushListIntegrationTests(TestCase):
+    def setUp(self):
+        super(PushListIntegrationTests, self).setUp()
+        self.user = mommy.make(User)
+        self.password = 'testpass'
+        self.user.set_password(self.password)
+        self.user.save()
+        self.client = Client()
+        self.client.login(username=self.user.username,
+                          password=self.password)
+
+    @fudge.patch("push.views.messages")
+    def test_list_post_adds_app_for_user_success_message(self, messages):
+        messages.expects('success')
+        resp = self.client.post(
+            reverse('push.list'), {'name': 'test-post',
+                                   'vapid_key': 'test-post'}
+        )
+
+        self.assertEqual(302, resp.status_code)
+        push_app = PushApplication.objects.get(user=self.user)
+        self.assertEqual(reverse('push.validation',
+                                 kwargs={'pk': push_app.id}),
+                         resp['Location'])
+
+    def test_list_post_invalid_doesnt_create_redirects_back_to_list(self):
+        resp = self.client.post(
+            reverse('push.list'), {'name2': 'test-post',
+                                   'vapid_lock': 'test-post'}
+        )
+
+        self.assertEqual(302, resp.status_code)
+        self.assertEqual(reverse('push.list'), resp['Location'])
+        # TODO: assert messages.error on form validation
 
 
 class PushDeletionViewTests(TestCase):

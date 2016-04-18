@@ -106,7 +106,7 @@
             <h2>{% trans "Add Push Application" %}</h2>
             <div class="row">
                 <div class="large-6 columns">
-            <form id="push-app-add" action="{% url 'pushapplication-list' %}" method="POST" autocomplete="off">
+            <form id="push-app-add" action="{% url 'push.list' %}" method="POST" autocomplete="off">
                 {% csrf_token %}
 
                 <label for="{{ push_app_form.name.auto_id }}">{% trans "Application name:" %}</label>
