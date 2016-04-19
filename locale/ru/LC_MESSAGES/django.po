@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-05 15:18+0000\n"
+"POT-Creation-Date: 2016-04-19 19:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,47 +84,47 @@ msgstr ""
 msgid "You must sign in to access that page."
 msgstr ""
 
-#: push/models.py:28
+#: push/models.py:30
 #, python-format
 msgid "Error communicating with Push Messages API: %s"
 msgstr ""
 
-#: push/models.py:58
+#: push/models.py:68
 msgid "Unknown public key format specified"
 msgstr ""
 
-#: push/models.py:65
+#: push/models.py:75
 msgid "Must set PUSH_MESSAGES_API_ENDPOINT env var."
 msgstr ""
 
 #. Translators: Error status code & content returned from an API
-#: push/models.py:83
+#: push/models.py:95
 #, python-format
 msgid "Status: %(status)s; Content: %(content)s"
 msgstr ""
 
-#: push/models.py:93
+#: push/models.py:105
 msgid "VAPID p256ecdsa value; url-safe base-64 encoded."
 msgstr ""
 
-#: push/templates/push/deletion.html:5 push/templates/push/details.html.py:5
+#: push/templates/push/deletion.html:5 push/templates/push/details.html.py:6
 #: push/templates/push/landing.html:6 push/templates/push/list.html.py:6
 #: push/templates/push/validation.html:5
 msgid "Home"
 msgstr ""
 
-#: push/templates/push/deletion.html:7 push/templates/push/details.html.py:7
+#: push/templates/push/deletion.html:7 push/templates/push/details.html.py:8
 #: push/templates/push/list.html:8 push/templates/push/validation.html.py:7
 msgid "Applications"
 msgstr ""
 
-#: push/templates/push/deletion.html:9 push/templates/push/details.html.py:8
+#: push/templates/push/deletion.html:9 push/templates/push/details.html.py:9
 #: push/templates/push/landing.html:7 push/templates/push/list.html.py:8
 #: push/templates/push/validation.html:9
 msgid "Current:"
 msgstr ""
 
-#: push/templates/push/deletion.html:9 push/templates/push/details.html:24
+#: push/templates/push/deletion.html:9 push/templates/push/details.html:25
 #: push/templates/push/list.html.py:95
 msgid "Delete"
 msgstr ""
@@ -149,41 +149,45 @@ msgstr ""
 msgid "Confirm Delete"
 msgstr ""
 
-#: push/templates/push/details.html:14 push/templates/push/list.html.py:72
+#: push/templates/push/details.html:15 push/templates/push/list.html.py:72
 msgid "Key"
 msgstr ""
 
-#: push/templates/push/details.html:16 push/templates/push/list.html.py:73
+#: push/templates/push/details.html:17 push/templates/push/list.html.py:73
 msgid "Key Status"
 msgstr ""
 
-#: push/templates/push/details.html:20 push/templates/push/list.html.py:93
+#: push/templates/push/details.html:21 push/templates/push/list.html.py:93
 #: push/templates/push/validation.html:9 push/templates/push/validation.html:26
 msgid "Validate"
 msgstr ""
 
-#: push/templates/push/details.html:26
+#: push/templates/push/details.html:27
 msgid "Messages"
 msgstr ""
 
-#: push/templates/push/details.html:30
+#: push/templates/push/details.html:31
 msgid "ID"
 msgstr ""
 
-#: push/templates/push/details.html:31
-msgid "Timestamp"
-msgstr ""
-
 #: push/templates/push/details.html:32
-msgid "Size"
+msgid "Timestamp (UTC)"
 msgstr ""
 
 #: push/templates/push/details.html:33
+msgid "Size"
+msgstr ""
+
+#: push/templates/push/details.html:34
 msgid "TTL"
 msgstr ""
 
-#: push/templates/push/details.html:45
-msgid "No messages to display"
+#: push/templates/push/details.html:46
+msgid "No messages to display."
+msgstr ""
+
+#: push/templates/push/details.html:46
+msgid "It may take up to 10 minutes to show messages after recording."
 msgstr ""
 
 #: push/templates/push/landing.html:14
@@ -288,19 +292,27 @@ msgstr ""
 msgid "View application"
 msgstr ""
 
-#: push/views.py:81
+#: push/views.py:41
+msgid "Added push application."
+msgstr ""
+
+#: push/views.py:92
 msgid "VAPID Key validated."
 msgstr ""
 
-#: push/views.py:83
+#: push/views.py:93
+msgid "It may take up to 10 minutes to start recording."
+msgstr ""
+
+#: push/views.py:96
 msgid "Invalid signature."
 msgstr ""
 
-#: push/views.py:95
+#: push/views.py:108
 msgid "Application deleted."
 msgstr ""
 
-#: push/views.py:97
+#: push/views.py:110
 msgid "Unable to delete application."
 msgstr ""
 
