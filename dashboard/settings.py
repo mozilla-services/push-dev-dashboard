@@ -215,6 +215,9 @@ PIPELINE = {
                 'js/main.js',
                 'js/analytics.js',
                 'js/sign_in.js',
+
+                # Push application validation page
+                'js/validation.js',
             ),
             'output_filename': 'js/dashboard.js'
         }

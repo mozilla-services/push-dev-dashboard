@@ -14,7 +14,7 @@
     <p>{% trans "To verify you own the signing key for your app, please sign the following token using the same key you use to sign this application's VAPID JWT, and paste the url-safe, base64-encoded value below." %}</p>
         <dl>
             <dt>{% trans "Token:" %}</dt>
-            <dd>{{ app.vapid_key_token }}</dd>
+            <dd><input id="vapid-key-token" type="text" value="{{ app.vapid_key_token }}" readonly></input></dd>
         </dl>
 
         <form id="vapid-validation" action="{% url 'push.validation' app.id %}" method="POST">
