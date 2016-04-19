@@ -1,5 +1,6 @@
 {% extends "dashboard/base.html" %}
 {% load i18n %}
+{% load timetags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
@@ -28,7 +29,7 @@
         <thead>
             <tr>
                 <th>{% trans "ID" %}</th>
-                <th>{% trans "Timestamp" %}</th>
+                <th>{% trans "Timestamp (UTC)" %}</th>
                 <th>{% trans "Size" %}</th>
                 <th>{% trans "TTL" %}</th>
             </tr>
@@ -37,12 +38,12 @@
         {% for message in app_messages %}
             <tr>
                 <td>{{ message.id|truncatechars:20 }}</td>
-                <td>{{ message.timestamp }}</td>
+                <td>{{ message.timestamp|print_api_timestamp }}</td>
                 <td>{{ message.size }}</td>
                 <td>{{ message.ttl }}</td>
             </tr>
         {% empty %}
-        <tr><td colspan="4">{% trans "No messages to display" %}</td></tr>
+        <tr><td colspan="4">{% trans "No messages to display." %} {% trans "It may take up to 10 minutes to show messages after recording." %}</td></tr>
         {% endfor %}
         </tbody>
     </table>
