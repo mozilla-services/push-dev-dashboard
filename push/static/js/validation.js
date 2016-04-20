@@ -7,4 +7,11 @@
     // for code that could potentially add a "copy-to-clipboard" button
     $('#vapid-key-token').select();
 
+    $('.validate-app-btn').on('click', function(e) {
+        dashboard.analytics.trackEvent({
+            category: 'Push Applications',
+            action: 'Validate'
+        });
+    });
+
 })(window, document, jQuery);
