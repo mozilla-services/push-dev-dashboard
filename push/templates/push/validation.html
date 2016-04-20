@@ -23,7 +23,7 @@
             <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "URL-safe, base64-encoded signed token:" %}</label>
             {{ vapid_validation_form.signed_token }}
 
-            <input type="submit" class="button validate-app-btn" value="{% trans "Validate" %}">
+            <input type="submit" class="button track-btn" data-category="Push Applications" data-action="Validate" value="{% trans "Validate" %}">
         </form>
     {% else %}
         <p>{% trans "This application has already been validated." %}</p>

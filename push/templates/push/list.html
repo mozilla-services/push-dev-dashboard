@@ -116,7 +116,7 @@
                 <span class="question-mark-tip has-tip [tip-top]" data-tooltip="data-tooltip" aria-haspopup="true" title='{% trans 'The public key that the application server sends for VAPID JWT validation. This should be the exact value sent in the "p256ecdsa" parameter of the Crypto-Key header. See the VAPID Draft for more details.' %}'></span>
                 {{ push_app_form.vapid_key }}
 
-                <input type="submit" class="button add-app-btn" value="{% trans "Add" %}">
+                <input type="submit" class="button track-btn" data-category="Push Applications" data-action="Add" value="{% trans "Add" %}">
             </form>
                 </div>
                 <div class="large-6 columns callout secondary">

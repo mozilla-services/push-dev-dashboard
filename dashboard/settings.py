@@ -216,8 +216,6 @@ PIPELINE = {
                 'js/analytics.js',
                 'js/sign_in.js',
 
-                # Push application list page
-                'js/list.js',
                 # Push application validation page
                 'js/validation.js',
             ),

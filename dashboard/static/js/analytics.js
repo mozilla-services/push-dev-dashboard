@@ -78,6 +78,19 @@ if (ga_id && ga_filename) {
         },
 
         /*
+         *  Track buttons
+         */
+        trackButtons: function() {
+            $('.track-btn').on('click', function(e) {
+                analytics.trackEvent({
+                    category: e.target.dataset.category,
+                    action: e.target.dataset.action,
+                    label: e.target.dataset.label
+                });
+            });
+        },
+
+        /*
             Track all outgoing links
         */
         trackOutboundLinks: function(target) {
@@ -185,3 +198,9 @@ if (ga_id && ga_filename) {
         }
     };
 })(window, document, jQuery);
+
+
+(function() {
+    'use strict';
+    dashboard.analytics.trackButtons();
+})();
