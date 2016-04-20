@@ -266,7 +266,7 @@ PUSH_MESSAGES_API_TIMEOUT = 3.05
 GOOGLE_ANALYTICS_ACCOUNT = config('GOOGLE_ANALYTICS_ACCOUNT', None)
 
 # django-csp
-CSP_DEFAULT_SRC = ("'self'", 'p.datadoghq.com')
+CSP_DEFAULT_SRC = ("'self'", 'p.datadoghq.com', 'www.google-analytics.com')
 CSP_FONT_SRC = ('code.cdn.mozilla.net', 'maxcdn.bootstrapcdn.com')
 CSP_SCRIPT_SRC = ("'self'", 'cdn.jsdelivr.net', 'ajax.googleapis.com',
                   'www.google-analytics.com')
