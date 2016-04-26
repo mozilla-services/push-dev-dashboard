@@ -31,7 +31,6 @@ urlpatterns = [
         dashboard_views.Heartbeat.as_view(), name='lbheartbeat'),
 
     # 3rd-party app urls
-    url(r'^accounts/', include('allauth.urls')),
     url(r'^api/docs/', include('rest_framework_swagger.urls')),
 
     # django urls
@@ -41,6 +40,9 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    # 3rd-party app urls
+    url(r'^accounts/', include('allauth.urls')),
+
     # our app urls
     url(r'^$', dashboard_views.Home.as_view(), name='home'),
     url(r'^push/', include('push.urls')),

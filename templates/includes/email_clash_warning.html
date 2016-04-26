@@ -1,0 +1,6 @@
+{% load i18n %}
+{% trans "Unable to automatically sign you up. You may be signing in with an email address that is already registered?" as email_clash_warning %}
+
+<div class="callout warning">
+    <h3>{{ email_clash_warning }}</h3>
+</div>
