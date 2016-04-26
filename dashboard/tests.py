@@ -40,7 +40,7 @@ class DashboardUrlTestsFor200(UrlTestsFor200):
             '/__heartbeat__',
             '/__lbheartbeat__',
             '/en/',
-            '/accounts/login/',
+            '/en/accounts/login/',
         )
         self.signed_in_urls = (
             '/en/',
