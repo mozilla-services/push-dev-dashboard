@@ -1,4 +1,4 @@
-APScheduler==3.0.6
+APScheduler==3.1.0
 Django==1.9.5
 dj-database-url==0.4.1
 django-allauth==0.25.2
@@ -11,9 +11,9 @@ django-waffle==0.11
 dnslib==0.9.6
 ecdsa==0.13
 gunicorn==19.4.5
-newrelic==2.62.0.47
+newrelic==2.64.0.48
 psycopg2==2.6.1
 python-decouple==3.0
-raven==5.12.0
+raven==5.13.0
 requests==2.9.1
 whitenoise==2.0.6
