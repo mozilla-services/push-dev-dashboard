@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 19:44+0000\n"
+"POT-Creation-Date: 2016-04-26 21:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,7 +157,7 @@ msgid "Key Status"
 msgstr ""
 
 #: push/templates/push/details.html:21 push/templates/push/list.html.py:93
-#: push/templates/push/validation.html:9 push/templates/push/validation.html:26
+#: push/templates/push/validation.html:9 push/templates/push/validation.html:29
 msgid "Validate"
 msgstr ""
 
@@ -279,15 +279,15 @@ msgstr ""
 msgid "Token:"
 msgstr ""
 
-#: push/templates/push/validation.html:23
+#: push/templates/push/validation.html:26
 msgid "URL-safe, base64-encoded signed token:"
 msgstr ""
 
-#: push/templates/push/validation.html:29
+#: push/templates/push/validation.html:32
 msgid "This application has already been validated."
 msgstr ""
 
-#: push/templates/push/validation.html:30
+#: push/templates/push/validation.html:33
 msgid "View application"
 msgstr ""
 
@@ -317,6 +317,12 @@ msgstr ""
 
 #: templates/404.html:5
 msgid "404 Not Found"
+msgstr ""
+
+#: templates/includes/email_clash_warning.html:2
+msgid ""
+"Unable to automatically sign you up. You may be signing in with an email "
+"address that is already registered?"
 msgstr ""
 
 #: templates/includes/fxa_sign_in_link.html:4
