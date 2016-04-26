@@ -6,7 +6,7 @@ django-csp==2.0.3
 django-extensions==1.6.1
 django-pipeline==1.6.8
 djangorestframework==3.3.3
-django-rest-swagger==0.3.5
+https://github.com/groovecoder/django-rest-swagger/archive/7446fa8.zip#egg=django-rest-swagger
 django-waffle==0.11
 dnslib==0.9.6
 ecdsa==0.13

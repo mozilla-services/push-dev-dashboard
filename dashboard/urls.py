@@ -36,12 +36,13 @@ urlpatterns = [
 
     # django urls
     url(r'^admin/', admin.site.urls),
+
+    url(r'^api/v1/', include('api.urls')),
 ]
 
 urlpatterns += i18n_patterns(
     # our app urls
     url(r'^$', dashboard_views.Home.as_view(), name='home'),
-    url(r'^api/v1/', include('api.urls')),
     url(r'^push/', include('push.urls')),
     url(r'^accounts/login/$', dashboard_views.Login.as_view(), name='login'),
 )
