@@ -11,7 +11,7 @@
         {% if not request.user.is_authenticated %}
             {% include "includes/fxa_sign_in_link.html" %}
         {% else %}
-        <a class="button" href="{% url 'push.list' %}">{% trans "Manage your applications" %}</a>
+        <a id="manage-push-apps-btn" class="button" href="{% url 'push.list' %}">{% trans "Manage your applications" %}</a>
         {% endif %}
     </div>
     <div class="large-6 columns">
