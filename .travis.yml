@@ -32,5 +32,5 @@ deploy:
     branch: master
     condition: "$TOXENV = py27"
 after_deploy:
-    - pip install selenium
+    - pip install -r requirements-test.txt
     - TESTING_WEBDRIVER_TIMEOUT=10.0 python manage.py test dashboard.tests.SeleniumTests
