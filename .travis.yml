@@ -31,3 +31,6 @@ deploy:
     repo: mozilla-services/push-dev-dashboard
     branch: master
     condition: "$TOXENV = py27"
+after_deploy:
+    - pip install selenium
+    - TESTING_WEBDRIVER_TIMEOUT=10.0 python manage.py test dashboard.tests.SeleniumTests
