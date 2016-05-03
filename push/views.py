@@ -41,6 +41,9 @@ class List(LoginRequiredMixin, TemplateView):
             messages.success(self.request, _("Added push application."))
             return redirect('push.validation', pk=str(new_push_app.id))
         else:
+            for field in push_app_form.errors.keys():
+                for message in push_app_form.errors[field]:
+                    messages.error(request, message)
             return redirect('push.list')
 
 

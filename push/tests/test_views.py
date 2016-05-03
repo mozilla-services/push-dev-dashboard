@@ -170,6 +170,10 @@ class PushListIntegrationTests(TestCase):
         self.client.login(username=self.user.username,
                           password=self.password)
 
+    def _assert_redirect_to_list(self, resp):
+        self.assertEqual(302, resp.status_code)
+        self.assertEqual(reverse('push.list'), resp['Location'])
+
     @fudge.patch("push.views.messages")
     def test_list_post_adds_app_for_user_success_message(self, messages):
         messages.expects('success')
@@ -184,15 +188,41 @@ class PushListIntegrationTests(TestCase):
                                  kwargs={'pk': push_app.id}),
                          resp['Location'])
 
-    def test_list_post_invalid_doesnt_create_redirects_back_to_list(self):
+    @fudge.patch("push.views.messages")
+    def test_list_post_invalid_doesnt_create_redirects_back_to_list(
+        self,
+        messages
+    ):
+        messages.expects('error')
         resp = self.client.post(
             reverse('push.list'), {'name2': 'test-post',
                                    'vapid_lock': 'test-post'}
         )
 
-        self.assertEqual(302, resp.status_code)
-        self.assertEqual(reverse('push.list'), resp['Location'])
-        # TODO: assert messages.error on form validation
+        self._assert_redirect_to_list(resp)
+
+    @fudge.patch("push.views.messages")
+    def test_list_post_dupe_doesnt_create_redirects_to_list_with_error(
+        self,
+        messages
+    ):
+        self.app = mommy.make(PushApplication,
+                              user=self.user,
+                              vapid_key='test')
+        messages.expects('error')
+        resp = self.client.post(
+            reverse('push.list'), {'name': 'test-dupe',
+                                   'vapid_key': 'test'}
+        )
+
+        self._assert_redirect_to_list(resp)
+
+        # make sure non-dupe posts are still working
+        messages.expects('success')
+        resp = self.client.post(
+            reverse('push.list'), {'name': 'test-non-dupe',
+                                   'vapid_key': 'test-non-dupe'}
+        )
 
 
 class PushDeletionViewTests(TestCase):
