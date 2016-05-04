@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from base64 import urlsafe_b64decode
+import json
 import uuid
 
 import ecdsa
@@ -141,11 +142,12 @@ class PushApplication(models.Model):
             )
             signed_token = str(fix_padding(signed_token))
             try:
-                if (
-                    self.vapid_key_token == jws.verify(
-                        signed_token, verifying_key, algorithms=['ES256']
-                    )
-                ):
+                submitted_claims_json = jws.verify(
+                    signed_token, verifying_key, algorithms=['ES256']
+                )
+                submitted_claims = json.loads(submitted_claims_json)
+                self_claims = json.loads(self.vapid_key_token)
+                if submitted_claims['aud'] == self_claims['aud']:
                     self.vapid_key_status = 'valid'
                     self.validated = timezone.now()
                     self.save()

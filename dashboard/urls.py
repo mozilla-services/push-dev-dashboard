@@ -37,6 +37,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^api/v1/', include('api.urls')),
+
+    url(r'^push-test-page', dashboard_views.PushTestPage.as_view(),
+        name="push-test-page"),
 ]
 
 urlpatterns += i18n_patterns(

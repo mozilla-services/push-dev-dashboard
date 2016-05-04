@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    <h1>Push Test Page</h1>
+    {% csrf_token %}
+    <pre id="subscription_json"></pre>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static "js/push-test-page.js" %}" charset="utf-8"></script>
+{% endblock %}

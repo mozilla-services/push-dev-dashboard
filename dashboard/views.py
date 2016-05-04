@@ -21,3 +21,7 @@ class InternalServerError(TemplateView):
 class Heartbeat(View):
     def get(self, request, *args, **kwargs):
         return HttpResponse('OK')
+
+
+class PushTestPage(TemplateView):
+    template_name = 'dashboard/push_test_page.html'

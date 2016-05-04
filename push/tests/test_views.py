@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.test import Client, TestCase
 
-from dashboard.tests import UrlTestsFor200
+from dashboard.tests.test_urls import UrlTestsFor200
 
 from ..forms import PushAppForm
 from ..models import PushApplication, MessagesAPIError
