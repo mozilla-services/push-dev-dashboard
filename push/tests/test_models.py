@@ -18,7 +18,8 @@ from django.contrib.auth.models import User
 from model_mommy import mommy
 
 from ..models import PushApplication, MessagesAPIError
-from ..models import extract_public_key, fix_padding, get_autopush_endpoint
+from ..models import (extract_public_key, fix_padding, get_autopush_endpoint,
+                      delete_key_from_messages_api)
 from .. import NO_MESSAGES
 from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE)
 
@@ -208,6 +209,37 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
         pa2 = PushApplication.objects.get(pk=pa2.id)
         self.assertEqual('valid', pa.vapid_key_status)
         self.assertEqual('valid', pa2.vapid_key_status)
+
+    @fudge.patch('requests.request')
+    def test_delete_key_from_messages_api_204(self, request):
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        request.expects_call().with_args(
+            'delete',
+            arg.any(),
+            json=arg.any(),
+            timeout=arg.any()
+        ).returns(
+            fudge.Fake().has_attr(status_code=204).expects('json')
+        )
+
+        delete_key_from_messages_api(PushApplication, pa)
+
+    @fudge.patch('requests.request')
+    def test_delete_key_from_messages_api_404(self, request):
+        # TODO: Decide what to do with 404 responses to DELETE
+        # https://github.com/mozilla-services/push-dev-dashboard/issues/205#issuecomment-217182142
+        pa = mommy.make(PushApplication, vapid_key_status='recording')
+        request.expects_call().with_args(
+            'delete',
+            arg.any(),
+            json=arg.any(),
+            timeout=arg.any()
+        ).returns(
+            fudge.Fake().has_attr(status_code=404)
+        )
+
+        with self.assertRaises(MessagesAPIError):
+            delete_key_from_messages_api(PushApplication, pa)
 
 
 class GetAutopushEndpointTests(TestCase):

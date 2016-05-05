@@ -10,6 +10,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -189,3 +191,12 @@ class PushApplication(models.Model):
 
     def created_by(self, user):
         return self.user == user
+
+
+@receiver(pre_delete, sender=PushApplication)
+def delete_key_from_messages_api(sender, instance, **kwargs):
+    resp = push_messages_api_request(
+        'delete',
+        '/keys/%s' % instance.vapid_key
+    )
+    return resp.json()
