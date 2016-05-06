@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
 #
-# moz-dev-dash documentation build configuration file, created by
+# push-dev-dashboard documentation build configuration file, created by
 # sphinx-quickstart on Sun May 18 11:17:00 2014.
 #
 # This file is execfile()d with the current directory set to its
