@@ -219,7 +219,7 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
             json=arg.any(),
             timeout=arg.any()
         ).returns(
-            fudge.Fake().has_attr(status_code=204).expects('json')
+            fudge.Fake().has_attr(status_code=204)
         )
 
         delete_key_from_messages_api(PushApplication, pa)
