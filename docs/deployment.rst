@@ -1,8 +1,8 @@
 Deployment
 ==========
 
-moz-dev-dash is designed with `12-factor app philosophy`_, so you can easily
-deploy your changes to your own app.
+push-dev-dashboard is designed with `12-factor app philosophy`_, so you can
+easily deploy your changes to your own app.
 
 
 Deploy your own (on Mozilla Deis)
@@ -75,7 +75,7 @@ your own Firefox Accounts OAuth Client for your app domain.
 
 #. Go to `register your own Firefox Accounts OAuth Client`_:
 
-    * Client name: moz-dev-dash-username
+    * Client name: dev-dashboard-username
     * Redirect URI: https://dev-dashboard-username.deis.dev.mozaws.net/accounts/fxa/login/callback/
     * Trusted Mozilla Client: **CHECKED**
 

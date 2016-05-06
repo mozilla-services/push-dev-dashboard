@@ -1,4 +1,4 @@
-.. moz-dev-dash documentation master file, created by
+.. push-dev-dashboard documentation master file, created by
    sphinx-quickstart on Sun May 18 11:17:00 2014.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -6,7 +6,7 @@
 Welcome
 =======
 
-moz-dev-dash is the code for Mozilla Developer Services dashboard - where web
+push-dev-dashboard is the code for Mozilla Developer Services dashboard - where web
 developers can manage how their web apps and sites use services like
 `Mozilla Push Service`_.
 
