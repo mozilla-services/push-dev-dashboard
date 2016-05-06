@@ -199,4 +199,4 @@ def delete_key_from_messages_api(sender, instance, **kwargs):
         'delete',
         '/keys/%s' % instance.vapid_key
     )
-    return resp.json()
+    return resp
