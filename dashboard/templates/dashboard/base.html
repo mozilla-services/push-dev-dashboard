@@ -16,7 +16,7 @@
         {% stylesheet 'dashboard' %}
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body {% if request.user and request.user.is_authenticated %} data-authenticated="true"{% endif %}>
       <div data-sticky-container>
         <div class="top-bar">
             <div class="row">

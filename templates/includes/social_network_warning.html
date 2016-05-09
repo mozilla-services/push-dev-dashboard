@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% trans "Social Network Login Failure" as error_title%}
+{% trans "An error occurred while attempting to login via your social network account." as error_text %}
+
+<div id="sign-in-error" class="callout warning">
+    <h1>{{ error_title }}</h1>
+    <p id="sign-in-error-text">{{ error_text }}</p>
+</div>
