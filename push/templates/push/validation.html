@@ -11,19 +11,56 @@
 
 {% block content %}
     {% if not app.valid %}
-    <p>{% trans "To verify you own the signing key for your app, please sign the following token using the same key you use to sign this application's VAPID JWT, and paste the url-safe, base64-encoded value below." %}</p>
+    <p>{% trans "To verify you own the signing key for your app, please sign a JWT with the following claim using your app's VAPID signing key. Paste the encoded JWT below." %}</p>
         <dl>
-            <dt>{% trans "Token:" %}</dt>
+            <dt>{% trans "Payload:" %}</dt>
             <dd class="input-group">
               <span class="input-group-label"><a href="#" class="js-copy-button" data-clipboard-text="{{ app.vapid_key_token }}"><i class="fa fa-clipboard"></i></a></span>
               <input class="input-group-field" id="vapid-key-token" type="text" value="{{ app.vapid_key_token }}" readonly></input>
             </dd>
+
+            <dt>{% trans "Examples:" %}</dt>
+            <dd>
+        <ul class="tabs" data-tabs id="code-example-tabs">
+            <li class="tabs-title is-active"><a href="#python-jose" aria-selected="true"><i class="fa fa-code" aria-hidden="true"></i> python-jose</a></li>
+            <li class="tabs-title"><a href="#node-jws"><i class="fa fa-code" aria-hidden="true"></i> node-jws</a></li>
+        </ul>
+
+        <div class="tabs-content" data-tabs-content="code-example-tabs">
+            <div class="tabs-panel code-panel is-active" id="python-jose">
+                <pre><code class="python">import ecdsa
+from jose import jws
+
+private_key = ecdsa.SigningKey.from_pem("your_vapid_key.pem")
+sig = jws.sign(
+    '{{ app.vapid_key_token }}',
+    private_key,
+    algorithm='ES256'
+)
+print sig</code></pre>
+            </div>
+            <div class="tabs-panel code-panel" id="node-jws">
+                <pre><code class="javascript">const jws = require('jws');
+
+var jwt = jws.sign(
+    {
+        header: {typ: 'JWT', alg: 'ES256'},
+        payload: {{ app.vapid_key_token }},
+        privateKey: privateKeyInPEMFormat
+    }
+);
+
+console.log(jwt);</code></pre>
+            </div>
+        </div>
+            </dd>
         </dl>
+
 
         <form id="vapid-validation" action="{% url 'push.validation' app.id %}" method="POST">
             {% csrf_token %}
 
-            <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "URL-safe, base64-encoded signed token:" %}</label>
+            <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "Encoded JWT:" %}</label>
             {{ vapid_validation_form.signed_token }}
 
             <input type="submit" class="button track-btn" data-category="Push Applications" data-action="Validate" value="{% trans "Validate" %}">

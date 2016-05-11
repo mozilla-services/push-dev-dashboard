@@ -204,6 +204,9 @@ PIPELINE = {
 
                 # Push application details page
                 'styles/details.styl',
+
+                # Push application validation page
+                'styles/validation.styl',
             ),
             'output_filename': 'css/dashboard.css',
         },
@@ -257,6 +260,8 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = 1
+SITE_ORIGIN = config('SITE_ORIGIN',
+                     default='https://developer.services.mozilla.com')
 
 # TODO: Set real stage/prod AUTOPUSH_KEYS_ENDPOINT
 PUSH_MESSAGES_API_ENDPOINT = config('PUSH_MESSAGES_API_ENDPOINT', None)
