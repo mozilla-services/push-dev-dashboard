@@ -186,8 +186,7 @@ class PushApplication(models.Model):
                 # 'valid', which will cause start_recording_push_apps to
                 # re-POST *ALL* push apps' keys to messages API for recording
                 PushApplication.objects.all().update(vapid_key_status='valid')
-            else:
-                raise MessagesAPIError(e.message)
+            raise MessagesAPIError(e.message)
 
     def created_by(self, user):
         return self.user == user

@@ -204,7 +204,8 @@ class PushApplicationMessagesAPITests(PushApplicationTestCase):
         request.expects_call().returns(
             fudge.Fake().has_attr(status_code=404)
         )
-        pa.get_messages()
+        with self.assertRaises(MessagesAPIError):
+            pa.get_messages()
         pa = PushApplication.objects.get(pk=pa.id)
         pa2 = PushApplication.objects.get(pk=pa2.id)
         self.assertEqual('valid', pa.vapid_key_status)
