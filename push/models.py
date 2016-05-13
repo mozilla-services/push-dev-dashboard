@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 from base64 import urlsafe_b64decode
-import hashlib
 import uuid
 
 import ecdsa
+from jose import jws, JWSError
 import requests
 
 from django.conf import settings
@@ -35,7 +35,7 @@ class MessagesAPIError(Exception):
 
 
 def generate_jws_key_token():
-    return uuid.uuid4()
+    return '{"aud": "%s/%s"}' % (settings.SITE_ORIGIN, uuid.uuid4())
 
 
 def fix_padding(string):
@@ -131,7 +131,7 @@ class PushApplication(models.Model):
     def recording(self):
         return self.vapid_key_status == 'recording'
 
-    def validate_vapid_key(self, b64_signed_token):
+    def validate_vapid_key(self, signed_token):
         try:
             key_data = urlsafe_b64decode(str(fix_padding(self.vapid_key)))
             key_string = extract_public_key(key_data)
@@ -139,17 +139,20 @@ class PushApplication(models.Model):
                 key_string,
                 curve=ecdsa.NIST256p
             )
-            signed_token = urlsafe_b64decode(
-                str(fix_padding(b64_signed_token))
-            )
-            if (
-                verifying_key.verify(signed_token, str(self.vapid_key_token),
-                                     hashfunc=hashlib.sha256)
-            ):
-                self.vapid_key_status = 'valid'
-                self.validated = timezone.now()
+            signed_token = str(fix_padding(signed_token))
+            try:
+                if (
+                    self.vapid_key_token == jws.verify(
+                        signed_token, verifying_key, algorithms=['ES256']
+                    )
+                ):
+                    self.vapid_key_status = 'valid'
+                    self.validated = timezone.now()
+                    self.save()
+                    self.start_recording()
+            except JWSError:
+                self.vapid_key_status = 'invalid'
                 self.save()
-                self.start_recording()
         except ecdsa.BadSignatureError:
             self.vapid_key_status = 'invalid'
             self.save()

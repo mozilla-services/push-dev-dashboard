@@ -1,12 +1,13 @@
 # coding: UTF-8
 from base64 import urlsafe_b64encode, urlsafe_b64decode
-import hashlib
+import json
 import random
 from uuid import UUID
 
 import ecdsa
 import fudge
 from fudge.inspector import arg
+from jose import jws
 import requests
 
 from django.conf import settings
@@ -49,8 +50,16 @@ class PushApplicationTests(PushApplicationTestCase):
     def test_default_values(self):
         self.assertEqual(u'pending', self.pa.vapid_key_status)
         self.assertEqual(None, self.pa.validated)
-        self.assertIsInstance(self.pa.vapid_key_token, UUID)
-        self.assertEqual(4, self.pa.vapid_key_token.version)
+
+    def test_vapid_key_token_is_aud_claim(self):
+        token_json = json.loads(self.pa.vapid_key_token)
+        self.assertTrue("http" in token_json['aud'])
+        aud_uuid = token_json['aud'].split('/')[-1]
+        self.assertIsInstance(UUID(aud_uuid), UUID)
+
+    def test_same_app_name_gets_unique_token_value(self):
+        pa2 = PushApplication(user=self.user, name=u'test app')
+        self.assertNotEqual(self.pa.vapid_key_token, pa2.vapid_key_token)
 
     def test_status_shortcut_methods(self):
         pending_app = PushApplication()
@@ -74,20 +83,15 @@ class PushApplicationTests(PushApplicationTestCase):
         self.assertTrue(recording_app.recording())
         self.assertFalse(pending_app.recording())
 
-    def test_same_app_name_gets_unique_token_value(self):
-        pa2 = PushApplication(user=self.user, name=u'test app')
-        self.assertNotEqual(self.pa.vapid_key_token, pa2.vapid_key_token)
-
     @fudge.patch('push.models.PushApplication.start_recording')
     def test_validate_valid_vapid_key_sets_status_starts_recording(
         self, start_recording
     ):
         start_recording.expects_call()
-        signed_token = self.signing_key.sign(
-            str(self.pa.vapid_key_token),
-            hashfunc=hashlib.sha256
-        )
-        self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
+        signed_token = jws.sign(self.pa.vapid_key_token,
+                                self.signing_key,
+                                algorithm='ES256')
+        self.pa.validate_vapid_key(signed_token)
         self.assertEqual(u'valid', self.pa.vapid_key_status)
         self.assertIsNotNone(self.pa.validated)
 
@@ -96,8 +100,10 @@ class PushApplicationTests(PushApplicationTestCase):
         start_recording.is_callable().times_called(0)
 
         other_signing_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        signed_token = other_signing_key.sign(str(self.pa.vapid_key_token))
-        self.pa.validate_vapid_key(urlsafe_b64encode(signed_token))
+        signed_token = jws.sign(self.pa.vapid_key_token,
+                                other_signing_key,
+                                algorithm='ES256')
+        self.pa.validate_vapid_key(signed_token)
         self.assertEqual(u'invalid', self.pa.vapid_key_status)
 
     @fudge.patch('requests.get')
