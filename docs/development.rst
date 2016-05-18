@@ -32,6 +32,10 @@ Install Locally
     npm install
     npm link stylus yuglify
 
+#. Copy the ``.env-dist`` file to ``.env``::
+
+    cp .env-dist .env
+
 #. Source the ``.env`` file to set environment config vars (Can also use `autoenv`_)::
 
     source .env
@@ -143,17 +147,16 @@ Selenium/Integration tests
 
     pip install -r requirements-test.txt
 
-#. Set environment variables::
+#. Set environment variables in ``.env`` file::
 
-    export DJANGO_DEBUG_TOOLBAR=False
-    export TESTING_WEBDRIVER_TIMEOUT=10
-    export TESTING_FXA_ACCOUNT_EMAIL=tester@test.com
-    export TESTING_FXA_ACCOUNT_PASSWORD=testpass
-    export TESTING_SITE=http://127.0.0.1:8000
-    export TESTING_PUSH_SERVER_URL=wss://benpushstack-1704054003.dev.mozaws.net/
+    DJANGO_DEBUG_TOOLBAR=False
+    TESTING_WEBDRIVER_TIMEOUT=10
+    TESTING_FXA_ACCOUNT_EMAIL=tester@test.com
+    TESTING_FXA_ACCOUNT_PASSWORD=testpass
 
    * **Required** ``DJANGO_DEBUG_TOOLBAR`` - The django debug toolbar interferes with
-     selenium clicking on the sign-in button; disable it.
+     selenium clicking on the sign-in button; disable it. *NOTE*: Make sure you
+     restart the django process.
    * **Required** ``TESTING_WEBDRIVER_TIMEOUT`` - Number of seconds selenium/Firefox will
      wait before timing out. Default is ``0`` which skips selenium test.
    * **Required** ``TESTING_FXA_ACCOUNT_EMAIL`` - Email of Firefox Account to use
@@ -162,9 +165,9 @@ Selenium/Integration tests
      to use during tests.
    * ``TESTING_SITE`` - The dashboard domain/site that selenium/Firefox will
      use. Default is ``http://127.0.0.1:8000``
-   * ``TESTING_PUSH_SERVER_URL`` - The ``dom.push.serverURL`` that
-     selenium/Firefox will use. Default is the Firefox default:
-     ``wss://push.services.mozilla.com/``
+   * ``TEST_PUSH_SERVER_URL`` - The ``dom.push.serverURL`` that
+     selenium/Firefox will use. Default is the dev environment:
+     ``wss://benpushstack-1704054003.dev.mozaws.net/``
      *Note*: Make sure the `Push Messages API`_ server in
      ``PUSH_MESSAGES_API_ENDPOINT`` matches this push server.
 
