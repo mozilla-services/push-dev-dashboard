@@ -36,7 +36,7 @@
         </thead>
         <tbody>
         {% for message in app_messages %}
-            <tr>
+            <tr class="push-message">
                 <td>{{ message.id|truncatechars:20 }}</td>
                 <td>{{ message.timestamp|print_api_timestamp }}</td>
                 <td>{{ message.size }}</td>

@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='secret-key-for-dev-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+DJANGO_DEBUG_TOOLBAR = config('DJANGO_DEBUG_TOOLBAR', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,14 +83,15 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    try:
-        import debug_toolbar
-        assert debug_toolbar
-        INSTALLED_APPS += [
-            'debug_toolbar'
-        ]
-    except:
-        pass
+    if DJANGO_DEBUG_TOOLBAR:
+        try:
+            import debug_toolbar
+            assert debug_toolbar
+            INSTALLED_APPS += [
+                'debug_toolbar'
+            ]
+        except:
+            pass
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',

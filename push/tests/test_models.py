@@ -1,5 +1,5 @@
 # coding: UTF-8
-from base64 import urlsafe_b64encode, urlsafe_b64decode
+from base64 import urlsafe_b64decode
 import json
 import random
 from uuid import UUID
@@ -22,21 +22,15 @@ from ..models import PushApplication, MessagesAPIError
 from ..models import (extract_public_key, fix_padding, get_autopush_endpoint,
                       delete_key_from_messages_api)
 from .. import NO_MESSAGES
-from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE)
-
-
-def _gen_keys():
-    signing_key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-    verifying_key = signing_key.get_verifying_key()
-    vapid_key = urlsafe_b64encode(verifying_key.to_string())
-    return (signing_key, verifying_key, vapid_key)
+from . import (MESSAGES_API_RESPONSE_JSON_MESSAGES, MESSAGES_API_POST_RESPONSE,
+               gen_keys)
 
 
 class PushApplicationTestCase(TestCase):
     def setUp(self):
         self.user = mommy.make('auth.User')
         self.pa = PushApplication(user=self.user, name='test app')
-        self.signing_key, self.verifying_key, self.vapid_key = _gen_keys()
+        self.signing_key, self.verifying_key, self.vapid_key = gen_keys()
         self.pa.vapid_key = self.vapid_key
         self.pa.save()
         self.tz_aware_now = timezone.now()
@@ -276,19 +270,19 @@ class ExtractPublicKeyTests(TestCase):
                             '\x86H\xce=\x03\x01\x07\x03B\x00\x04')
 
     def test_extract_public_key_expected(self):
-        signing_key, verifying_key, vapid_key = _gen_keys()
+        signing_key, verifying_key, vapid_key = gen_keys()
         self.assertEqual(urlsafe_b64decode(vapid_key),
                          extract_public_key(urlsafe_b64decode(vapid_key)))
 
     def test_extract_public_key_raw(self):
-        signing_key, verifying_key, vapid_key = _gen_keys()
+        signing_key, verifying_key, vapid_key = gen_keys()
         vapid_key = urlsafe_b64decode(vapid_key)
         raw_vapid_key = '\x04' + vapid_key
         self.assertEqual(vapid_key,
                          extract_public_key(raw_vapid_key))
 
     def test_extract_public_key_spki(self):
-        signing_key, verifying_key, vapid_key = _gen_keys()
+        signing_key, verifying_key, vapid_key = gen_keys()
         vapid_key = urlsafe_b64decode(vapid_key)
         spki_vapid_key = self.spki_header + vapid_key
         self.assertEqual(vapid_key,

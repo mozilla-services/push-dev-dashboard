@@ -113,16 +113,66 @@ assets). Run all commands from the project root.
 
 Run the Tests
 -------------
+
+Back-end python tests
+~~~~~~~~~~~~~~~~~~~~~
+
 #. Install test requirements::
 
     pip install -r requirements-test.txt
-    npm install
 
 #. Run the test suites::
 
     python manage.py test
+
+Front-end style tests
+~~~~~~~~~~~~~~~~~~~~~
+
+#. Install test requirements::
+
+    npm install
+
+#. Run the test suites::
+
     npm test
 
+Selenium/Integration tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Install test requirements::
+
+    pip install -r requirements-test.txt
+
+#. Set environment variables::
+
+    export DJANGO_DEBUG_TOOLBAR=False
+    export TESTING_WEBDRIVER_TIMEOUT=10
+    export TESTING_FXA_ACCOUNT_EMAIL=tester@test.com
+    export TESTING_FXA_ACCOUNT_PASSWORD=testpass
+    export TESTING_SITE=http://127.0.0.1:8000
+    export TESTING_PUSH_SERVER_URL=wss://benpushstack-1704054003.dev.mozaws.net/
+
+   * **Required** ``DJANGO_DEBUG_TOOLBAR`` - The django debug toolbar interferes with
+     selenium clicking on the sign-in button; disable it.
+   * **Required** ``TESTING_WEBDRIVER_TIMEOUT`` - Number of seconds selenium/Firefox will
+     wait before timing out. Default is ``0`` which skips selenium test.
+   * **Required** ``TESTING_FXA_ACCOUNT_EMAIL`` - Email of Firefox Account to use
+     during tests.
+   * **Required** ``TESTING_FXA_ACCOUNT_PASSWORD`` - Password of Firefox Account
+     to use during tests.
+   * ``TESTING_SITE`` - The dashboard domain/site that selenium/Firefox will
+     use. Default is ``http://127.0.0.1:8000``
+   * ``TESTING_PUSH_SERVER_URL`` - The ``dom.push.serverURL`` that
+     selenium/Firefox will use. Default is the Firefox default:
+     ``wss://push.services.mozilla.com/``
+     *Note*: Make sure the `Push Messages API`_ server in
+     ``PUSH_MESSAGES_API_ENDPOINT`` matches this push server.
+
+#. Run the test suites::
+
+    python manage.py test
+
+.. _Push Messages API: https://github.com/mozilla-services/push-messages
 
 Working on Docs
 ---------------

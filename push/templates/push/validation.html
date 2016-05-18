@@ -63,7 +63,7 @@ console.log(jwt);</code></pre>
             <label for="{{ vapid_validation_form.signed_token.auto_id }}">{% trans "Encoded JWT:" %}</label>
             {{ vapid_validation_form.signed_token }}
 
-            <input type="submit" class="button track-btn" data-category="Push Applications" data-action="Validate" value="{% trans "Validate" %}">
+            <input id="validate-jwt-btn" type="submit" class="button track-btn" data-category="Push Applications" data-action="Validate" value="{% trans "Validate" %}">
         </form>
     {% else %}
         <p>{% trans "This application has already been validated." %}</p>
