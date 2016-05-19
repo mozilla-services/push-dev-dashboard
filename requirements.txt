@@ -17,4 +17,4 @@ python-decouple==3.0
 python-jose==0.6.1
 raven==5.16.0
 requests==2.10.0
-whitenoise==2.0.6
+whitenoise==3.1
