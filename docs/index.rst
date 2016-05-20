@@ -28,10 +28,16 @@ Resources
 :License:       MPL2
 :Documentation: http://push-dev-dashboard.readthedocs.org/
 :Issues:        https://github.com/mozilla-services/push-dev-dashboard/issues
-:IRC:           irc://irc.mozilla.org/mds
-:Mailing list:  https://lists.mozilla.org/listinfo/mds-public
-:Servers:       https://dev-dashboard.deis.dev.mozaws.net/ (stage)
+:CI:            https://travis-ci.org/mozilla-services/push-dev-dashboard (unit
+                tests)
 
+                https://circleci.com/gh/mozilla-services/push-dev-dashboard
+                (deployment artifacts)
+
+                https://services-qa-jenkins.stage.mozaws.net:8443/job/push-dashboard_e2e-test_prod/ (selenium/integration tests)
+:Servers:       https://dev-dashboard.deis.dev.mozaws.net/ (dev)
+                https://pushdevdashboard-default.stage.mozaws.net/ (stage)
+:IRC:           irc://irc.mozilla.org/push
 
 Contents
 --------
@@ -40,4 +46,6 @@ Contents
    :maxdepth: 2
 
    development
+   testing
    deployment
+   run

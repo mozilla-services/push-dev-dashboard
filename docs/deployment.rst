@@ -90,5 +90,3 @@ your own Firefox Accounts OAuth Client for your app domain.
 
 .. _12-factor app philosophy: http://12factor.net/
 .. _register your own Firefox Accounts OAuth Client: https://oauth-stable.dev.lcip.org/console/client/register
-
-.. _git hooks: http://git-scm.com/book/en/Customizing-Git-Git-Hooks
