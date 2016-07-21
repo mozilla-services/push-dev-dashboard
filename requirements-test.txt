@@ -4,4 +4,4 @@ fudge==1.1.0
 model-mommy==1.2.6
 pywebpush==0.3.4
 py-vapid==0.4.1
-selenium==2.53.2
+selenium==2.53.6
