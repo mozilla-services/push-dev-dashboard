@@ -1,5 +1,5 @@
 APScheduler==3.1.0
-Django==1.9.8
+Django==1.9.10
 dj-database-url==0.4.1
 django-allauth==0.25.2
 django-csp==2.0.3
