@@ -5,19 +5,15 @@ push-dev-dashboard is designed with `12-factor app philosophy`_, so you can
 easily deploy your changes to your own app.
 
 
-Deploy your own (on Mozilla Deis)
----------------------------------
+Deploy onto Deis
+----------------
+
+Note: Mozilla used to run our own Deis cluster, but it has been shut down. The
+following instructions should work to deploy the code to your own Deis cluster.
 
 #. `Install the deis client`_.
 
-#. `Register`_/login with the Mozilla Deis controller::
-
-    deis register https://deis.deis.dev.mozaws.net
-    deis auth:login https://deis.deis.dev.mozaws.net
-
-#. Add your public key::
-
-    deis keys:add
+#. `Install deis on AWS`_.
 
 #. Create the application::
 
@@ -26,9 +22,6 @@ Deploy your own (on Mozilla Deis)
 #. Push code to the deis remote::
 
     git push deis master
-
-#. `Request a dev IAM account from Mozilla Cloud Ops`_ to create your RDS
-   Postgres instance in the Mozilla account.
 
 #. `Create an RDS Postgres instance`_ in us-east-1 with default settings except:
 
@@ -40,9 +33,7 @@ Deploy your own (on Mozilla Deis)
    (Usually something like "rds-launch-wizard-N (sg-abcdef123)")
 
 #. In the security group, under the "Inbound" tab, change the source to allow
-   the deis cluster hosts::
-
-    10.21.0.0/16
+   the deis cluster hosts.
 
 #. Set the ``DATABASE_URL`` environment variable to match the RDS DB::
 
@@ -61,10 +52,9 @@ Deploy your own (on Mozilla Deis)
 
     deis open
 
-.. _Request a dev IAM account from Mozilla Cloud Ops: https://mana.mozilla.org/wiki/display/SVCOPS/Requesting+A+Dev+IAM+account+from+Cloud+Operations
 .. _Create an RDS Postgres instance: https://console.aws.amazon.com/rds/home?region=us-east-1#launch-dbinstance:ct=dashboard:
 .. _Install the deis client: http://docs.deis.io/en/latest/using_deis/install-client.html
-.. _Register: http://docs.deis.io/en/latest/using_deis/register-user.html
+.. _Install deis on AWS: http://docs.deis.io/en/latest/installing_deis/aws/
 
 
 Enable Firefox Accounts Auth on your Deis app
@@ -76,15 +66,15 @@ your own Firefox Accounts OAuth Client for your app domain.
 #. Go to `register your own Firefox Accounts OAuth Client`_:
 
     * Client name: dev-dashboard-username
-    * Redirect URI: https://dev-dashboard-username.deis.dev.mozaws.net/accounts/fxa/login/callback/
+    * Redirect URI: https://<your-push-dev-dashboard-app-on-deis-domain>/accounts/fxa/login/callback/
     * Trusted Mozilla Client: **CHECKED**
 
    Be sure to copy the client secret - you can't see it again.
 
-#. Go to https://dev-dashboard-username.deis.dev.mozaws.net//admin/socialaccount/socialapp/add/
+#. Go to https://<your-push-dev-dashboard-app-on-deis-domain>/admin/socialaccount/socialapp/add/
    to :ref:`enable Firefox Accounts Auth` like a local machine; this time using your own new Firefox Accounts OAuth Client ID and Secret
 
-#. Sign in at https://dev-dashboard-username.deis.dev.mozaws.net/ with a Firefox
+#. Sign in at https://<your-push-dev-dashboard-app-on-deis-domain>/ with a Firefox
    Account.
 
 
