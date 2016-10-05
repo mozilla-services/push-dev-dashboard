@@ -35,8 +35,8 @@ Resources
                 (deployment artifacts)
 
                 https://services-qa-jenkins.stage.mozaws.net:8443/job/push-dashboard_e2e-test_prod/ (selenium/integration tests)
-:Servers:       https://dev-dashboard.deis.dev.mozaws.net/ (dev)
-                https://pushdevdashboard-default.stage.mozaws.net/ (stage)
+:Servers:       https://pushdevdashboard-default.stage.mozaws.net/ (stage)
+                https://push-dashboard.services.mozilla.com/ (prod)
 :IRC:           irc://irc.mozilla.org/push
 
 Contents
